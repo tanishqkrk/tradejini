@@ -7,7 +7,6 @@ export default async function page() {
   return (
     <div className="p-4 flex flex-col gap-16">
       <div className="flex justify-between w-full">
-        <div></div>
         <div className="text-xl font-bold">Marign calculator</div>
         <div></div>
       </div>
