@@ -17,24 +17,39 @@ export default function TypeSelectorComponent() {
     },
     [searchParams],
   );
-
+  function setType(type: string) {
+    router.push(pathname + "?" + createQueryString("type", type));
+  }
   return (
     <div className="flex flex-row items-center gap-x-5">
-      <button className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold">
-        NSE Futures
+      <button
+        onClick={() => setType("futurecontracts")}
+        className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"
+      >
+        Future Contracts
       </button>
       <button
         className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"
         onClick={() => {
-          router.push(
-            pathname + "?" + createQueryString("type", "commodityfutures"),
-          );
+          setType("commodityfutures");
         }}
       >
         Commodity
       </button>
-      <button className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"></button>
-      <button className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"></button>
+      <button
+        onClick={() => {
+          setType("currencyfutures");
+        }}
+        className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"
+      >
+        Currency Futures
+      </button>
+      <button
+        onClick={() => setType("nseoptions")}
+        className="px-5 py-3 rounded-3xl bg-blue-500 text-white font-bold"
+      >
+        NSE Options
+      </button>
     </div>
   );
 }
