@@ -21,7 +21,7 @@ export default function SearchComponent() {
     if (input !== "") {
       const debounceId = setTimeout(() => {
         router.push(pathname + "?" + createQueryString("name", input));
-      }, 1000);
+      }, 500);
 
       return () => {
         clearTimeout(debounceId);
