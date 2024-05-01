@@ -1,5 +1,5 @@
-import CalculatorViews from "@/components/CalculatorViews";
-import readSymbols from "@/app/calculator/(helpers)/SymbolsHelper";
+import CalculatorViews from "../../components/CalculatorViews";
+import readSymbols from "./(helpers)/SymbolsHelper";
 
 export default async function page() {
   const symbols = await readSymbols();
