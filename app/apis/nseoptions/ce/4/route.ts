@@ -1,5 +1,5 @@
-import getAllSymbolData from "../../../(helpers)/getAllData";
-import { NSEOptionsItem } from "../../../(types)/NSEOptionsItem";
+import getAllSymbolData from "../../../../(helpers)/getAllData";
+import { NSEOptionsItem } from "../../../../(types)/NSEOptionsItem";
 
 export async function GET() {
   const allData = await getAllSymbolData();
@@ -19,6 +19,10 @@ export async function GET() {
       undId: values[8],
     } as NSEOptionsItem;
   });
-  const nseOptionsPE = nseOptions.filter((item) => item.id.slice(-2) === "PE");
-  return Response.json({ data: nseOptionsPE });
+  const nseOptionsCE = nseOptions.filter((item) => item.id.slice(-2) === "CE");
+  const nseOptionsDivided = nseOptionsCE.slice(
+    Math.floor((3 * nseOptionsCE.length) / 4),
+    nseOptionsCE.length,
+  );
+  return Response.json({ data: nseOptionsDivided });
 }

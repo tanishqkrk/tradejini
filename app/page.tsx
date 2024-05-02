@@ -29,16 +29,42 @@ export default async function Home({ searchParams }) {
       data = [
         ...(
           await (
-            await fetch(process.env.URL + "/apis/" + type + "/ce", {
-              cache: "no-store",
-            })
+            await fetch(process.env.URL + "/apis/" + type + "/ce/1")
           ).json()
         ).data,
         ...(
           await (
-            await fetch(process.env.URL + "/apis/" + type + "/pe", {
-              cache: "no-store",
-            })
+            await fetch(process.env.URL + "/apis/" + type + "/ce/2")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/ce/3")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/ce/4")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/pe/1")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/pe/2")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/pe/3")
+          ).json()
+        ).data,
+        ...(
+          await (
+            await fetch(process.env.URL + "/apis/" + type + "/pe/4")
           ).json()
         ).data,
       ];
