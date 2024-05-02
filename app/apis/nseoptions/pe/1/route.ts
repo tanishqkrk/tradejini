@@ -19,10 +19,10 @@ export async function GET() {
       undId: values[8],
     } as NSEOptionsItem;
   });
-  const nseOptionsCE = nseOptions.filter((item) => item.id.slice(-2) === "CE");
-  const nseOptionsDivided = nseOptionsCE.slice(
+  const nseOptionsPE = nseOptions.filter((item) => item.id.slice(-2) === "PE");
+  const nseOptionsDivided = nseOptionsPE.slice(
     0,
-    Math.floor(nseOptionsCE.length / 4),
+    Math.floor(nseOptionsPE.length / 4),
   );
   return Response.json({ data: nseOptionsDivided });
 }
