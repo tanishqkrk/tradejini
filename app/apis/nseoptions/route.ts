@@ -24,6 +24,5 @@ export async function GET() {
   ).map((x) => ({
     dispName: x,
   }));
-  console.log(itemsSet);
   return Response.json({ data: itemsSet });
 }
