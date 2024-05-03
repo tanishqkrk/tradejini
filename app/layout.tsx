@@ -16,6 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-black text-white`}>
+        <header className="bg-green-900 p-3">
+          <img src="/logo_long.svg" className="w-48" alt="" />
+        </header>
+
         {children}
       </body>
     </html>
