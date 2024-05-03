@@ -1,9 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import FOForm from "./FOForm";
+import { CurrencyFuturesItem } from "../app/(types)/CurrencyFuturesItem";
+import { FutureContractsItem } from "../app/(types)/FutureContractsItem";
+import { NSEDisplayType } from "../app/(types)/NSEOptionsDisplay";
+import { CommodityFuturesItem } from "../app/(types)/CommodityFuturesItem";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function CalculatorViews({ symbols }) {
+export default function CalculatorViews({
+  symbols,
+}: {
+  symbols:
+    | CommodityFuturesItem[]
+    | CurrencyFuturesItem[]
+    | FutureContractsItem[]
+    | NSEDisplayType[]
+    | undefined;
+}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
   const [view, setView] = useState(0);
 
   return (
@@ -15,6 +43,9 @@ export default function CalculatorViews({ symbols }) {
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(0);
+            router.push(
+              pathname + "?" + createQueryString("type", "nseoptions"),
+            );
           }}
         >
           F&O
