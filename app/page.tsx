@@ -25,64 +25,15 @@ export default async function Home({ searchParams }) {
     | FutureContractsItem[]
     | NSEOptionsItem[]
     | undefined = undefined;
-  if (type !== undefined)
-    if (type === "nseoptions") {
-      if (optiontype === "pe")
-        data = [
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/pe/1")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/pe/2")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/pe/3")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/pe/4")
-            ).json()
-          ).data,
-        ];
-      else if (optiontype === "ce")
-        data = [
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/ce/1")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/ce/2")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/ce/3")
-            ).json()
-          ).data,
-          ...(
-            await (
-              await fetch(process.env.URL + "/apis/" + type + "/ce/4")
-            ).json()
-          ).data,
-        ];
-      else data = undefined;
-    } else
-      data = (await (await fetch(process.env.URL + "/apis/" + type)).json())
-        .data;
+  if (type !== undefined) {
+    data = (await (await fetch(process.env.URL + "/apis/" + type)).json()).data;
+    console.log("Data nigga");
+    console.log(data.slice(0, 10));
+  }
   return (
     <main>
       <TypeSelectorComponent />
-      {type && (type !== "nseoptions" || optiontype) && (
-        <SearchResults data={data} />
-      )}
+      {type && <SearchResults data={data} />}
     </main>
   );
 }

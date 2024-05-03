@@ -1,7 +1,8 @@
-import getAllSymbolData from "../../../../(helpers)/getAllData";
-import { NSEOptionsItem } from "../../../../(types)/NSEOptionsItem";
+import getAllSymbolData from "../../(helpers)/getAllData";
+import { NSEOptionsItem } from "../../(types)/NSEOptionsItem";
 
-export async function GET() {
+export async function POST(request: Request) {
+  const { symbol } = await request.json();
   const allData = await getAllSymbolData();
   const nseOptionItem = allData.d.data[1];
   const nseOptionData = nseOptionItem.data.split("|").slice(1);
@@ -19,10 +20,12 @@ export async function GET() {
       undId: values[8],
     } as NSEOptionsItem;
   });
-  const nseOptionsCE = nseOptions.filter((item) => item.id.slice(-2) === "CE");
-  const nseOptionsDivided = nseOptionsCE.slice(
-    Math.floor(nseOptionsCE.length / 2) + 1,
-    Math.floor((3 * nseOptionsCE.length) / 4),
+  const strikePrices = Array.from(
+    new Set(
+      nseOptions
+        .filter((x) => x.dispName.includes(symbol))
+        .map((x) => Number(x.dispName.split(" ")[2])),
+    ),
   );
-  return Response.json({ data: nseOptionsDivided });
+  return Response.json({ data: strikePrices });
 }
