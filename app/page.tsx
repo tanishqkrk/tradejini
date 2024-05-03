@@ -26,9 +26,15 @@ export default async function Home({ searchParams }) {
     | NSEOptionsItem[]
     | undefined = undefined;
   if (type !== undefined) {
-    data = (await (await fetch(process.env.URL + "/apis/" + type)).json()).data;
-    console.log("Data nigga");
-    console.log(data.slice(0, 10));
+    data = (
+      await (
+        await fetch(process.env.URL + "/apis/" + type, {
+          next: {
+            revalidate: 86400,
+          },
+        })
+      ).json()
+    ).data;
   }
   return (
     <main>
