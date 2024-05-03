@@ -4,7 +4,7 @@ import { CommodityFuturesItem } from "../(types)/CommodityFuturesItem";
 import { CurrencyFuturesItem } from "../(types)/CurrencyFuturesItem";
 import { FutureContractsItem } from "../(types)/FutureContractsItem";
 import { NSEOptionsItem } from "../(types)/NSEOptionsItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SearchResults({
   data,
@@ -17,7 +17,22 @@ export default function SearchResults({
     | CurrencyFuturesItem[];
 }) {
   const [input, setInput] = useState("");
-
+  const [selected, setSelected] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (selected) {
+      fetch("/apis/getStrikePrices", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ symbol: selected }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
+  }, [selected]);
   return (
     <>
       <input
@@ -25,7 +40,6 @@ export default function SearchResults({
         type="text"
         className="text-2xl px-6 py-3 rounded-full border-2 border-white text-white bg-transparent"
       />
-
       <ul>
         {data && data.length > 0 && (
           <ul>
@@ -35,7 +49,14 @@ export default function SearchResults({
               )
               .slice(0, 50)
               .map((item) => (
-                <li key={item.id}>{item.dispName}</li>
+                <li
+                  onClick={() => {
+                    setSelected(item.dispName);
+                  }}
+                  key={item.id}
+                >
+                  {item.dispName}
+                </li>
               ))}
           </ul>
         )}
