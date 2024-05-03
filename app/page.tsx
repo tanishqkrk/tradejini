@@ -1,4 +1,4 @@
-import SearchComponent from "./(components)/SearchComponent";
+import SearchResults from "./(components)/SearchResults";
 import TypeSelectorComponent from "./(components)/TypeSelector";
 import { CommodityFuturesItem } from "./(types)/CommodityFuturesItem";
 import { CurrencyFuturesItem } from "./(types)/CurrencyFuturesItem";
@@ -23,7 +23,8 @@ export default async function Home({ searchParams }) {
     | CommodityFuturesItem[]
     | CurrencyFuturesItem[]
     | FutureContractsItem[]
-    | NSEOptionsItem[] = [];
+    | NSEOptionsItem[]
+    | undefined = undefined;
   if (type !== undefined)
     if (type === "nseoptions") {
       data = [
@@ -74,19 +75,7 @@ export default async function Home({ searchParams }) {
   return (
     <main>
       <TypeSelectorComponent />
-      <SearchComponent />
-      {type !== undefined && (
-        <ul>
-          {data
-            .slice(0, 50)
-            .filter((x) =>
-              x.dispName.toLowerCase().includes(name?.toLowerCase()),
-            )
-            .map((item) => (
-              <li key={item.id}>{item.dispName}</li>
-            ))}
-        </ul>
-      )}
+      <SearchResults data={data} />
     </main>
   );
 }
