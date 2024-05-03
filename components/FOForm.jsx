@@ -8,41 +8,50 @@ export default function FOForm({ symbols }) {
 
   const [results, setResults] = useState([]);
 
+  const [selectedSymbol, setSelectedSymbol] = useState(undefined);
   const [dropdown, setDropdown] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  function debounce(cb, delay = 1000) {
-    setLoading(true);
-    let timeout;
-    return (...args) => {
-      clearInterval(timeout);
-      setLoading(false);
-      timeout = setTimeout(() => {
-        cb(...args);
-      }, delay);
-    };
-  }
+  const [strikeprices, setStrikeprices] = useState(undefined); // number[]
+
+  const [selectedPrice, setSelectedPrice] = useState(0)
+
+  const [cepe, setcepe] = useState("ce");
 
   useEffect(() => {
-    console.log("%cNORMAL------------", "color: limegreen; font-weight: 800");
-    const search = debounce(() => {
+    if (symbols) {
       setResults(
-        symbols?.filter((x) =>
-          x.TradingSymbol.toLowerCase().includes(query.toLowerCase())
+        symbols.filter((x) =>
+          x.dispName.toLowerCase().includes(query.toLowerCase())
         )
       );
-      console.log("%cDEBOUNCE", "color:red; font-weight: 800");
-    });
+    }
+  }, [query, symbols]);
 
-    search();
-  }, [query]);
+  useEffect(() => {
+    if (selectedSymbol) {
+      fetch("/apis/getStrikePrices", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({ symbol: selectedSymbol }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setStrikeprices(data.data);
+          setSelectedPrice(data.data[0])
+        });
+    }
+  }, [selectedSymbol]);
+
+
 
   const [product, setProduct] = useState("Futures");
 
   const [type, setType] = useState("buy");
 
-  console.log(type);
   return (
     <div className="px-12 flex items-center justify-between flex-col">
       <div className="flex items-center justify-between w-full">
@@ -84,13 +93,16 @@ export default function FOForm({ symbols }) {
                         <div
                           onClick={() => {
                             setDropdown(false);
-                            setQuery(symbol.TradingSymbol);
+                            setSelectedSymbol(symbol.dispName)
+                            setQuery(symbol.dispName);
+                            setStrikeprices(undefined);
+                            setSelectedPrice(undefined);
                           }}
                           style={{}}
-                          className="flex cursor-pointer items-center justify-between  "
-                          key={symbol.Token}
+                          className="flex cursor-pointer items-center justify-between  text-black"
+                          key={symbol.dispName}
                         >
-                          <p className="">{symbol.TradingSymbol}</p>
+                          <p className="">{symbol.dispName}</p>
                           <p className="text-sm text-gray-500">
                             {symbol.Exchange}
                           </p>
@@ -103,19 +115,54 @@ export default function FOForm({ symbols }) {
           </div>
           {product === "Options" && (
             <div className="flex gap-3">
-              <div className="flex  flex-col gap-1 items-start relative">
-                <span>Option Price</span>
-                <input
-                  className="p-2  rounded-lg border-2 border-black bg-white text-black"
-                  type="text"
-                />
-              </div>
-              <div className="flex w- flex-col gap-1 items-start relative">
+              <div className="flex w-full flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
-                <input
-                  className="p-2  rounded-lg border-2 border-black bg-white text-black"
-                  type="text"
-                />
+                {strikeprices &&
+                  <select name="strikeprice" className="w-96 rounded-md text-black py-3 px-2" value={selectedPrice} id="" onChange={(e) => setSelectedPrice(Number(e.target.value))}>
+                    {strikeprices.map((item) =>
+                      <option value={item} key={item}>{item}</option>
+                    )}
+
+                  </select>
+                }
+              </div>
+              <div className="">
+                <div className="flex w-full flex-col gap-1 items-start relative">
+
+                  <span>Option Type</span>
+                  <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
+                    <label
+                      className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${cepe === "ce" && "bg-green-200 text-green-700  border-green-700"}`}
+                      htmlFor="cepe"
+                    >
+                      CE
+                    </label>
+                    <label
+                      className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${cepe === "pe" && "bg-red-200 text-red-700  border-red-700"}`}
+                      htmlFor="cepe"
+                    >
+                      PE
+                    </label>
+                  </div>
+                  <div className="hidden">
+                    <input
+                      onChange={(x) => setcepe(x.target.value)}
+                      value={"ce"}
+                      type="radio"
+                      id="ce"
+                      name="cepe"
+                    />
+                  </div>
+                  <div className="hidden">
+                    <input
+                      onChange={(x) => setcepe(x.target.value)}
+                      value={"pe"}
+                      type="radio"
+                      id="pe"
+                      name="cepe"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -137,13 +184,13 @@ export default function FOForm({ symbols }) {
               <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
                 <label
                   className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${type === "buy" && "bg-green-200 text-green-700  border-green-700"}`}
-                  for="buy"
+                  htmlFor="buy"
                 >
                   Buy
                 </label>
                 <label
                   className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${type === "sell" && "bg-red-200 text-red-700  border-red-700"}`}
-                  for="sell"
+                  htmlFor="sell"
                 >
                   Sell
                 </label>
