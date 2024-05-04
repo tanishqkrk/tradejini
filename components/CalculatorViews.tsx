@@ -27,7 +27,7 @@ export default function CalculatorViews({
       params.set(name, value);
       return params.toString();
     },
-    [searchParams],
+    [searchParams]
   );
 
   const [view, setView] = useState(0);
@@ -37,12 +37,12 @@ export default function CalculatorViews({
       <div className="flex justify-center items-center gap-12">
         <button
           className={`${
-            view === 0 && "bg-theme text-white"
+            view === 0 && "bg-[#19AC63] text-white"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(0);
             router.push(
-              pathname + "?" + createQueryString("type", "nseoptions"),
+              pathname + "?" + createQueryString("type", "nseoptions")
             );
           }}
         >
@@ -50,7 +50,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 1 && "bg-theme text-white"
+            view === 1 && "bg-[#19AC63] text-white"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(1);
@@ -60,7 +60,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 2 && "bg-theme text-white"
+            view === 2 && "bg-[#19AC63] text-white"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(2);
@@ -70,7 +70,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 3 && "bg-theme text-white"
+            view === 3 && "bg-[#19AC63] text-white"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(3);
@@ -80,7 +80,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 4 && "bg-theme text-white"
+            view === 4 && "bg-[#19AC63] text-white"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(4);

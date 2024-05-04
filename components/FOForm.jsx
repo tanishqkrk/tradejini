@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function FOForm({ symbols }) {
-  console.log(symbols)
+  // console.log(symbols);
   const [query, setQuery] = useState("");
 
   const [results, setResults] = useState([]);
@@ -22,12 +22,14 @@ export default function FOForm({ symbols }) {
 
   useEffect(() => {
     if (symbols) {
-      setResults(Object.keys(symbols)
-        .filter(key => key.toLowerCase().includes(query.toLowerCase()))
-        .reduce((obj, key) => {
-          obj[key] = symbols[key];
-          return obj;
-        }, {}));
+      setResults(
+        Object.keys(symbols)
+          .filter((key) => key.toLowerCase().includes(query.toLowerCase()))
+          .reduce((obj, key) => {
+            obj[key] = symbols[key];
+            return obj;
+          }, {})
+      );
     }
   }, [query, symbols]);
 
@@ -60,43 +62,32 @@ export default function FOForm({ symbols }) {
 
   const [lotSize, setLotSize] = useState(5400);
 
-  function resetAll() { }
-
-  // useEffect(() => {
-  //   setQuery("");
-  //   setSelectedPrice("");
-  //   setStrikeprices(undefined);
-  //   setSelectedPrice(0);
-  // }, [product]);
+  function resetAll() {}
 
   function addItem() {
-    // console.log({
-    //   id: crypto.randomUUID(),
-    //   product,
-    //   selectedSymbol,
-    //   quantity,
-    //   exchange,
-    //   type,
-    //   lotSize,
-    //   selectedPrice,
-    //   cepe,
-    // });
-
     if (selectedSymbol) {
-      setAdded((x) => [
-        ...x,
-        {
-          id: crypto.randomUUID(),
-          product,
-          selectedSymbol,
-          quantity,
-          exchange,
-          type,
-          lotSize,
-          selectedPrice,
-          cepe,
-        },
-      ]);
+      if (!added?.map((x) => x.selectedSymbol).includes(selectedSymbol)) {
+        setAdded((x) => [
+          ...x,
+          {
+            id: crypto.randomUUID(),
+            product,
+            selectedSymbol,
+            quantity,
+            exchange,
+            type,
+            lotSize,
+            selectedPrice,
+            cepe,
+          },
+        ]);
+
+        setSelectedPrice(0);
+        setSelectedSymbol(undefined);
+        setQuery("");
+      } else {
+        alert("SELECT A DIFFERENT SYMBOL");
+      }
     } else {
       alert("SELECT A SYMBOL");
     }
@@ -109,31 +100,40 @@ export default function FOForm({ symbols }) {
           <div className="flex items-center gap-12">
             <div className="flex flex-col gap-1 items-start">
               <span>Product</span>
-              <select
-                value={product}
-                onChange={(e) => {
-                  setProduct(e.target.value);
-                }}
-                className="p-2 w-64 rounded-lg border-2 border-black white text-black"
-                type="text"
-              >
-                <option value="Futures">Futures</option>
-                <option value="Options">Options</option>
-              </select>
+
+              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                <select
+                  value={product}
+                  onChange={(e) => {
+                    setProduct(e.target.value);
+                  }}
+                  className=" z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  type="text"
+                >
+                  <option className="" value="Futures">
+                    Futures
+                  </option>
+                  <option className="" value="Options">
+                    Options
+                  </option>
+                </select>
+              </div>
             </div>
             <div className="flex flex-col gap-1 items-start relative">
               <span>Select Symbols</span>
-              <input
-                className="p-2 w-96 rounded-lg border-2 border-black bg-white text-black"
-                type="text"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setDropdown(true);
-                }}
-              />
+              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                <input
+                  className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  type="text"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setDropdown(true);
+                  }}
+                />
+              </div>
               {query !== "" && dropdown && (
-                <div className="absolute h-64 w-96 overflow-y-scroll bg-white rounded-lg top-full dropdown shadow-lg p-3 z-[999999999999]">
+                <div className="absolute h-64 w-96 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
                   {loading ? (
                     <div>Loading...</div>
                   ) : (
@@ -144,12 +144,12 @@ export default function FOForm({ symbols }) {
                           onClick={() => {
                             console.log(symbol);
                             setDropdown(false);
-                            setQuery(symbol)
+                            setQuery(symbol);
                             setSelectedSymbol(symbol);
                             setExchange(symbol.Exchange || "NFO");
                           }}
                           style={{}}
-                          className="flex cursor-pointer items-center justify-between  text-black"
+                          className="flex cursor-pointer items-center justify-between  "
                           key={symbol}
                         >
                           <p className="">{symbol}</p>
@@ -164,61 +164,56 @@ export default function FOForm({ symbols }) {
             </div>
           </div>
           {product === "Options" && (
-            <div className="flex gap-3">
-              <div className="flex w-full flex-col gap-1 items-start relative">
+            <div className="flex items-center gap-12">
+              <div className="w-72 flex  flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
-                {selectedSymbol ? (
-                  <select
-                    name="strikeprice"
-                    className="w-96 rounded-md text-black py-3 px-2"
-                    value={selectedPrice}
-                    id=""
-                    onChange={(e) => setSelectedPrice(Number(e.target.value))}
-                  >
-                    {symbols[selectedSymbol].map((item) => (
-                      <option value={item} key={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <div className="text-sm font-bold">Select a Symbol</div>
-                )}
+                <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                  {selectedSymbol ? (
+                    <select
+                      name="strikeprice"
+                      className="z-[99999999] p-2  rounded-lg border-2 border-black  w-72 bg-zinc-800 relative dark:bg-white dark:text-black"
+                      value={selectedPrice}
+                      id=""
+                      onChange={(e) => setSelectedPrice(Number(e.target.value))}
+                    >
+                      {symbols[selectedSymbol].map((item) => (
+                        <option value={item} key={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <select
+                      name="strikeprice"
+                      className="z-[99999999] p-2  rounded-lg border-2 border-black w-72  bg-zinc-800 relative dark:bg-white dark:text-black"
+                      id=""
+                    >
+                      <option value="Loading"></option>
+                    </select>
+                  )}
+                </div>
               </div>
               <div className="">
-                <div className="flex w-full flex-col gap-1 items-start relative">
+                <div className=" flex w-full flex-col gap-1 items-start relative">
                   <span>Option Type</span>
-                  <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
-                    <label
-                      className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${cepe === "ce" && "bg-green-200 text-green-700  border-green-700"}`}
-                      htmlFor="ce"
-                    >
-                      CE
-                    </label>
-                    <label
-                      className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${cepe === "pe" && "bg-red-200 text-red-700  border-red-700"}`}
-                      htmlFor="pe"
-                    >
-                      PE
-                    </label>
-                  </div>
-                  <div className="hidden">
-                    <input
-                      onChange={(x) => setcepe(x.target.value)}
-                      value={"ce"}
-                      type="radio"
-                      id="ce"
-                      name="cepe"
-                    />
-                  </div>
-                  <div className="hidden">
-                    <input
-                      onChange={(x) => setcepe(x.target.value)}
-                      value={"pe"}
-                      type="radio"
-                      id="pe"
-                      name="cepe"
-                    />
+                  <div className="flex cursor-pointer justify-between">
+                    <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                      <select
+                        value={cepe}
+                        onChange={(e) => {
+                          setcepe(e.target.value);
+                        }}
+                        className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black  bg-zinc-800 relative dark:bg-white dark:text-black "
+                        type="text"
+                      >
+                        <option className="" value="CE">
+                          CE
+                        </option>
+                        <option className="" value="PE">
+                          PE
+                        </option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -232,14 +227,16 @@ export default function FOForm({ symbols }) {
                   Lot Size: 5400
                 </p>
               </span>
-              <input
-                className="p-2 w-full rounded-lg border-2 border-black white text-black"
-                type="text"
-                value={quantity}
-                onChange={(e) => {
-                  setQuantity(parseInt(e.target.value));
-                }}
-              />
+              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                <input
+                  className="z-[99999999] p-2 w-full rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => {
+                    setQuantity(parseInt(e.target.value));
+                  }}
+                />
+              </div>
             </div>
             <div className="">
               <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
@@ -280,7 +277,7 @@ export default function FOForm({ symbols }) {
 
         <div className="w-1/2 p-12">
           <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-lg">
-            <div className="text-green-800 font-bold border-b-2 border-gray-200 p-5">
+            <div className="text-green-400 font-bold border-b-2 border-gray-200 p-5">
               Required Margin
             </div>
             <div className="p-5 flex flex-col gap-4">
@@ -313,12 +310,19 @@ export default function FOForm({ symbols }) {
         >
           Add
         </button>
-        <button className="bg-gray-500 p-3 rounded-lg">Reset All</button>
+        <button
+          onClick={() => {
+            window.location.reload();
+          }}
+          className="bg-gray-500 p-3 rounded-lg"
+        >
+          Reset All
+        </button>
       </div>
-      <table className="table w-full  bg-zinc-800 rounded-xl">
-        <thead className="bg-green-800 text-white rounded-t-xl">
-          <tr className="divide-x-2 divide-gray-300 rounded-t-xl">
-            <th className="p-6">Symbol</th>
+      <table className="table w-full  bg-zinc-800 dark:bg-white   rounded-xl">
+        <thead className="bg-[#1A6A55] rounded-xl text-white border-radius">
+          <tr className="divide-x-2 divide-gray-300 rounded-xl">
+            <th className="p-6 rounded-tl-lg">Symbol</th>
             <th className="p-6">Exchange</th>
             <th className="p-6">No. of Lots</th>
             <th className="p-6">Lot size</th>
@@ -327,7 +331,7 @@ export default function FOForm({ symbols }) {
             <th className="p-6">Span</th>
             <th className="p-6">Exposure</th>
             <th className="p-6">Total</th>
-            <th className="p-6">Action</th>
+            <th className="p-6 rounded-tr-lg">Action</th>
           </tr>
         </thead>
         {added?.map((x) => {
@@ -337,8 +341,12 @@ export default function FOForm({ symbols }) {
               <td className="p-6 text-center">{x.exchange}</td>
               <td className="p-6 text-center">{x.quantity}</td>
               <td className="p-6 text-center">{x.lotSize}</td>
-              <td className="p-6 text-center">
-                {x.type === "buy" ? "BUY" : "SELL"}
+              <td className={`  p-6 text-center `}>
+                <div
+                  className={`${x.type === "buy" ? "bg-green-900 p-2 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
+                >
+                  {x.type === "buy" ? "BUY" : "SELL"}
+                </div>
               </td>
               <td className="p-6 text-center">{"N/A"}</td>
               <td className="p-6 text-center">{"N/A"}</td>

@@ -14,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-black text-white`}>
+    <html className="dark" lang="en">
+      <body
+        className={`${inter.className} bg-black text-white dark:text-black dark:bg-white`}
+      >
         <header className="bg-green-900 p-3">
           <img src="/logo_long.svg" className="w-48" alt="" />
         </header>

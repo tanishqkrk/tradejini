@@ -3,6 +3,7 @@ import { CurrencyFuturesItem } from "../(types)/CurrencyFuturesItem";
 import { FutureContractsItem } from "../(types)/FutureContractsItem";
 import { NSEDisplayType } from "../(types)/NSEOptionsDisplay";
 import CalculatorViews from "../../components/CalculatorViews";
+import { ThemeSwitcher } from "../../components/ThemeSwitcher";
 
 export default async function page({ searchParams }) {
   const {
@@ -46,11 +47,14 @@ export default async function page({ searchParams }) {
   }
   return (
     <div className="p-4 flex flex-col gap-16">
-      <div className="flex justify-center w-full">
-        <div className="text-xl font-bold text-center flex justify-center">
+      <div className="flex justify-between w-full">
+        <div></div>
+        <div className="text-3xl font-bold text-center flex justify-center">
           Margin calculator
         </div>
-        <div></div>
+        <div>
+          <ThemeSwitcher />
+        </div>
       </div>
       <CalculatorViews symbols={data}></CalculatorViews>
     </div>
