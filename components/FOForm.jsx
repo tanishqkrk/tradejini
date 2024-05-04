@@ -15,7 +15,7 @@ export default function FOForm({ symbols }) {
 
   const [strikeprices, setStrikeprices] = useState(undefined); // number[]
 
-  const [selectedPrice, setSelectedPrice] = useState(0)
+  const [selectedPrice, setSelectedPrice] = useState(0);
 
   const [cepe, setcepe] = useState("ce");
 
@@ -41,19 +41,67 @@ export default function FOForm({ symbols }) {
         .then((res) => res.json())
         .then((data) => {
           setStrikeprices(data.data);
-          setSelectedPrice(data.data[0])
+          setSelectedPrice(data.data[0]);
         });
     }
   }, [selectedSymbol]);
-
-
 
   const [product, setProduct] = useState("Futures");
 
   const [type, setType] = useState("buy");
 
+  const [added, setAdded] = useState([]);
+
+  const [quantity, setQuantity] = useState(0);
+
+  const [exchange, setExchange] = useState("NFO");
+
+  const [lotSize, setLotSize] = useState(5400);
+
+  function resetAll() {}
+
+  useEffect(() => {
+    setQuery("");
+    setSelectedPrice("");
+    setStrikeprices(undefined);
+    setSelectedPrice(0);
+  }, [product]);
+
+  function addItem() {
+    // console.log({
+    //   id: crypto.randomUUID(),
+    //   product,
+    //   selectedSymbol,
+    //   quantity,
+    //   exchange,
+    //   type,
+    //   lotSize,
+    //   selectedPrice,
+    //   cepe,
+    // });
+
+    if (selectedSymbol) {
+      setAdded((x) => [
+        ...x,
+        {
+          id: crypto.randomUUID(),
+          product,
+          selectedSymbol,
+          quantity,
+          exchange,
+          type,
+          lotSize,
+          selectedPrice,
+          cepe,
+        },
+      ]);
+    } else {
+      alert("SELECT A SYMBOL");
+    }
+  }
+
   return (
-    <div className="px-12 flex items-center justify-between flex-col">
+    <div className="px-12 flex items-center justify-between flex-col gap-12">
       <div className="flex items-center justify-between w-full">
         <div className="w-1/2 flex flex-col gap-12">
           <div className="flex items-center gap-12">
@@ -83,7 +131,7 @@ export default function FOForm({ symbols }) {
                 }}
               />
               {query !== "" && dropdown && (
-                <div className="absolute h-64 w-96 overflow-y-scroll bg-white rounded-lg top-full dropdown shadow-lg p-3">
+                <div className="absolute h-64 w-96 overflow-y-scroll bg-white rounded-lg top-full dropdown shadow-lg p-3 z-[999999999999]">
                   {loading ? (
                     <div>Loading...</div>
                   ) : (
@@ -92,18 +140,21 @@ export default function FOForm({ symbols }) {
                       .map((symbol) => (
                         <div
                           onClick={() => {
+                            console.log(symbol);
+                            // console.log(strikeprices);
                             setDropdown(false);
-                            setSelectedSymbol(symbol.dispName)
+                            setSelectedSymbol(symbol.dispName);
                             setQuery(symbol.dispName);
                             setStrikeprices(undefined);
                             setSelectedPrice(undefined);
+                            setExchange(symbol.Exchange || "NFO");
                           }}
                           style={{}}
                           className="flex cursor-pointer items-center justify-between  text-black"
                           key={symbol.dispName}
                         >
                           <p className="">{symbol.dispName}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-red-500">
                             {symbol.Exchange}
                           </p>
                         </div>
@@ -117,29 +168,37 @@ export default function FOForm({ symbols }) {
             <div className="flex gap-3">
               <div className="flex w-full flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
-                {strikeprices &&
-                  <select name="strikeprice" className="w-96 rounded-md text-black py-3 px-2" value={selectedPrice} id="" onChange={(e) => setSelectedPrice(Number(e.target.value))}>
-                    {strikeprices.map((item) =>
-                      <option value={item} key={item}>{item}</option>
-                    )}
-
+                {strikeprices ? (
+                  <select
+                    name="strikeprice"
+                    className="w-96 rounded-md text-black py-3 px-2"
+                    value={selectedPrice}
+                    id=""
+                    onChange={(e) => setSelectedPrice(Number(e.target.value))}
+                  >
+                    {strikeprices.map((item) => (
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    ))}
                   </select>
-                }
+                ) : (
+                  <div className="text-sm font-bold">Select a Symbol</div>
+                )}
               </div>
               <div className="">
                 <div className="flex w-full flex-col gap-1 items-start relative">
-
                   <span>Option Type</span>
                   <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
                     <label
                       className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${cepe === "ce" && "bg-green-200 text-green-700  border-green-700"}`}
-                      htmlFor="cepe"
+                      htmlFor="ce"
                     >
                       CE
                     </label>
                     <label
                       className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${cepe === "pe" && "bg-red-200 text-red-700  border-red-700"}`}
-                      htmlFor="cepe"
+                      htmlFor="pe"
                     >
                       PE
                     </label>
@@ -177,7 +236,10 @@ export default function FOForm({ symbols }) {
               <input
                 className="p-2 w-full rounded-lg border-2 border-black white text-black"
                 type="text"
-                value={0}
+                value={quantity}
+                onChange={(e) => {
+                  setQuantity(parseInt(e.target.value));
+                }}
               />
             </div>
             <div className="">
@@ -243,6 +305,17 @@ export default function FOForm({ symbols }) {
           </div>
         </div>
       </div>
+      <div className="flex gap-3 justify-start items-center w-full">
+        <button
+          onClick={() => {
+            addItem();
+          }}
+          className="bg-green-400 p-3 rounded-lg"
+        >
+          Add
+        </button>
+        <button className="bg-gray-500 p-3 rounded-lg">Reset All</button>
+      </div>
       <table className="table w-full rounded-t-lg">
         <thead className="bg-green-800 text-white">
           <tr className="divide-x-2 divide-gray-300">
@@ -258,6 +331,30 @@ export default function FOForm({ symbols }) {
             <th className="p-6">Action</th>
           </tr>
         </thead>
+        {added?.map((x) => {
+          return (
+            <tr>
+              <td className="p-6">{x.selectedSymbol}</td>
+              <td className="p-6">{x.exchange}</td>
+              <td className="p-6">{x.quantity}</td>
+              <td className="p-6">{x.lotSize}</td>
+              <td className="p-6">{x.type === "buy" ? "BUY" : "SELL"}</td>
+              <td className="p-6">{"N/A"}</td>
+              <td className="p-6">{"N/A"}</td>
+              <td className="p-6">{"N/A"}</td>
+              <td className="p-6">{"N/A"}</td>
+              <td className="p-6">
+                <button
+                  onClick={() => {
+                    setAdded((a) => a.filter((y) => y.id !== x.id));
+                  }}
+                >
+                  <img src="/delete.svg" alt="" />
+                </button>
+              </td>
+            </tr>
+          );
+        })}
       </table>
     </div>
   );
