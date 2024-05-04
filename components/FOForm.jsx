@@ -60,12 +60,12 @@ export default function FOForm({ symbols }) {
 
   function resetAll() {}
 
-  useEffect(() => {
-    setQuery("");
-    setSelectedPrice("");
-    setStrikeprices(undefined);
-    setSelectedPrice(0);
-  }, [product]);
+  // useEffect(() => {
+  //   setQuery("");
+  //   setSelectedPrice("");
+  //   setStrikeprices(undefined);
+  //   setSelectedPrice(0);
+  // }, [product]);
 
   function addItem() {
     // console.log({
@@ -316,9 +316,9 @@ export default function FOForm({ symbols }) {
         </button>
         <button className="bg-gray-500 p-3 rounded-lg">Reset All</button>
       </div>
-      <table className="table w-full rounded-t-lg">
-        <thead className="bg-green-800 text-white">
-          <tr className="divide-x-2 divide-gray-300">
+      <table className="table w-full  bg-zinc-800 rounded-xl">
+        <thead className="bg-green-800 text-white rounded-t-xl">
+          <tr className="divide-x-2 divide-gray-300 rounded-t-xl">
             <th className="p-6">Symbol</th>
             <th className="p-6">Exchange</th>
             <th className="p-6">No. of Lots</th>
@@ -334,16 +334,18 @@ export default function FOForm({ symbols }) {
         {added?.map((x) => {
           return (
             <tr>
-              <td className="p-6">{x.selectedSymbol}</td>
-              <td className="p-6">{x.exchange}</td>
-              <td className="p-6">{x.quantity}</td>
-              <td className="p-6">{x.lotSize}</td>
-              <td className="p-6">{x.type === "buy" ? "BUY" : "SELL"}</td>
-              <td className="p-6">{"N/A"}</td>
-              <td className="p-6">{"N/A"}</td>
-              <td className="p-6">{"N/A"}</td>
-              <td className="p-6">{"N/A"}</td>
-              <td className="p-6">
+              <td className="p-6 text-center">{x.selectedSymbol}</td>
+              <td className="p-6 text-center">{x.exchange}</td>
+              <td className="p-6 text-center">{x.quantity}</td>
+              <td className="p-6 text-center">{x.lotSize}</td>
+              <td className="p-6 text-center">
+                {x.type === "buy" ? "BUY" : "SELL"}
+              </td>
+              <td className="p-6 text-center">{"N/A"}</td>
+              <td className="p-6 text-center">{"N/A"}</td>
+              <td className="p-6 text-center">{"N/A"}</td>
+              <td className="p-6 text-center">{"N/A"}</td>
+              <td className="p-6 text-center">
                 <button
                   onClick={() => {
                     setAdded((a) => a.filter((y) => y.id !== x.id));
