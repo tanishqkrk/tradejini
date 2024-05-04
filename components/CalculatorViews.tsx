@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import FOForm from "./FOForm";
 import { CurrencyFuturesItem } from "../app/(types)/CurrencyFuturesItem";
 import { FutureContractsItem } from "../app/(types)/FutureContractsItem";
-import { NSEDisplayType } from "../app/(types)/NSEOptionsDisplay";
 import { CommodityFuturesItem } from "../app/(types)/CommodityFuturesItem";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,6 @@ export default function CalculatorViews({
     | CommodityFuturesItem[]
     | CurrencyFuturesItem[]
     | FutureContractsItem[]
-    | NSEDisplayType[]
     | undefined;
 }) {
   const searchParams = useSearchParams();

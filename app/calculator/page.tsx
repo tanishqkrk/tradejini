@@ -22,7 +22,6 @@ export default async function page({ searchParams }) {
     | CommodityFuturesItem[]
     | CurrencyFuturesItem[]
     | FutureContractsItem[]
-    | NSEDisplayType[]
     | undefined = undefined;
   if (type !== undefined) {
     data = (

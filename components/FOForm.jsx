@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function FOForm({ symbols }) {
+  console.log(symbols)
   const [query, setQuery] = useState("");
 
   const [results, setResults] = useState([]);
@@ -21,30 +22,31 @@ export default function FOForm({ symbols }) {
 
   useEffect(() => {
     if (symbols) {
-      setResults(
-        symbols.filter((x) =>
-          x.dispName.toLowerCase().includes(query.toLowerCase())
-        )
-      );
+      setResults(Object.keys(symbols)
+        .filter(key => key.toLowerCase().includes(query.toLowerCase()))
+        .reduce((obj, key) => {
+          obj[key] = symbols[key];
+          return obj;
+        }, {}));
     }
   }, [query, symbols]);
 
-  useEffect(() => {
-    if (selectedSymbol) {
-      fetch("/apis/getStrikePrices", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({ symbol: selectedSymbol }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setStrikeprices(data.data);
-          setSelectedPrice(data.data[0]);
-        });
-    }
-  }, [selectedSymbol]);
+  // useEffect(() => {
+  //   if (selectedSymbol) {
+  //     fetch("/apis/getStrikePrices", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       method: "POST",
+  //       body: JSON.stringify({ symbol: selectedSymbol }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setStrikeprices(data.data);
+  //         setSelectedPrice(data.data[0]);
+  //       });
+  //   }
+  // }, [selectedSymbol]);
 
   const [product, setProduct] = useState("Futures");
 
@@ -58,7 +60,7 @@ export default function FOForm({ symbols }) {
 
   const [lotSize, setLotSize] = useState(5400);
 
-  function resetAll() {}
+  function resetAll() { }
 
   // useEffect(() => {
   //   setQuery("");
@@ -135,25 +137,22 @@ export default function FOForm({ symbols }) {
                   {loading ? (
                     <div>Loading...</div>
                   ) : (
-                    results
+                    Object.keys(results)
                       .filter((_, idx) => idx < 20)
                       .map((symbol) => (
                         <div
                           onClick={() => {
                             console.log(symbol);
-                            // console.log(strikeprices);
                             setDropdown(false);
-                            setSelectedSymbol(symbol.dispName);
-                            setQuery(symbol.dispName);
-                            setStrikeprices(undefined);
-                            setSelectedPrice(undefined);
+                            setQuery(symbol)
+                            setSelectedSymbol(symbol);
                             setExchange(symbol.Exchange || "NFO");
                           }}
                           style={{}}
                           className="flex cursor-pointer items-center justify-between  text-black"
-                          key={symbol.dispName}
+                          key={symbol}
                         >
-                          <p className="">{symbol.dispName}</p>
+                          <p className="">{symbol}</p>
                           <p className="text-sm text-red-500">
                             {symbol.Exchange}
                           </p>
@@ -168,7 +167,7 @@ export default function FOForm({ symbols }) {
             <div className="flex gap-3">
               <div className="flex w-full flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
-                {strikeprices ? (
+                {selectedSymbol ? (
                   <select
                     name="strikeprice"
                     className="w-96 rounded-md text-black py-3 px-2"
@@ -176,7 +175,7 @@ export default function FOForm({ symbols }) {
                     id=""
                     onChange={(e) => setSelectedPrice(Number(e.target.value))}
                   >
-                    {strikeprices.map((item) => (
+                    {symbols[selectedSymbol].map((item) => (
                       <option value={item} key={item}>
                         {item}
                       </option>
