@@ -46,10 +46,10 @@ export default async function page({ searchParams }) {
     ).data;
   }
   return (
-    <div className="p-4 flex flex-col gap-16">
+    <div className="p-4 flex flex-col gap-16 bg-black dark:bg-white -translate-y-8 rounded-t-2xl">
       <div className="flex justify-between w-full">
         <div></div>
-        <div className="text-3xl font-bold text-center flex justify-center">
+        <div className="text-3xl font-semibold text-center flex justify-center">
           Margin calculator
         </div>
         <div>

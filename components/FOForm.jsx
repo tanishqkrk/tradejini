@@ -319,52 +319,54 @@ export default function FOForm({ symbols }) {
           Reset All
         </button>
       </div>
-      <table className="table w-full  bg-zinc-800 dark:bg-white   rounded-xl">
-        <thead className="bg-[#1A6A55] rounded-xl text-white border-radius">
-          <tr className="divide-x-2 divide-gray-300 rounded-xl">
-            <th className="p-6 rounded-tl-lg">Symbol</th>
-            <th className="p-6">Exchange</th>
-            <th className="p-6">No. of Lots</th>
-            <th className="p-6">Lot size</th>
-            <th className="p-6">Status</th>
-            <th className="p-6">Instrument</th>
-            <th className="p-6">Span</th>
-            <th className="p-6">Exposure</th>
-            <th className="p-6">Total</th>
-            <th className="p-6 rounded-tr-lg">Action</th>
-          </tr>
-        </thead>
-        {added?.map((x) => {
-          return (
-            <tr>
-              <td className="p-6 text-center">{x.selectedSymbol}</td>
-              <td className="p-6 text-center">{x.exchange}</td>
-              <td className="p-6 text-center">{x.quantity}</td>
-              <td className="p-6 text-center">{x.lotSize}</td>
-              <td className={`  p-6 text-center `}>
-                <div
-                  className={`${x.type === "buy" ? "bg-green-900 p-2 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
-                >
-                  {x.type === "buy" ? "BUY" : "SELL"}
-                </div>
-              </td>
-              <td className="p-6 text-center">{"N/A"}</td>
-              <td className="p-6 text-center">{"N/A"}</td>
-              <td className="p-6 text-center">{"N/A"}</td>
-              <td className="p-6 text-center">{"N/A"}</td>
-              <td className="p-6 text-center">
-                <button
-                  onClick={() => {
-                    setAdded((a) => a.filter((y) => y.id !== x.id));
-                  }}
-                >
-                  <img src="/delete.svg" alt="" />
-                </button>
-              </td>
+      <div className="w-[80vw]   overflow-scroll rounded-xl">
+        <table className="table w-[90vw]  bg-zinc-800 dark:bg-white   rounded-xl">
+          <thead className="bg-[#1A6A55] rounded-xl text-white border-radius">
+            <tr className="divide-x-2 divide-gray-300 rounded-xl">
+              <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
+              <th className="min-w-48 py-4">Exchange</th>
+              <th className="min-w-48 py-4">No. of Lots</th>
+              <th className="min-w-48 py-4">Lot size</th>
+              <th className="min-w-48 py-4">Status</th>
+              <th className="min-w-48 py-4">Instrument</th>
+              <th className="min-w-48 py-4">Span</th>
+              <th className="min-w-48 py-4">Exposure</th>
+              <th className="min-w-48 py-4">Total</th>
+              <th className="min-w-48 py-4 rounded-tr-lg">Action</th>
             </tr>
-          );
-        })}
-      </table>
+          </thead>
+          {added?.map((x) => {
+            return (
+              <tr>
+                <td className="p-6 text-center">{x.selectedSymbol}</td>
+                <td className="p-6 text-center">{x.exchange}</td>
+                <td className="p-6 text-center">{x.quantity}</td>
+                <td className="p-6 text-center">{x.lotSize}</td>
+                <td className={`  p-6 text-center `}>
+                  <div
+                    className={`${x.type === "buy" ? "bg-green-900 p-2 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
+                  >
+                    {x.type === "buy" ? "BUY" : "SELL"}
+                  </div>
+                </td>
+                <td className="p-6 text-center">{"N/A"}</td>
+                <td className="p-6 text-center">{"N/A"}</td>
+                <td className="p-6 text-center">{"N/A"}</td>
+                <td className="p-6 text-center">{"N/A"}</td>
+                <td className="p-6 text-center">
+                  <button
+                    onClick={() => {
+                      setAdded((a) => a.filter((y) => y.id !== x.id));
+                    }}
+                  >
+                    <img src="/delete.svg" alt="" />
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
     </div>
   );
 }
