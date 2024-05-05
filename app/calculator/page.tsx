@@ -45,6 +45,8 @@ export default async function page({ searchParams }) {
       ).json()
     ).data;
   }
+  console.log("Data is :");
+  console.log(data);
   return (
     <div className="p-4 flex flex-col gap-16">
       <div className="flex justify-between w-full">
