@@ -81,7 +81,6 @@ export default function FOForm({ symbols }) {
             cepe,
           },
         ]);
-
         setSelectedPrice(0);
         setSelectedSymbol(undefined);
         setQuery("");
@@ -306,7 +305,7 @@ export default function FOForm({ symbols }) {
           onClick={() => {
             addItem();
           }}
-          className="bg-green-400 p-3 rounded-lg"
+          className="bg-[#19AC63] p-3 rounded-lg w-28 text-black dark:text-white"
         >
           Add
         </button>
@@ -314,14 +313,14 @@ export default function FOForm({ symbols }) {
           onClick={() => {
             window.location.reload();
           }}
-          className="bg-gray-500 p-3 rounded-lg"
+          className="bg-zinc-800 p-3 rounded-lg w-28 dark:text-white"
         >
           Reset All
         </button>
       </div>
-      <div className="w-[80vw]   overflow-scroll rounded-xl">
-        <table className="table w-[90vw]  bg-zinc-800 dark:bg-white   rounded-xl">
-          <thead className="bg-[#1A6A55] rounded-xl text-white border-radius">
+      <div className="w-[90vw]   overflow-auto rounded-xl max-h-[80vh]">
+        <table className="table   bg-zinc-800 dark:bg-white    rounded-xl">
+          <thead className="bg-[#1A6A55] rounded-xl text-white border-radius sticky top-0">
             <tr className="divide-x-2 divide-gray-300 rounded-xl">
               <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
               <th className="min-w-48 py-4">Exchange</th>
@@ -344,7 +343,7 @@ export default function FOForm({ symbols }) {
                 <td className="p-6 text-center">{x.lotSize}</td>
                 <td className={`  p-6 text-center `}>
                   <div
-                    className={`${x.type === "buy" ? "bg-green-900 p-2 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
+                    className={`${x.type === "buy" ? "bg-green-900 dark:bg-green-400 dark:text-green-800 p-2 dark:border-green-800 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
                   >
                     {x.type === "buy" ? "BUY" : "SELL"}
                   </div>
