@@ -2,36 +2,105 @@
 
 import { useState } from "react";
 import { useEffect } from "react";
+import { NSEAPIResponse } from "../app/(types)/NSEAPIResponse";
 
-export default function FOForm({ symbols }) {
-  // console.log(symbols);
+type MarginData = {
+  dispQty: string;
+  dispSymbol: string;
+  exc_id: string;
+  exch: string;
+  exd: Date | string;
+  expo: string;
+  expo_trade: string;
+  instname: string;
+  lotSize: number;
+  netqty: string;
+  prd: string;
+  request_time: Date;
+  span: string;
+  span_trade: string;
+  stat: string;
+  symname: string;
+};
+
+function convertDate(date: string) {
+  const [year, monthIndex, day] = date.split("-");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const monthName = monthNames[Number(monthIndex) - 1].toUpperCase();
+  const formattedDay = String(day).padStart(2, "0");
+  return `${formattedDay}-${monthName}-${year}`;
+}
+
+export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
+  function symbolNameConverter(
+    selectedSymbol: string,
+    cepe: string,
+    strikePrice: number,
+  ) {
+    const [year, monthIndex, day] = symbols[selectedSymbol].id
+      .split("_")[3]
+      .split("-");
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const monthName = monthNames[Number(monthIndex) - 1].toUpperCase();
+    const formattedDay = String(day).padStart(2, "0");
+    return `${symbols[selectedSymbol].id.split("_")[1]}${formattedDay}${monthName}${year.slice(-2)}${cepe[0]}${strikePrice}`;
+  }
+
   const [query, setQuery] = useState("");
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<NSEAPIResponse>();
 
-  const [selectedSymbol, setSelectedSymbol] = useState(undefined);
+  const [selectedSymbol, setSelectedSymbol] = useState<string | undefined>(
+    undefined,
+  );
   const [dropdown, setDropdown] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  const [strikeprices, setStrikeprices] = useState(undefined); // number[]
-
   const [selectedPrice, setSelectedPrice] = useState(0);
 
-  const [cepe, setcepe] = useState("ce");
+  const [cepe, setcepe] = useState<"CE" | "PE">("CE");
 
   useEffect(() => {
     if (symbols) {
       setResults(
         Object.keys(symbols)
           .filter((key) => key.toLowerCase().includes(query.toLowerCase()))
-          .reduce((obj, key) => {
-            obj[key] = symbols[key];
-            return obj;
-          }, {})
+          .reduce((obj, key) => ({ ...obj, [key]: symbols[key] }), {}),
       );
     }
   }, [query, symbols]);
+
+  useEffect(() => {
+    console.log("RESULTS");
+    console.log(results);
+  }, [results]);
 
   // useEffect(() => {
   //   if (selectedSymbol) {
@@ -52,9 +121,24 @@ export default function FOForm({ symbols }) {
 
   const [product, setProduct] = useState("Futures");
 
-  const [type, setType] = useState("buy");
+  const [type, setType] = useState<"buy" | "sell">("buy");
 
-  const [added, setAdded] = useState([]);
+  const [added, setAdded] = useState<
+    {
+      prd: string;
+      exch: string;
+      symname: string;
+      instname: string;
+      exd: string | Date;
+      netqty: string;
+      exc_id: string;
+      dispSymbol: string;
+      lotSize: number;
+      dispQty: string;
+      strprc: string;
+      optt: string;
+    }[]
+  >([]);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -62,8 +146,18 @@ export default function FOForm({ symbols }) {
 
   const [lotSize, setLotSize] = useState(5400);
 
+  const [totals, setTotals] = useState({
+    span: 0.0,
+    exposure: 0.0,
+    total: 0.0,
+    benefit: 0.0,
+    multi: 0.0,
+  });
+
   useEffect(() => {
     // console.log(addedSymbols);
+    const URL =
+      "https://pre-prod.tradejini.com/spa/services/api.php/span_calc/";
     if (added.length > 0) {
       const promisesArray = added.map((item) =>
         fetch(URL, {
@@ -90,23 +184,20 @@ export default function FOForm({ symbols }) {
         }).then((res) => res.json()),
       );
       Promise.all(promisesArray).then(
-        // (
-        //   data: {
-        //     status: "ok" | "not ok";
-        //     d: {
-        //       request_time: Date;
-        //       stat: string;
-        //       span: string;
-        //       expo: string;
-        //       span_trade: string;
-        //       expo_trade: string;
-        //     };
-        //   }[],
-        // ) => {
         (
-          data
+          data: {
+            status: "ok" | "not ok";
+            d: {
+              request_time: Date;
+              stat: string;
+              span: string;
+              expo: string;
+              span_trade: string;
+              expo_trade: string;
+            };
+          }[],
         ) => {
-          const newArr = [];
+          const newArr: MarginData[] = [];
           const tot = {
             span: 0.0,
             exposure: 0.0,
@@ -135,26 +226,43 @@ export default function FOForm({ symbols }) {
     }
   }, [added]);
 
-  const [marginData, setMarginData] = useState < [] > ([]);
+  const [marginData, setMarginData] = useState<MarginData[]>([]);
 
-
-  function resetAll() { }
+  function resetAll() {}
 
   function addItem() {
     if (selectedSymbol) {
-      if (!added?.map((x) => x.selectedSymbol).includes(selectedSymbol)) {
+      if (!added.find((x) => x.dispSymbol === selectedSymbol)) {
         setAdded((x) => [
           ...x,
           {
-            id: crypto.randomUUID(),
-            product,
-            selectedSymbol,
-            quantity,
-            exchange,
-            type,
-            lotSize,
-            selectedPrice,
-            cepe,
+            prd: "M",
+            exch: symbols[selectedSymbol].id.split("_")[2],
+            symname: symbols[selectedSymbol].id.split("_")[1],
+            instname: symbols[selectedSymbol].id.split("_")[0],
+            exd: convertDate(symbols[selectedSymbol].id.split("_")[3]),
+            netqty: String(
+              (type === "sell" ? -1 : 1) *
+                symbols[selectedSymbol].lot *
+                quantity,
+            ),
+            exc_id: crypto.randomUUID(),
+            dispSymbol: symbolNameConverter(
+              selectedSymbol,
+              cepe,
+              selectedPrice,
+            ),
+            // symbols[selectedSymbol].id.split("_")[1] +
+            // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
+            //   "-",
+            //   "",
+            // ) +
+            // cepe[0] +
+            // String(selectedPrice),
+            lotSize: symbols[selectedSymbol].lot,
+            dispQty: String(symbols[selectedSymbol].lot),
+            strprc: String(symbols[selectedSymbol].id.split("_")[4]),
+            optt: String(symbols[selectedSymbol].id.split("_")[5]),
           },
         ]);
         setSelectedPrice(0);
@@ -183,7 +291,6 @@ export default function FOForm({ symbols }) {
                     setProduct(e.target.value);
                   }}
                   className=" z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
-                  type="text"
                 >
                   <option className="" value="Futures">
                     Futures
@@ -221,7 +328,8 @@ export default function FOForm({ symbols }) {
                             setDropdown(false);
                             setQuery(symbol);
                             setSelectedSymbol(symbol);
-                            setExchange(symbol.Exchange || "NFO");
+                            setSelectedPrice(symbols[symbol].strikePrices[0]);
+                            setExchange(results[symbol].id.split("_")[2]);
                           }}
                           style={{}}
                           className="flex cursor-pointer items-center justify-between  "
@@ -229,7 +337,7 @@ export default function FOForm({ symbols }) {
                         >
                           <p className="">{symbol}</p>
                           <p className="text-sm text-red-500">
-                            {symbol.Exchange}
+                            {results[symbol].id.split("_")[2]}
                           </p>
                         </div>
                       ))
@@ -251,7 +359,7 @@ export default function FOForm({ symbols }) {
                       id=""
                       onChange={(e) => setSelectedPrice(Number(e.target.value))}
                     >
-                      {symbols[selectedSymbol].map((item) => (
+                      {symbols[selectedSymbol].strikePrices.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
@@ -276,10 +384,9 @@ export default function FOForm({ symbols }) {
                       <select
                         value={cepe}
                         onChange={(e) => {
-                          setcepe(e.target.value);
+                          setcepe(e.target.value as typeof cepe);
                         }}
                         className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black  bg-zinc-800 relative dark:bg-white dark:text-black "
-                        type="text"
                       >
                         <option className="" value="CE">
                           CE
@@ -299,7 +406,7 @@ export default function FOForm({ symbols }) {
               <span className="flex  justify-between items-center w-full">
                 <p className="w-fit">Net Quantity (Lots: 1000)</p>{" "}
                 <p className="bg-gray-200 border-2 p-1 rounded-lg text-sm w-fit border-green-700 text-green-700">
-                  Lot Size: 5400
+                  Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                 </p>
               </span>
               <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
@@ -330,7 +437,9 @@ export default function FOForm({ symbols }) {
               </div>
               <div className="hidden">
                 <input
-                  onChange={(x) => setType(x.target.value)}
+                  onChange={(x) => {
+                    setType("buy");
+                  }}
                   value={"buy"}
                   type="radio"
                   id="buy"
@@ -339,7 +448,9 @@ export default function FOForm({ symbols }) {
               </div>
               <div className="hidden">
                 <input
-                  onChange={(x) => setType(x.target.value)}
+                  onChange={(x) => {
+                    setType("sell");
+                  }}
                   value={"sell"}
                   type="radio"
                   id="sell"
@@ -358,20 +469,24 @@ export default function FOForm({ symbols }) {
             <div className="p-5 flex flex-col gap-4">
               <div className="flex justify-between items-center w-full">
                 <div>Span margin</div>
-                <div className="text-green-800 font-bold">0</div>
+                <div className="text-green-800 font-bold">{totals.span}</div>
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>Exposure margin</div>
-                <div className="text-green-800 font-bold">0</div>
+                <div className="text-green-800 font-bold">
+                  {totals.exposure}
+                </div>
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>Total margin</div>
-                <div className="text-green-800 font-bold">0</div>
+                <div className="text-green-800 font-bold">{totals.multi}</div>
               </div>
             </div>
             <div className="flex justify-between items-center bg-green-800 p-5 rounded-b-lg">
-              <div className="text-white">Margin Benifit</div>
-              <div className="text-green-300 font-semibold">0</div>
+              <div className="text-white">Margin Benefit</div>
+              <div className="text-green-300 font-semibold">
+                {totals.benefit}
+              </div>
             </div>
           </div>
         </div>
@@ -410,28 +525,34 @@ export default function FOForm({ symbols }) {
               <th className="min-w-48 py-4 rounded-tr-lg">Action</th>
             </tr>
           </thead>
-          {added?.map((x) => {
+          {marginData.map((x) => {
             return (
               <tr>
-                <td className="p-6 text-center">{x.selectedSymbol}</td>
-                <td className="p-6 text-center">{x.exchange}</td>
-                <td className="p-6 text-center">{x.quantity}</td>
+                <td className="p-6 text-center">{x.dispSymbol}</td>
+                <td className="p-6 text-center">{x.exch}</td>
+                <td className="p-6 text-center">
+                  {Math.abs(Number(x.netqty) / x.lotSize)}
+                </td>
                 <td className="p-6 text-center">{x.lotSize}</td>
                 <td className={`  p-6 text-center `}>
                   <div
-                    className={`${x.type === "buy" ? "bg-green-900 dark:bg-green-400 dark:text-green-800 p-2 dark:border-green-800 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
+                    className={`${Number(x.netqty) > 0 ? "bg-green-900 dark:bg-green-400 dark:text-green-800 p-2 dark:border-green-800 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
                   >
-                    {x.type === "buy" ? "BUY" : "SELL"}
+                    {Number(x.netqty) > 0 ? "BUY" : "SELL"}
                   </div>
                 </td>
-                <td className="p-6 text-center">{"N/A"}</td>
-                <td className="p-6 text-center">{"N/A"}</td>
-                <td className="p-6 text-center">{"N/A"}</td>
-                <td className="p-6 text-center">{"N/A"}</td>
+                <td className="p-6 text-center">{x.instname}</td>
+                <td className="p-6 text-center">{x.span}</td>
+                <td className="p-6 text-center">{x.expo}</td>
+                <td className="p-6 text-center">
+                  {Number(x.span) + Number(x.expo)}
+                </td>
                 <td className="p-6 text-center">
                   <button
                     onClick={() => {
-                      setAdded((a) => a.filter((y) => y.id !== x.id));
+                      setAdded((a) =>
+                        a.filter((y) => y.dispSymbol !== x.dispSymbol),
+                      );
                     }}
                   >
                     <img src="/delete.svg" alt="" />
