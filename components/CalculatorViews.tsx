@@ -2,20 +2,14 @@
 
 import { useCallback, useState } from "react";
 import FOForm from "./FOForm";
-import { CurrencyFuturesItem } from "../app/(types)/CurrencyFuturesItem";
-import { FutureContractsItem } from "../app/(types)/FutureContractsItem";
-import { CommodityFuturesItem } from "../app/(types)/CommodityFuturesItem";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { NSEAPIResponse } from "../app/(types)/NSEAPIResponse";
 
 export default function CalculatorViews({
   symbols,
 }: {
-  symbols:
-    | CommodityFuturesItem[]
-    | CurrencyFuturesItem[]
-    | FutureContractsItem[]
-    | undefined;
+  symbols: NSEAPIResponse | undefined;
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -27,7 +21,7 @@ export default function CalculatorViews({
       params.set(name, value);
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   const [view, setView] = useState(0);
@@ -42,7 +36,7 @@ export default function CalculatorViews({
           onClick={() => {
             setView(0);
             router.push(
-              pathname + "?" + createQueryString("type", "nseoptions")
+              pathname + "?" + createQueryString("type", "nseoptions"),
             );
           }}
         >
