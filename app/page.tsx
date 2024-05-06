@@ -19,12 +19,7 @@ export default async function Home({ searchParams }) {
     optiontype: "ce" | "pe" | undefined;
   } = searchParams;
   console.log(searchParams);
-  let data:
-    | CommodityFuturesItem[]
-    | CurrencyFuturesItem[]
-    | FutureContractsItem[]
-    | NSEOptionsItem[]
-    | undefined = undefined;
+  let data: undefined = undefined;
   if (type !== undefined) {
     data = (
       await (
