@@ -62,7 +62,83 @@ export default function FOForm({ symbols }) {
 
   const [lotSize, setLotSize] = useState(5400);
 
-  function resetAll() {}
+  useEffect(() => {
+    // console.log(addedSymbols);
+    if (added.length > 0) {
+      const promisesArray = added.map((item) =>
+        fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            actid: "DUMMY",
+            pos: JSON.stringify([item]),
+          }),
+        }).then((res) => res.json()),
+      );
+      promisesArray.push(
+        fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            actid: "DUMMY",
+            pos: JSON.stringify(added),
+          }),
+        }).then((res) => res.json()),
+      );
+      Promise.all(promisesArray).then(
+        // (
+        //   data: {
+        //     status: "ok" | "not ok";
+        //     d: {
+        //       request_time: Date;
+        //       stat: string;
+        //       span: string;
+        //       expo: string;
+        //       span_trade: string;
+        //       expo_trade: string;
+        //     };
+        //   }[],
+        // ) => {
+        (
+          data
+        ) => {
+          const newArr = [];
+          const tot = {
+            span: 0.0,
+            exposure: 0.0,
+            total: 0.0,
+            benefit: 0.0,
+            multi: 0.0,
+          };
+
+          data.forEach((item, idx) => {
+            if (idx === data.length - 1) {
+              console.log(item);
+              tot.multi = Number(item.d.expo) + Number(item.d.span);
+              tot.benefit = Math.abs(tot.span + tot.exposure - tot.multi);
+            } else {
+              newArr.push({ ...item.d, ...added[idx] });
+              tot.span += Number(item.d.span);
+              tot.exposure += Number(item.d.expo);
+            }
+          });
+          tot.total = tot.span + tot.exposure;
+          console.log(newArr);
+          setMarginData(newArr);
+          setTotals(tot);
+        },
+      );
+    }
+  }, [added]);
+
+  const [marginData, setMarginData] = useState < [] > ([]);
+
+
+  function resetAll() { }
 
   function addItem() {
     if (selectedSymbol) {
