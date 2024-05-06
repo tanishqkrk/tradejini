@@ -26,10 +26,24 @@ export async function GET() {
       const values = item.split(",");
       const key = values[1].split(" ").slice(0, 2).join(" ");
       if (!map.has(key)) {
-        map.set(key, []);
+        map.set(key, {
+          strikePrices: [],
+          id: values[0],
+          dispName: values[1],
+          excToken: Number(values[2]),
+          lot: Number(values[3]),
+          tick: Number(values[4]),
+          asset: values[5],
+          freezeQty: Number(values[6]),
+          weekly: values[7],
+          undId: values[8],
+        });
       }
+      // map.get(key).push(Number(values[1].split(" ")[2])); // Add strike price as number
+      const old = map.get(key);
+      old.strikePrices.push(Number(values[1].split(" ")[2]));
+      map.set(key, old);
 
-      map.get(key).push(Number(values[1].split(" ")[2])); // Add strike price as number
       return map;
     }, new Map());
   return Response.json({ data: Object.fromEntries(dataMap) });
