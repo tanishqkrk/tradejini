@@ -1,6 +1,7 @@
 import { CommodityFuturesItem } from "../(types)/CommodityFuturesItem";
 import { CurrencyFuturesItem } from "../(types)/CurrencyFuturesItem";
 import { FutureContractsItem } from "../(types)/FutureContractsItem";
+import { NSEAPIResponse } from "../(types)/NSEAPIResponse";
 import { NSEDisplayType } from "../(types)/NSEOptionsDisplay";
 import CalculatorViews from "../../components/CalculatorViews";
 import { ThemeSwitcher } from "../../components/ThemeSwitcher";
@@ -19,32 +20,16 @@ export default async function page({ searchParams }) {
     optiontype: "ce" | "pe" | undefined;
   } = searchParams;
 
-  let data:
-    | CommodityFuturesItem[]
-    | CurrencyFuturesItem[]
-    | FutureContractsItem[]
-    | undefined = undefined;
-  if (type !== undefined) {
-    data = (
-      await (
-        await fetch(process.env.URL + "/apis/" + type, {
-          next: {
-            revalidate: 86400,
-          },
-        })
-      ).json()
-    ).data;
-  } else {
-    data = (
-      await (
-        await fetch(process.env.URL + "/apis/nseoptions", {
-          next: {
-            revalidate: 86400,
-          },
-        })
-      ).json()
-    ).data;
-  }
+  let data: NSEAPIResponse | undefined = undefined;
+  data = (
+    await (
+      await fetch(process.env.URL + "/apis/nseoptions", {
+        next: {
+          revalidate: 86400,
+        },
+      })
+    ).json()
+  ).data as NSEAPIResponse;
   console.log("Data is :");
   console.log(data);
   return (
