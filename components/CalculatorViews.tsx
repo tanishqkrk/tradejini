@@ -1,29 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import FOForm from "./FOForm";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { NSEAPIResponse } from "../app/(types)/NSEAPIResponse";
+import {
+  FuturesAPIResponse,
+  NSEAPIResponse,
+} from "../app/(types)/APIResponseTypes";
 
 export default function CalculatorViews({
   symbols,
 }: {
-  symbols: NSEAPIResponse | undefined;
+  symbols: NSEAPIResponse | FuturesAPIResponse | undefined;
 }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams],
-  );
-
   const [view, setView] = useState(0);
 
   return (
@@ -35,9 +23,6 @@ export default function CalculatorViews({
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(0);
-            router.push(
-              pathname + "?" + createQueryString("type", "nseoptions"),
-            );
           }}
         >
           F&O

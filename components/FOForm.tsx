@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useEffect } from "react";
-import { NSEAPIResponse } from "../app/(types)/NSEAPIResponse";
+import {
+  FuturesAPIResponse,
+  NSEAPIResponse,
+} from "../app/(types)/APIResponseTypes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type MarginData = {
   dispQty: string;
@@ -44,7 +48,24 @@ function convertDate(date: string) {
   return `${formattedDay}-${monthName}-${year}`;
 }
 
-export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
+export default function FOForm({
+  symbols,
+}: {
+  symbols: NSEAPIResponse | FuturesAPIResponse;
+}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
   function symbolNameConverter(
     selectedSymbol: string,
     cepe: string,
@@ -74,14 +95,12 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
 
   const [query, setQuery] = useState("");
 
-  const [results, setResults] = useState<NSEAPIResponse>();
+  const [results, setResults] = useState<NSEAPIResponse | FuturesAPIResponse>();
 
   const [selectedSymbol, setSelectedSymbol] = useState<string | undefined>(
     undefined,
   );
   const [dropdown, setDropdown] = useState(false);
-
-  const [loading, setLoading] = useState(false);
 
   const [selectedPrice, setSelectedPrice] = useState(0);
 
@@ -92,7 +111,10 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
       setResults(
         Object.keys(symbols)
           .filter((key) => key.toLowerCase().includes(query.toLowerCase()))
-          .reduce((obj, key) => ({ ...obj, [key]: symbols[key] }), {}),
+          .reduce(
+            (obj, key) => ({ ...obj, [key]: symbols[key] }),
+            {} as NSEAPIResponse | FuturesAPIResponse,
+          ),
       );
     }
   }, [query, symbols]);
@@ -119,7 +141,7 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
   //   }
   // }, [selectedSymbol]);
 
-  const [product, setProduct] = useState("Futures");
+  const [product, setProduct] = useState(searchParams.get("type") || "futures");
 
   const [type, setType] = useState<"buy" | "sell">("buy");
 
@@ -141,10 +163,6 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
   >([]);
 
   const [quantity, setQuantity] = useState(0);
-
-  const [exchange, setExchange] = useState("NFO");
-
-  const [lotSize, setLotSize] = useState(5400);
 
   const [totals, setTotals] = useState({
     span: 0.0,
@@ -228,8 +246,6 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
 
   const [marginData, setMarginData] = useState<MarginData[]>([]);
 
-  function resetAll() {}
-
   function addItem() {
     if (selectedSymbol) {
       if (!added.find((x) => x.dispSymbol === selectedSymbol)) {
@@ -288,14 +304,19 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
                 <select
                   value={product}
                   onChange={(e) => {
+                    router.push(
+                      pathname +
+                        "?" +
+                        createQueryString("type", e.target.value),
+                    );
                     setProduct(e.target.value);
                   }}
                   className=" z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
                 >
-                  <option className="" value="Futures">
+                  <option className="" value="futures">
                     Futures
                   </option>
-                  <option className="" value="Options">
+                  <option className="" value="options">
                     Options
                   </option>
                 </select>
@@ -316,32 +337,28 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
               </div>
               {query !== "" && dropdown && (
                 <div className="absolute h-64 w-96 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
-                  {loading ? (
-                    <div>Loading...</div>
-                  ) : (
-                    Object.keys(results)
-                      .filter((_, idx) => idx < 20)
-                      .map((symbol) => (
-                        <div
-                          onClick={() => {
-                            console.log(symbol);
-                            setDropdown(false);
-                            setQuery(symbol);
-                            setSelectedSymbol(symbol);
+                  {Object.keys(results)
+                    .filter((_, idx) => idx < 20)
+                    .map((symbol) => (
+                      <div
+                        onClick={() => {
+                          console.log(symbol);
+                          setDropdown(false);
+                          setQuery(symbol);
+                          setSelectedSymbol(symbol);
+                          if (product === "options")
                             setSelectedPrice(symbols[symbol].strikePrices[0]);
-                            setExchange(results[symbol].id.split("_")[2]);
-                          }}
-                          style={{}}
-                          className="flex cursor-pointer items-center justify-between  "
-                          key={symbol}
-                        >
-                          <p className="">{symbol}</p>
-                          <p className="text-sm text-red-500">
-                            {results[symbol].id.split("_")[2]}
-                          </p>
-                        </div>
-                      ))
-                  )}
+                        }}
+                        style={{}}
+                        className="flex cursor-pointer items-center justify-between  "
+                        key={symbol}
+                      >
+                        <p className="">{symbol}</p>
+                        <p className="text-sm text-red-500">
+                          {results[symbol].id.split("_")[2]}
+                        </p>
+                      </div>
+                    ))}
                 </div>
               )}
             </div>
@@ -359,11 +376,13 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
                       id=""
                       onChange={(e) => setSelectedPrice(Number(e.target.value))}
                     >
-                      {symbols[selectedSymbol].strikePrices.map((item) => (
-                        <option value={item} key={item}>
-                          {item}
-                        </option>
-                      ))}
+                      {symbols[selectedSymbol].strikePrices.map(
+                        (item: number) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ),
+                      )}
                     </select>
                   ) : (
                     <select
@@ -437,7 +456,7 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
               </div>
               <div className="hidden">
                 <input
-                  onChange={(x) => {
+                  onChange={() => {
                     setType("buy");
                   }}
                   value={"buy"}
@@ -448,7 +467,7 @@ export default function FOForm({ symbols }: { symbols: NSEAPIResponse }) {
               </div>
               <div className="hidden">
                 <input
-                  onChange={(x) => {
+                  onChange={(_) => {
                     setType("sell");
                   }}
                   value={"sell"}
