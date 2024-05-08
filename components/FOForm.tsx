@@ -582,7 +582,11 @@ export default function FOForm({
                       );
                     }}
                   >
-                    <img src="/delete.svg" alt="" />
+                    <img
+                      src="/delete.svg"
+                      className="invert-0 dark:invert"
+                      alt=""
+                    />
                   </button>
                 </td>
               </tr>
