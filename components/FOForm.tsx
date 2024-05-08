@@ -301,7 +301,7 @@ export default function FOForm({
   }
 
   return (
-    <div className="px-12 flex items-center justify-between flex-col gap-12">
+    <div className="px-12 flex items-center justify-between flex-col gap-5">
       <div className="flex items-center justify-between w-full">
         <div className="w-1/2 flex flex-col gap-12">
           <div className="flex items-center gap-12">
