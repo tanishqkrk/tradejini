@@ -250,7 +250,13 @@ export default function FOForm({
 
   function addItem() {
     if (selectedSymbol) {
-      if (!added.find((x) => x.dispSymbol === selectedSymbol)) {
+      if (
+        !added.find(
+          (x) =>
+            x.dispSymbol ===
+            symbolNameConverter(selectedSymbol, cepe, selectedPrice),
+        )
+      ) {
         setAdded((x) => [
           ...x,
           {
