@@ -431,7 +431,7 @@ export default function FOForm({
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1 items-start w-96">
               <span className="flex  justify-between items-center w-full">
-                <p className="w-fit">Net Quantity (Lots: 1000)</p>{" "}
+                <p className="w-fit">Net Quantity</p>{" "}
                 <p className="bg-gray-200 border-2 p-1 rounded-lg text-sm w-fit border-green-700 text-green-700">
                   Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                 </p>
