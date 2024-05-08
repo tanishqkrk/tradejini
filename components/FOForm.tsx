@@ -371,7 +371,7 @@ export default function FOForm({
               )}
             </div>
           </div>
-          {product === "Options" && (
+          {product === "options" && (
             <div className="flex items-center gap-12">
               <div className="w-72 flex  flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
