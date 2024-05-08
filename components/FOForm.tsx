@@ -440,7 +440,7 @@ export default function FOForm({
                 <input
                   className="z-[99999999] p-2 w-full rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
                   type="number"
-                  value={quantity}
+                  value={quantity === 0 ? "" : quantity}
                   onChange={(e) => {
                     setQuantity(parseInt(e.target.value));
                   }}
