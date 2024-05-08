@@ -594,6 +594,12 @@ export default function FOForm({
           })}
         </table>
       </div>
+      <div className="flex flex-row justify-end items-end w-ful w-full">
+        <p>
+          Total Margin :
+          <span className="text-green-800 font-bold">{totals.total}</span>
+        </p>
+      </div>
     </div>
   );
 }
