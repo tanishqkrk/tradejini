@@ -317,7 +317,7 @@ export default function FOForm({
                         "?" +
                         createQueryString("type", e.target.value),
                     );
-                    setProduct(e.target.value);
+                    setProduct(e.target.value as "futures" | "options");
                   }}
                   className=" z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
                 >
