@@ -285,7 +285,7 @@ export default function FOForm({
             // String(selectedPrice),
             lotSize: symbols[selectedSymbol].lot,
             dispQty: String(symbols[selectedSymbol].lot),
-            strprc: String(symbols[selectedSymbol].id.split("_")[4]),
+            strprc: String(selectedPrice),
             optt: String(symbols[selectedSymbol].id.split("_")[5]),
           },
         ]);
