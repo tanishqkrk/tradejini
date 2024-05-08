@@ -141,7 +141,9 @@ export default function FOForm({
   //   }
   // }, [selectedSymbol]);
 
-  const [product, setProduct] = useState(searchParams.get("type") || "futures");
+  const [product, setProduct] = useState<"futures" | "options">(
+    (searchParams.get("type") as "futures" | "options") || "futures",
+  );
 
   const [type, setType] = useState<"buy" | "sell">("buy");
 
