@@ -28,25 +28,23 @@ export async function GET() {
     ...commodityFutureData,
     ...futureContractData,
     ...currencyFutureData,
-  ]
-    .filter((_, idx) => !(idx & 1))
-    .reduce((map, item) => {
-      const values = item.split(",");
-      const key = values[1].split(" ").slice(0, 2).join(" ");
-      if (!map.has(key)) {
-        map.set(key, {
-          id: values[0],
-          dispName: values[1],
-          excToken: Number(values[2]),
-          lot: Number(values[3]),
-          tick: Number(values[4]),
-          asset: values[5],
-          freezeQty: Number(values[6]),
-          weekly: values[7],
-          undId: values[8],
-        });
-      }
-      return map;
-    }, new Map());
+  ].reduce((map, item) => {
+    const values = item.split(",");
+    const key = values[1].split(" ").slice(0, 2).join(" ");
+    if (!map.has(key)) {
+      map.set(key, {
+        id: values[0],
+        dispName: values[1],
+        excToken: Number(values[2]),
+        lot: Number(values[3]),
+        tick: Number(values[4]),
+        asset: values[5],
+        freezeQty: Number(values[6]),
+        weekly: values[7],
+        undId: values[8],
+      });
+    }
+    return map;
+  }, new Map());
   return Response.json({ data: Object.fromEntries(dataMap) });
 }
