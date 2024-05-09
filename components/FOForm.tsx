@@ -557,8 +557,8 @@ export default function FOForm({
               <th className="min-w-48 py-4 rounded-tr-lg">Action</th>
             </tr>
           </thead>
-          {marginData.map((x) => {
-            return (
+          <tbody>
+            {marginData.map((x) => (
               <tr>
                 <td className="p-6 text-center">{x.dispSymbol}</td>
                 <td className="p-6 text-center">{x.exch}</td>
@@ -599,8 +599,8 @@ export default function FOForm({
                   </button>
                 </td>
               </tr>
-            );
-          })}
+            ))}
+          </tbody>
         </table>
       </div>
       <div className="flex flex-row justify-end items-end w-ful w-full">
