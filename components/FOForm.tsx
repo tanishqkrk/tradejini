@@ -119,11 +119,6 @@ export default function FOForm({
     }
   }, [query, symbols]);
 
-  useEffect(() => {
-    console.log("RESULTS");
-    console.log(results);
-  }, [results]);
-
   // useEffect(() => {
   //   if (selectedSymbol) {
   //     fetch("/apis/getStrikePrices", {
@@ -225,10 +220,10 @@ export default function FOForm({
             benefit: 0.0,
             multi: 0.0,
           };
-
+          console.log("Data");
+          console.log(data);
           data.forEach((item, idx) => {
             if (idx === data.length - 1) {
-              console.log(item);
               tot.multi = Number(item.d.expo) + Number(item.d.span);
               tot.benefit = Math.abs(tot.span + tot.exposure - tot.multi);
             } else {
@@ -238,7 +233,6 @@ export default function FOForm({
             }
           });
           tot.total = tot.span + tot.exposure;
-          console.log(newArr);
           setMarginData(newArr);
           setTotals(tot);
         },
@@ -286,7 +280,7 @@ export default function FOForm({
             lotSize: symbols[selectedSymbol].lot,
             dispQty: String(symbols[selectedSymbol].lot),
             strprc: String(selectedPrice),
-            optt: String(symbols[selectedSymbol].id.split("_")[5]),
+            optt: cepe.toUpperCase(),
           },
         ]);
         setSelectedPrice(0);
@@ -350,7 +344,6 @@ export default function FOForm({
                     .map((symbol) => (
                       <div
                         onClick={() => {
-                          console.log(symbol);
                           setDropdown(false);
                           setQuery(symbol);
                           setSelectedSymbol(symbol);
