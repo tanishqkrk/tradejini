@@ -233,7 +233,6 @@ export default function FOForm({
               tot.total += Number(item.d.span) + Number(item.d.expo);
             }
           });
-          tot.total = tot.span + tot.exposure;
           setMarginData(newArr);
           setTotals(tot);
         },
