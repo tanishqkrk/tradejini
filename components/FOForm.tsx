@@ -224,12 +224,13 @@ export default function FOForm({
           console.log(data);
           data.forEach((item, idx) => {
             if (idx === data.length - 1) {
+              tot.span = Number(item.d.span);
+              tot.exposure = Number(item.d.expo);
               tot.multi = Number(item.d.expo) + Number(item.d.span);
-              tot.benefit = Math.abs(tot.span + tot.exposure - tot.multi);
+              tot.benefit = tot.total - tot.multi;
             } else {
               newArr.push({ ...item.d, ...added[idx] });
-              tot.span += Number(item.d.span);
-              tot.exposure += Number(item.d.expo);
+              tot.total += Number(item.d.span) + Number(item.d.expo);
             }
           });
           tot.total = tot.span + tot.exposure;
