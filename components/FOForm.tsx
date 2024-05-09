@@ -294,6 +294,14 @@ export default function FOForm({
     }
   }
 
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <div className="px-12 flex items-center justify-between flex-col gap-5">
       <div className="flex items-center justify-between w-full">
