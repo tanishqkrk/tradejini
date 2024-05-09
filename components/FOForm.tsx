@@ -497,23 +497,27 @@ export default function FOForm({
             <div className="p-5 flex flex-col gap-4">
               <div className="flex justify-between items-center w-full">
                 <div>Span margin</div>
-                <div className="text-green-800 font-bold">{totals.span}</div>
+                <div className="text-green-800 font-bold">
+                  {formatter.format(totals.span)}
+                </div>
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>Exposure margin</div>
                 <div className="text-green-800 font-bold">
-                  {totals.exposure}
+                  {formatter.format(totals.exposure)}
                 </div>
               </div>
               <div className="flex justify-between items-center w-full">
                 <div>Total margin</div>
-                <div className="text-green-800 font-bold">{totals.multi}</div>
+                <div className="text-green-800 font-bold">
+                  {formatter.format(totals.multi)}
+                </div>
               </div>
             </div>
             <div className="flex justify-between items-center bg-green-800 p-5 rounded-b-lg">
               <div className="text-white">Margin Benefit</div>
               <div className="text-green-300 font-semibold">
-                {totals.benefit}
+                {formatter.format(totals.benefit)}
               </div>
             </div>
           </div>
@@ -570,10 +574,14 @@ export default function FOForm({
                   </div>
                 </td>
                 <td className="p-6 text-center">{x.instname}</td>
-                <td className="p-6 text-center">{x.span}</td>
-                <td className="p-6 text-center">{x.expo}</td>
                 <td className="p-6 text-center">
-                  {Number(x.span) + Number(x.expo)}
+                  {formatter.format(Number(x.span))}
+                </td>
+                <td className="p-6 text-center">
+                  {formatter.format(Number(x.expo))}
+                </td>
+                <td className="p-6 text-center">
+                  {formatter.format(Number(x.span) + Number(x.expo))}
                 </td>
                 <td className="p-6 text-center">
                   <button
@@ -598,7 +606,9 @@ export default function FOForm({
       <div className="flex flex-row justify-end items-end w-ful w-full">
         <p>
           Total Margin :
-          <span className="text-green-800 font-bold">{totals.total}</span>
+          <span className="text-green-800 font-bold">
+            {formatter.format(totals.total)}
+          </span>
         </p>
       </div>
     </div>
