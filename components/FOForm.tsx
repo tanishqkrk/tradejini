@@ -265,11 +265,7 @@ export default function FOForm({
                 quantity,
             ),
             exc_id: crypto.randomUUID(),
-            dispSymbol: symbolNameConverter(
-              selectedSymbol,
-              cepe,
-              selectedPrice,
-            ),
+            dispSymbol: selectedSymbol,
             // symbols[selectedSymbol].id.split("_")[1] +
             // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
             //   "-",
