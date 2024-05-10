@@ -247,8 +247,7 @@ export default function FOForm({
       if (
         !added.find(
           (x) =>
-            x.dispSymbol ===
-            symbolNameConverter(selectedSymbol, cepe, selectedPrice),
+            x.dispSymbol ===selectedSymbol,
         )
       ) {
         setAdded((x) => [
@@ -265,7 +264,7 @@ export default function FOForm({
                 quantity,
             ),
             exc_id: crypto.randomUUID(),
-            dispSymbol: selectedSymbol,
+            dispSymbol: `${selectedSymbol} ${product==="futures"?"FUT": selectedPrice + cepe}`,
             // symbols[selectedSymbol].id.split("_")[1] +
             // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
             //   "-",
