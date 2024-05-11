@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 import {
+  CommonAPIResponse,
   FuturesAPIResponse,
   NSEAPIResponse,
 } from "../app/(types)/APIResponseTypes";
@@ -123,6 +124,10 @@ export default function FOForm({
       benefit: 0.0,
       multi: 0.0,
     });
+    setQuery("");
+    setResults({} as CommonAPIResponse);
+    setSelectedPrice(0);
+    setSelectedSymbol(undefined);
   }, [product]);
   const [type, setType] = useState<"buy" | "sell">("buy");
 
@@ -319,7 +324,7 @@ export default function FOForm({
                   }}
                 />
               </div>
-              {query !== "" && dropdown && (
+              {query !== "" && dropdown && Object.keys(results).length > 0 && (
                 <div className="absolute h-64 w-96 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
                   {Object.keys(results)
                     .filter((_, idx) => idx < 20)
@@ -359,7 +364,7 @@ export default function FOForm({
                       id=""
                       onChange={(e) => setSelectedPrice(Number(e.target.value))}
                     >
-                      {symbols[selectedSymbol].strikePrices.map(
+                      {symbols[selectedSymbol].strikePrices?.map(
                         (item: number) => (
                           <option value={item} key={item}>
                             {item}
