@@ -522,10 +522,11 @@ export default function FOForm({
           Reset All
         </button>
       </div>
-      <div className="w-[90vw]   overflow-auto rounded-xl max-h-[80vh]">
-        <table className="table   bg-zinc-800 dark:bg-white    rounded-xl">
+      <div className="w-[90vw] overflow-x-auto  rounded-xl max-h-[80vh]">
+        <table className="table  bg-zinc-800 dark:bg-white    rounded-xl">
           <thead className="bg-[#1A6A55] rounded-xl text-white border-radius sticky top-0">
             <tr className="divide-x-2 divide-gray-300 rounded-xl">
+              <th className="min-w-14 py-4"></th>
               <th className="min-w-48 py-4">Exchange</th>
               <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
               <th className="min-w-48 py-4 rounded-tl-lg">Strike</th>
@@ -534,27 +535,29 @@ export default function FOForm({
               <th className="min-w-48 py-4">Span</th>
               <th className="min-w-48 py-4">Exposure</th>
               <th className="min-w-48 py-4">Total</th>
-              <th className="min-w-48 py-4 rounded-tr-lg">Action</th>
             </tr>
           </thead>
           <tbody>
             {marginData.map((x) => (
-              <tr>
-                <td className="p-6 text-center flex flex-row items-center justify-center gap-x-4">
-                  <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
+              <tr key={x.dispSymbol} className="">
+                <td className="w-14 grid place-items-center">
                   <button
                     onClick={() => {
                       setAdded((a) =>
                         a.filter((y) => y.dispSymbol !== x.dispSymbol),
                       );
                     }}
+                    className="w-5 py-6 border-none"
                   >
                     <img
                       src="/delete.svg"
-                      className="invert-0 dark:invert"
+                      className="invert-0 h-[1.5em] dark:invert"
                       alt=""
                     />
                   </button>
+                </td>
+                <td className="p-6 text-center">
+                  <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
                 </td>
                 <td className="p-6 text-center">
                   {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
@@ -563,7 +566,7 @@ export default function FOForm({
                   {x.dispSymbol.split(" ")[2]}
                 </td>
                 <td
-                  className={`p-6 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-800 p-2 text-green-200 rounded-lg" : "p-2 text-red-200 rounded-lg"}`}
+                  className={`p-6 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
                 >
                   {Number(x.netqty) / x.lotSize}
                 </td>
