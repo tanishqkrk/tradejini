@@ -69,7 +69,9 @@ export default function FOForm({
 
   const [query, setQuery] = useState("");
 
-  const [results, setResults] = useState<NSEAPIResponse | FuturesAPIResponse>();
+  const [results, setResults] = useState<NSEAPIResponse | FuturesAPIResponse>(
+    symbols,
+  );
 
   const [selectedSymbol, setSelectedSymbol] = useState<string | undefined>(
     undefined,
