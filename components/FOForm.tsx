@@ -113,6 +113,17 @@ export default function FOForm({
     (searchParams.get("type") as "futures" | "options") || "futures",
   );
 
+  useEffect(() => {
+    setAdded([]);
+    setMarginData([]);
+    setTotals({
+      span: 0.0,
+      exposure: 0.0,
+      total: 0.0,
+      benefit: 0.0,
+      multi: 0.0,
+    });
+  }, [product]);
   const [type, setType] = useState<"buy" | "sell">("buy");
 
   const [added, setAdded] = useState<
