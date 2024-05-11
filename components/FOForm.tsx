@@ -66,33 +66,6 @@ export default function FOForm({
     [searchParams],
   );
 
-  function symbolNameConverter(
-    selectedSymbol: string,
-    cepe: string,
-    strikePrice: number,
-  ) {
-    const [year, monthIndex, day] = symbols[selectedSymbol].id
-      .split("_")[3]
-      .split("-");
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const monthName = monthNames[Number(monthIndex) - 1].toUpperCase();
-    const formattedDay = String(day).padStart(2, "0");
-    return `${symbols[selectedSymbol].id.split("_")[1]}${formattedDay}${monthName}${year.slice(-2)}${cepe[0]}${strikePrice}`;
-  }
-
   const [query, setQuery] = useState("");
 
   const [results, setResults] = useState<NSEAPIResponse | FuturesAPIResponse>();
@@ -244,12 +217,7 @@ export default function FOForm({
 
   function addItem() {
     if (selectedSymbol) {
-      if (
-        !added.find(
-          (x) =>
-            x.dispSymbol ===selectedSymbol,
-        )
-      ) {
+      if (!added.find((x) => x.dispSymbol === selectedSymbol)) {
         setAdded((x) => [
           ...x,
           {
@@ -264,7 +232,7 @@ export default function FOForm({
                 quantity,
             ),
             exc_id: crypto.randomUUID(),
-            dispSymbol: `${selectedSymbol} ${product==="futures"?"FUT": selectedPrice + cepe}`,
+            dispSymbol: `${selectedSymbol} ${product === "futures" ? "FUT" : selectedPrice + cepe}`,
             // symbols[selectedSymbol].id.split("_")[1] +
             // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
             //   "-",
@@ -540,11 +508,10 @@ export default function FOForm({
         <table className="table   bg-zinc-800 dark:bg-white    rounded-xl">
           <thead className="bg-[#1A6A55] rounded-xl text-white border-radius sticky top-0">
             <tr className="divide-x-2 divide-gray-300 rounded-xl">
-              <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
               <th className="min-w-48 py-4">Exchange</th>
-              <th className="min-w-48 py-4">No. of Lots</th>
-              <th className="min-w-48 py-4">Lot size</th>
-              <th className="min-w-48 py-4">Status</th>
+              <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
+              <th className="min-w-48 py-4 rounded-tl-lg">Strike</th>
+              <th className="min-w-48 py-4">Quantity</th>
               <th className="min-w-48 py-4">Instrument</th>
               <th className="min-w-48 py-4">Span</th>
               <th className="min-w-48 py-4">Exposure</th>
@@ -555,30 +522,8 @@ export default function FOForm({
           <tbody>
             {marginData.map((x) => (
               <tr>
-                <td className="p-6 text-center">{x.dispSymbol}</td>
-                <td className="p-6 text-center">{x.exch}</td>
-                <td className="p-6 text-center">
-                  {Math.abs(Number(x.netqty) / x.lotSize)}
-                </td>
-                <td className="p-6 text-center">{x.lotSize}</td>
-                <td className={`  p-6 text-center `}>
-                  <div
-                    className={`${Number(x.netqty) > 0 ? "bg-green-900 dark:bg-green-400 dark:text-green-800 p-2 dark:border-green-800 border-green-200 border-2 text-green-200 rounded-lg" : "bg-red-900 p-2 border-red-200 border-2 text-red-200 rounded-lg"}`}
-                  >
-                    {Number(x.netqty) > 0 ? "BUY" : "SELL"}
-                  </div>
-                </td>
-                <td className="p-6 text-center">{x.instname}</td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.span))}
-                </td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.expo))}
-                </td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.span) + Number(x.expo))}
-                </td>
-                <td className="p-6 text-center">
+                <td className="p-6 text-center flex flex-row items-center justify-center gap-x-4">
+                  <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
                   <button
                     onClick={() => {
                       setAdded((a) =>
@@ -593,6 +538,29 @@ export default function FOForm({
                     />
                   </button>
                 </td>
+                <td className="p-6 text-center">
+                  {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
+                </td>
+                <td className="p-6 text-center">
+                  {x.dispSymbol.split(" ")[2]}
+                </td>
+                <td
+                  className={`p-6 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-800 p-2 text-green-200 rounded-lg" : "p-2 text-red-200 rounded-lg"}`}
+                >
+                  {Number(x.netqty) / x.lotSize}
+                </td>
+                <td className="p-6 text-center">
+                  {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
+                </td>
+                <td className="p-6 text-center">
+                  {formatter.format(Number(x.span))}
+                </td>
+                <td className="p-6 text-center">
+                  {formatter.format(Number(x.expo))}
+                </td>
+                <td className="p-6 text-center">
+                  {formatter.format(Number(x.span) + Number(x.expo))}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -600,7 +568,7 @@ export default function FOForm({
       </div>
       <div className="flex flex-row justify-end items-end w-ful w-full">
         <p>
-          Total Margin :
+          Grand Total:
           <span className="text-green-800 font-bold">
             {formatter.format(totals.total)}
           </span>
