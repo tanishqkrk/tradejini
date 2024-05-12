@@ -282,10 +282,10 @@ export default function FOForm({
   });
 
   return (
-    <div className="px-12 flex items-center justify-between flex-col gap-5">
+    <div className="px-12 flex items-center justify-between flex-col">
       <div className="flex items-center justify-between w-full">
-        <div className="w-1/2 flex flex-col gap-12">
-          <div className="flex items-center gap-12">
+        <div className="w-1/2 flex flex-col gap-x-12 gap-y-5">
+          <div className="flex items-center gap-x-12">
             <div className="flex flex-col gap-1 items-start">
               <span>Product</span>
 
@@ -352,7 +352,7 @@ export default function FOForm({
             </div>
           </div>
           {product === "options" && (
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-x-12">
               <div className="w-72 flex  flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
                 <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
@@ -408,7 +408,7 @@ export default function FOForm({
               </div>
             </div>
           )}
-          <div className="flex items-center justify-between">
+          <div className="flex items-end justify-between">
             <div className="flex flex-col gap-1 items-start w-96">
               <span className="flex  justify-between items-center w-full">
                 <p className="w-fit">Net Quantity</p>{" "}
@@ -502,12 +502,13 @@ export default function FOForm({
           </div>
         </div>
       </div>
-      <div className="flex gap-3 justify-start items-center w-full">
+      <div className="flex gap-3 justify-start items-center w-full mb-4">
         <button
+          disabled={selectedSymbol === undefined || quantity === 0}
           onClick={() => {
             addItem();
           }}
-          className="bg-[#19AC63] p-3 rounded-lg w-28 text-black dark:text-white"
+          className="bg-[#19AC63] p-3 rounded-lg w-28 text-black dark:text-white disabled:bg-gray-500 disabled:cursor-no"
         >
           Add
         </button>
@@ -561,7 +562,9 @@ export default function FOForm({
                   {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
                 </td>
                 <td className="p-6 text-center">
-                  {x.dispSymbol.split(" ")[2]}
+                  {x.instname.slice(0, 3) === "OPT"
+                    ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
+                    : "N/A"}
                 </td>
                 <td
                   className={`p-6 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
@@ -587,7 +590,7 @@ export default function FOForm({
       </div>
       <div className="flex flex-row justify-end items-end w-ful w-full">
         <p>
-          Grand Total:
+          Grand Total: &nbsp;{" "}
           <span className="text-green-800 font-bold">
             {formatter.format(totals.total)}
           </span>
