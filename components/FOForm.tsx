@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   CommonAPIResponse,
   FuturesAPIResponse,
