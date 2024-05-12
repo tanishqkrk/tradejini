@@ -116,8 +116,6 @@ export default function FOForm({
   );
 
   useEffect(() => {
-    setAdded([]);
-    setMarginData([]);
     setTotals({
       span: 0.0,
       exposure: 0.0,
