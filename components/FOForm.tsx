@@ -77,7 +77,9 @@ export default function FOForm({
   );
   const [dropdown, setDropdown] = useState(false);
 
-  const [selectedPrice, setSelectedPrice] = useState(0);
+  const [selectedPrice, setSelectedPrice] = useState<number | undefined>(
+    undefined,
+  );
 
   const [cepe, setcepe] = useState<"CE" | "PE">("CE");
 
@@ -335,7 +337,13 @@ export default function FOForm({
                           setQuery(symbol);
                           setSelectedSymbol(symbol);
                           if (product === "options")
-                            setSelectedPrice(symbols[symbol].strikePrices[0]);
+                            setSelectedPrice(
+                              symbols[symbol].strikePrices[
+                                Math.floor(
+                                  symbols[symbol].strikePrices.length / 2,
+                                )
+                              ],
+                            );
                         }}
                         style={{}}
                         className="flex cursor-pointer items-center justify-between  "
@@ -356,7 +364,7 @@ export default function FOForm({
               <div className="w-72 flex  flex-col gap-1 items-start relative">
                 <span>Strike Price</span>
                 <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
-                  {selectedSymbol ? (
+                  {selectedSymbol && selectedPrice !== undefined && (
                     <select
                       name="strikeprice"
                       className="z-[99999999] p-2  rounded-lg border-2 border-black  w-72 bg-zinc-800 relative dark:bg-white dark:text-black"
@@ -371,14 +379,6 @@ export default function FOForm({
                           </option>
                         ),
                       )}
-                    </select>
-                  ) : (
-                    <select
-                      name="strikeprice"
-                      className="z-[99999999] p-2  rounded-lg border-2 border-black w-72  bg-zinc-800 relative dark:bg-white dark:text-black"
-                      id=""
-                    >
-                      <option value="Loading"></option>
                     </select>
                   )}
                 </div>
