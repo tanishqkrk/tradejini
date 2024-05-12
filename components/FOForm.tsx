@@ -262,6 +262,7 @@ export default function FOForm({
           },
         ]);
         setSelectedPrice(0);
+        setQuantity(0);
         setSelectedSymbol(undefined);
         setQuery("");
       } else {
