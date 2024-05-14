@@ -284,13 +284,12 @@ export default function FOForm({
   });
 
   return (
-    <div className="px-12 flex items-center justify-between flex-col">
+    <div className="pl-12 flex items-center justify-between flex-col">
       <div className="flex items-center justify-between w-full gap-x-20">
-        <div className="w-1/2 flex flex-col gap-x-12 gap-y-5">
+        <div className="w-[40%] flex flex-col gap-x-12 gap-y-5">
           <div className="flex items-center gap-x-12">
             <div className="flex flex-col gap-1 items-start">
-              <span>Product</span>
-
+              <span className="text-gray-500 font-semibold">Product</span>
               <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
                 <select
                   value={product}
@@ -314,7 +313,9 @@ export default function FOForm({
               </div>
             </div>
             <div className="flex flex-col gap-1 items-start relative">
-              <span>Select Symbols</span>
+              <span className="text-gray-500 font-semibold">
+                Select Symbols
+              </span>
               <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
                 <input
                   className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
@@ -327,7 +328,7 @@ export default function FOForm({
                 />
               </div>
               {query !== "" && dropdown && Object.keys(results).length > 0 && (
-                <div className="absolute h-64 w-96 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
+                <div className="absolute h-64 w-72 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
                   {Object.keys(results)
                     .filter((_, idx) => idx < 20)
                     .map((symbol) => (
@@ -360,9 +361,11 @@ export default function FOForm({
             </div>
           </div>
           {product === "options" && (
-            <div className="flex items-center gap-x-12">
+            <div className="flex items-end gap-x-12">
               <div className="w-72 flex  flex-col gap-1 items-start relative">
-                <span>Strike Price</span>
+                <span className="text-gray-500 font-semibold">
+                  Strike Price
+                </span>
                 <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
                   {selectedSymbol && selectedPrice !== undefined ? (
                     <select
@@ -387,48 +390,71 @@ export default function FOForm({
                   )}
                 </div>
               </div>
-              <div className="">
-                <div className=" flex w-full flex-col gap-1 items-start relative">
-                  <span>Option Type</span>
-                  <div className="flex cursor-pointer justify-between">
-                    <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
-                      <select
-                        value={cepe}
-                        onChange={(e) => {
-                          setcepe(e.target.value as typeof cepe);
-                        }}
-                        className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black  bg-zinc-800 relative dark:bg-white dark:text-black "
-                      >
-                        <option className="" value="CE">
-                          CE
-                        </option>
-                        <option className="" value="PE">
-                          PE
-                        </option>
-                      </select>
-                    </div>
-                  </div>
+              <div className="flex flex-col gap-1">
+                <p className="w-fit text-gray-500 font-semibold">Option Type</p>
+
+                <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
+                  <label
+                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${cepe === "CE" && "bg-blue-200 text-blue-500  border-blue-500"}`}
+                    htmlFor="ce"
+                  >
+                    CE
+                  </label>
+                  <label
+                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${cepe === "PE" && "bg-blue-200 text-blue-500  border-blue-500"}`}
+                    htmlFor="pe"
+                  >
+                    PE
+                  </label>
+                </div>
+                <div className="hidden">
+                  <input
+                    onChange={() => {
+                      setcepe("CE");
+                    }}
+                    value={"CE"}
+                    type="radio"
+                    id="ce"
+                    name="cepe"
+                  />
+                </div>
+                <div className="hidden">
+                  <input
+                    onChange={(_) => {
+                      setcepe("PE");
+                    }}
+                    value={"PE"}
+                    type="radio"
+                    id="pe"
+                    name="cepe"
+                  />
                 </div>
               </div>
             </div>
           )}
-          <div className="flex items-end justify-between">
-            <div className="flex flex-col gap-1 items-start w-96">
+          <div className="flex items-end justify-start gap-x-12">
+            <div className="flex flex-col gap-1 items-start w-72">
               <span className="flex  justify-between items-center w-full">
-                <p className="w-fit">Net Quantity</p>{" "}
+                <p className="w-fit text-gray-500 font-semibold">Quantity</p>
                 <p className="bg-gray-200 border-2 p-1 rounded-lg text-sm w-fit border-green-700 text-green-700">
                   Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                 </p>
               </span>
-              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+              <div className="relative w-full h-full p-[2px] rounded-lg items-center justify-between flex flex-row gap-x-3">
                 <input
-                  className="z-[99999999] p-2 w-full rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  className="z-[99999999] p-2 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black w-3/4"
                   type="number"
                   value={quantity === 0 ? "" : quantity}
                   onChange={(e) => {
                     setQuantity(parseInt(e.target.value));
                   }}
                 />
+                <p className="text-nowrap font-semibold">
+                  {selectedSymbol && quantity > 0
+                    ? (quantity / symbols[selectedSymbol].lot).toFixed(2) +
+                      " Lots"
+                    : ""}
+                </p>
               </div>
             </div>
             <div className="">
@@ -470,39 +496,6 @@ export default function FOForm({
               </div>
             </div>
           </div>
-          <div className="">
-            <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-2xl">
-              <div className="text-green-400 font-bold border-b-2 border-gray-200 p-5">
-                Required Margin
-              </div>
-              <div className="p-5 grid grid-cols-3 gap-4">
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
-                  <div className="text-[#8b8b8b] text-xl">Span Margin</div>
-                  <div className="text-green-600 font-semibold">
-                    {formatter.format(totals.span)}
-                  </div>
-                </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
-                  <div className="text-[#8b8b8b] text-xl">Exposure Margin</div>
-                  <div className="text-green-600 font-semibold">
-                    {formatter.format(totals.exposure)}
-                  </div>
-                </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
-                  <div className="text-[#8b8b8b] text-xl">Total margin</div>
-                  <div className="text-green-600 font-semibold">
-                    {formatter.format(totals.multi)}
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between items-center bg-[#145243] p-5 rounded-b-lg">
-                <div className="text-white font-semibold">Margin Benefit</div>
-                <div className="text-green-600 font-semibold">
-                  {formatter.format(totals.benefit)}
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="flex gap-3 justify-start items-center w-full mb-4">
             <button
               disabled={selectedSymbol === undefined || quantity === 0}
@@ -522,20 +515,53 @@ export default function FOForm({
               Reset All
             </button>
           </div>
+          <div className="">
+            <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-2xl">
+              <div className="text-gray-400 font-bold px-5 pt-4">
+                Required Margin
+              </div>
+              <div className="px-5 py-3 grid grid-cols-3 gap-4">
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Span Margin</div>
+                  <div className="text-green-600 text-2xl font-semibold">
+                    {formatter.format(totals.span)}
+                  </div>
+                </div>
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Exposure Margin</div>
+                  <div className="text-green-600 text-2xl font-semibold">
+                    {formatter.format(totals.exposure)}
+                  </div>
+                </div>
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Total Margin</div>
+                  <div className="text-green-600 text-2xl font-semibold">
+                    {formatter.format(totals.multi)}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center bg-[#145243] p-5 rounded-b-lg">
+                <div className="text-white font-semibold">Margin Benefit</div>
+                <div className="text-green-600 text-xl font-semibold">
+                  {formatter.format(totals.benefit)}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="w-1/2 overflow-x-auto  rounded-xl max-h-[80vh]">
-          <table className="bg-zinc-800 dark:bg-white rounded-l-xl flex flex-row items-center justify-start border-gray-200 border-2">
-            <thead className="bg-[#1A6A55] rounded-l-xl text-white border-radius sticky top-0 flex flex-col">
-              <tr className="rounded-l-xl flex flex-col">
-                <th className="min-w-48 py-4">Action</th>
-                <th className="min-w-48 py-4">Exchange</th>
-                <th className="min-w-48 py-4">Symbol</th>
-                <th className="min-w-48 py-4">Strike</th>
-                <th className="min-w-48 py-4">Quantity</th>
-                <th className="min-w-48 py-4">Instrument</th>
-                <th className="min-w-48 py-4">Span</th>
-                <th className="min-w-48 py-4">Exposure</th>
-                <th className="min-w-48 py-4">Total</th>
+        <div className="w-[55%] overflow-x-auto  rounded-xl max-h-[80vh]">
+          <table className="bg-zinc-800 dark:bg-white rounded-l-3xl flex flex-row items-center justify-start border-gray-200 border-2">
+            <thead className="bg-[#1A6A55] rounded-l-3xl text-white border-radius sticky top-0 flex flex-col">
+              <tr className="rounded-l-3xl font-normal flex flex-col">
+                <th className="min-w-48 font-normal py-4">Action</th>
+                <th className="min-w-48 font-normal py-4">Exchange</th>
+                <th className="min-w-48 font-normal py-4">Symbol</th>
+                <th className="min-w-48 font-normal py-4">Strike</th>
+                <th className="min-w-48 font-normal py-4">Quantity</th>
+                <th className="min-w-48 font-normal py-4">Instrument</th>
+                <th className="min-w-48 font-normal py-4">Span</th>
+                <th className="min-w-48 font-normal py-4">Exposure</th>
+                <th className="min-w-48 font-normal py-4">Total</th>
               </tr>
             </thead>
             <tbody className="flex flex-row divide-x divide-x-gray-200 border-r border-r-gray-200">
@@ -560,47 +586,44 @@ export default function FOForm({
                       />
                     </button>
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {x.instname.slice(0, 3) === "OPT"
                       ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
                       : "N/A"}
                   </td>
                   <td
-                    className={`p-4 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
+                    className={`p-4 px-8 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
                   >
                     {Number(x.netqty) / x.lotSize}
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {formatter.format(Number(x.span))}
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {formatter.format(Number(x.expo))}
                   </td>
-                  <td className="p-4 text-center">
+                  <td className="p-4 px-8 text-center">
                     {formatter.format(Number(x.span) + Number(x.expo))}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div className="flex pt-5 pr-6 flex-row justify-end items-end">
+            <p className="p-5 bg-[#cee9e2] font-semibold text-[#276654] text-2xl rounded-xl">
+              Total Margin: &nbsp; {formatter.format(totals.total)}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-row justify-end items-end w-ful w-full">
-        <p>
-          Grand Total: &nbsp;{" "}
-          <span className="text-green-800 font-bold">
-            {formatter.format(totals.total)}
-          </span>
-        </p>
       </div>
     </div>
   );
