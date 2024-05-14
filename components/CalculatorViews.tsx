@@ -19,7 +19,7 @@ export default function CalculatorViews({
       <div className="flex justify-center items-center gap-12">
         <button
           className={`${
-            view === 0 && "bg-[#19AC63] text-white"
+            view === 0 ? "bg-[#19AC63] text-white" : "text-green-500"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(0);
@@ -29,7 +29,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 1 && "bg-[#19AC63] text-white"
+            view === 1 ? "bg-[#19AC63] text-white" : "text-green-500"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(1);
@@ -39,7 +39,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 2 && "bg-[#19AC63] text-white"
+            view === 2 ? "bg-[#19AC63] text-white" : "text-green-500"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(2);
@@ -49,7 +49,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 3 && "bg-[#19AC63] text-white"
+            view === 3 ? "bg-[#19AC63] text-white" : "text-green-500"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(3);
@@ -59,7 +59,7 @@ export default function CalculatorViews({
         </button>
         <button
           className={`${
-            view === 4 && "bg-[#19AC63] text-white"
+            view === 4 ? "bg-[#19AC63] text-white" : "text-green-500"
           } p-3 rounded-lg font-semibold transition-all duration-150`}
           onClick={() => {
             setView(4);
