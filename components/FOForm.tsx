@@ -285,7 +285,7 @@ export default function FOForm({
 
   return (
     <div className="px-12 flex items-center justify-between flex-col">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full gap-x-20">
         <div className="w-1/2 flex flex-col gap-x-12 gap-y-5">
           <div className="flex items-center gap-x-12">
             <div className="flex flex-col gap-1 items-start">
@@ -470,127 +470,129 @@ export default function FOForm({
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="w-1/2 p-12">
-          <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-lg">
-            <div className="text-green-400 font-bold border-b-2 border-gray-200 p-5">
-              Required Margin
-            </div>
-            <div className="p-5 flex flex-col gap-4">
-              <div className="flex justify-between items-center w-full">
-                <div>Span margin</div>
-                <div className="text-green-800 font-bold">
-                  {formatter.format(totals.span)}
+          <div className="">
+            <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-2xl">
+              <div className="text-green-400 font-bold border-b-2 border-gray-200 p-5">
+                Required Margin
+              </div>
+              <div className="p-5 grid grid-cols-3 gap-4">
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Span Margin</div>
+                  <div className="text-green-600 font-semibold">
+                    {formatter.format(totals.span)}
+                  </div>
+                </div>
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Exposure Margin</div>
+                  <div className="text-green-600 font-semibold">
+                    {formatter.format(totals.exposure)}
+                  </div>
+                </div>
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                  <div className="text-[#8b8b8b] text-xl">Total margin</div>
+                  <div className="text-green-600 font-semibold">
+                    {formatter.format(totals.multi)}
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center w-full">
-                <div>Exposure margin</div>
-                <div className="text-green-800 font-bold">
-                  {formatter.format(totals.exposure)}
+              <div className="flex justify-between items-center bg-[#145243] p-5 rounded-b-lg">
+                <div className="text-white font-semibold">Margin Benefit</div>
+                <div className="text-green-600 font-semibold">
+                  {formatter.format(totals.benefit)}
                 </div>
-              </div>
-              <div className="flex justify-between items-center w-full">
-                <div>Total margin</div>
-                <div className="text-green-800 font-bold">
-                  {formatter.format(totals.multi)}
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-between items-center bg-green-800 p-5 rounded-b-lg">
-              <div className="text-white">Margin Benefit</div>
-              <div className="text-green-300 font-semibold">
-                {formatter.format(totals.benefit)}
               </div>
             </div>
           </div>
+          <div className="flex gap-3 justify-start items-center w-full mb-4">
+            <button
+              disabled={selectedSymbol === undefined || quantity === 0}
+              onClick={() => {
+                addItem();
+              }}
+              className="bg-[#19AC63] p-3 rounded-lg w-28 text-black dark:text-white disabled:bg-gray-500 disabled:cursor-no"
+            >
+              Add
+            </button>
+            <button
+              onClick={() => {
+                window.location.reload();
+              }}
+              className="bg-zinc-800 p-3 rounded-lg w-28 dark:text-white"
+            >
+              Reset All
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-3 justify-start items-center w-full mb-4">
-        <button
-          disabled={selectedSymbol === undefined || quantity === 0}
-          onClick={() => {
-            addItem();
-          }}
-          className="bg-[#19AC63] p-3 rounded-lg w-28 text-black dark:text-white disabled:bg-gray-500 disabled:cursor-no"
-        >
-          Add
-        </button>
-        <button
-          onClick={() => {
-            window.location.reload();
-          }}
-          className="bg-zinc-800 p-3 rounded-lg w-28 dark:text-white"
-        >
-          Reset All
-        </button>
-      </div>
-      <div className="w-[90vw] overflow-x-auto  rounded-xl max-h-[80vh]">
-        <table className="table  bg-zinc-800 dark:bg-white    rounded-xl">
-          <thead className="bg-[#1A6A55] rounded-xl text-white border-radius sticky top-0">
-            <tr className="divide-x-2 divide-gray-300 rounded-xl">
-              <th className="min-w-14 py-4"></th>
-              <th className="min-w-48 py-4">Exchange</th>
-              <th className="min-w-48 py-4 rounded-tl-lg">Symbol</th>
-              <th className="min-w-48 py-4 rounded-tl-lg">Strike</th>
-              <th className="min-w-48 py-4">Quantity</th>
-              <th className="min-w-48 py-4">Instrument</th>
-              <th className="min-w-48 py-4">Span</th>
-              <th className="min-w-48 py-4">Exposure</th>
-              <th className="min-w-48 py-4">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {marginData.map((x) => (
-              <tr key={x.dispSymbol} className="">
-                <td className="w-14 grid place-items-center">
-                  <button
-                    onClick={() => {
-                      setAdded((a) =>
-                        a.filter((y) => y.dispSymbol !== x.dispSymbol),
-                      );
-                    }}
-                    className="w-5 py-6 border-none"
-                  >
-                    <img
-                      src="/delete.svg"
-                      className="invert-0 h-[1.5em] dark:invert"
-                      alt=""
-                    />
-                  </button>
-                </td>
-                <td className="p-6 text-center">
-                  <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
-                </td>
-                <td className="p-6 text-center">
-                  {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
-                </td>
-                <td className="p-6 text-center">
-                  {x.instname.slice(0, 3) === "OPT"
-                    ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
-                    : "N/A"}
-                </td>
-                <td
-                  className={`p-6 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
-                >
-                  {Number(x.netqty) / x.lotSize}
-                </td>
-                <td className="p-6 text-center">
-                  {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
-                </td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.span))}
-                </td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.expo))}
-                </td>
-                <td className="p-6 text-center">
-                  {formatter.format(Number(x.span) + Number(x.expo))}
-                </td>
+        <div className="w-1/2 overflow-x-auto  rounded-xl max-h-[80vh]">
+          <table className="bg-zinc-800 dark:bg-white rounded-l-xl flex flex-row items-center justify-start border-gray-200 border-2">
+            <thead className="bg-[#1A6A55] rounded-l-xl text-white border-radius sticky top-0 flex flex-col">
+              <tr className="rounded-l-xl flex flex-col">
+                <th className="min-w-48 py-4">Action</th>
+                <th className="min-w-48 py-4">Exchange</th>
+                <th className="min-w-48 py-4">Symbol</th>
+                <th className="min-w-48 py-4">Strike</th>
+                <th className="min-w-48 py-4">Quantity</th>
+                <th className="min-w-48 py-4">Instrument</th>
+                <th className="min-w-48 py-4">Span</th>
+                <th className="min-w-48 py-4">Exposure</th>
+                <th className="min-w-48 py-4">Total</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="flex flex-row divide-x divide-x-gray-200 border-r border-r-gray-200">
+              {marginData.map((x) => (
+                <tr
+                  key={x.dispSymbol}
+                  className="flex flex-col divide-y divide-x-gray-200"
+                >
+                  <td className="grid place-items-center">
+                    <button
+                      onClick={() => {
+                        setAdded((a) =>
+                          a.filter((y) => y.dispSymbol !== x.dispSymbol),
+                        );
+                      }}
+                      className="w-5 py-3 border-none"
+                    >
+                      <img
+                        src="/delete.svg"
+                        className="invert-0 h-[1.5em] dark:invert"
+                        alt=""
+                      />
+                    </button>
+                  </td>
+                  <td className="p-4 text-center">
+                    <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
+                  </td>
+                  <td className="p-4 text-center">
+                    {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
+                  </td>
+                  <td className="p-4 text-center">
+                    {x.instname.slice(0, 3) === "OPT"
+                      ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
+                      : "N/A"}
+                  </td>
+                  <td
+                    className={`p-4 text-center font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
+                  >
+                    {Number(x.netqty) / x.lotSize}
+                  </td>
+                  <td className="p-4 text-center">
+                    {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
+                  </td>
+                  <td className="p-4 text-center">
+                    {formatter.format(Number(x.span))}
+                  </td>
+                  <td className="p-4 text-center">
+                    {formatter.format(Number(x.expo))}
+                  </td>
+                  <td className="p-4 text-center">
+                    {formatter.format(Number(x.span) + Number(x.expo))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="flex flex-row justify-end items-end w-ful w-full">
         <p>
