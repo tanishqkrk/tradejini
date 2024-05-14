@@ -8,7 +8,7 @@ export function ThemeSwitcher() {
   return (
     <div>
       <Toggle
-        className="toggle-hehe"
+        className="toggle-hehe mr-5"
         icons={{
           checked: <SunIcon />,
           unchecked: <MoonIcon />,
