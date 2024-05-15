@@ -391,7 +391,7 @@ export default function FOForm({
               <div className="flex flex-col gap-1">
                 <p className="w-fit font-semibold text-gray-500">Option Type</p>
 
-                <div className="flex w-48  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
+                <div className="flex h-fit  w-48 cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
                     className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center  font-semibold transition-all duration-150  ${cepe === "CE" && "border-blue-500 bg-blue-200  text-blue-500"}`}
                     htmlFor="ce"
