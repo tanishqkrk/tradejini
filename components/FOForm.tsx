@@ -282,13 +282,13 @@ export default function FOForm({
   });
 
   return (
-    <div className="pl-12 flex items-center justify-between flex-col mt-8">
-      <div className="flex items-center justify-between w-full gap-x-20">
-        <div className="w-[45%] flex flex-col gap-x-12 gap-y-5">
+    <div className="mt-8 flex flex-col items-center justify-between pl-12">
+      <div className="grid w-full grid-cols-2 gap-x-20">
+        <div className="flex h-full min-h-full flex-col justify-between gap-x-12 gap-y-5">
           <div className="flex items-center gap-x-12">
-            <div className="flex flex-col gap-1 items-start">
-              <span className="text-gray-500 font-semibold">Product</span>
-              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+            <div className="flex flex-col items-start gap-1">
+              <span className="font-semibold text-gray-500">Product</span>
+              <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
                 <select
                   value={product}
                   onChange={(e) => {
@@ -299,7 +299,7 @@ export default function FOForm({
                     );
                     setProduct(e.target.value as "futures" | "options");
                   }}
-                  className=" z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  className=" relative z-[99999999] w-72 rounded-lg border-2 border-black   bg-zinc-800 p-2 dark:bg-white dark:text-black "
                 >
                   <option className="" value="futures">
                     Futures
@@ -310,13 +310,13 @@ export default function FOForm({
                 </select>
               </div>
             </div>
-            <div className="flex flex-col gap-1 items-start relative">
-              <span className="text-gray-500 font-semibold">
+            <div className="relative flex flex-col items-start gap-1">
+              <span className="font-semibold text-gray-500">
                 Select Symbols
               </span>
-              <div className="relative w-full h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+              <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
                 <input
-                  className="z-[99999999] p-2 w-72 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black "
+                  className="relative z-[99999999] w-72 rounded-lg border-2 border-black   bg-zinc-800 p-2 dark:bg-white dark:text-black "
                   type="text"
                   value={query}
                   onChange={(e) => {
@@ -326,7 +326,7 @@ export default function FOForm({
                 />
               </div>
               {query !== "" && dropdown && Object.keys(results).length > 0 && (
-                <div className="absolute h-64 w-72 overflow-y-scroll bg-zinc-800 text-white dark:text-black dark:bg-white border-2  rounded-lg top-[110%] dropdown shadow-lg p-3 z-[999999999999] ">
+                <div className="dropdown absolute top-[110%] z-[999999999999] h-64 w-72 overflow-y-scroll rounded-lg border-2  bg-zinc-800 p-3 text-white shadow-lg dark:bg-white dark:text-black ">
                   {Object.keys(results)
                     .filter((_, idx) => idx < 20)
                     .map((symbol) => (
@@ -360,15 +360,15 @@ export default function FOForm({
           </div>
           {product === "options" && (
             <div className="flex items-end gap-x-12">
-              <div className="w-72 flex  flex-col gap-1 items-start relative">
-                <span className="text-gray-500 font-semibold">
+              <div className="relative flex w-72 flex-col items-start gap-1">
+                <span className="font-semibold text-gray-500">
                   Strike Price
                 </span>
-                <div className="relative w-fit h-full  bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] rounded-lg dark:to-zinc-300 dark:from-zinc-400">
+                <div className="relative h-full w-fit  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
                   {selectedSymbol && selectedPrice !== undefined ? (
                     <select
                       name="strikeprice"
-                      className="z-[99999999] p-2  rounded-lg border-2 border-black  w-72 bg-zinc-800 relative dark:bg-white dark:text-black"
+                      className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
                       value={selectedPrice}
                       id=""
                       onChange={(e) => setSelectedPrice(Number(e.target.value))}
@@ -382,24 +382,24 @@ export default function FOForm({
                       )}
                     </select>
                   ) : (
-                    <select className="z-[99999999] p-2  rounded-lg border-2 border-black  w-72 bg-zinc-800 relative dark:bg-white dark:text-black">
+                    <select className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-zinc-800 p-2 dark:bg-white dark:text-black">
                       <option value="" hidden></option>
                     </select>
                   )}
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="w-fit text-gray-500 font-semibold">Option Type</p>
+                <p className="w-fit font-semibold text-gray-500">Option Type</p>
 
-                <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
+                <div className="flex w-48  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
-                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${cepe === "CE" && "bg-blue-200 text-blue-500  border-blue-500"}`}
+                    className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center  font-semibold transition-all duration-150  ${cepe === "CE" && "border-blue-500 bg-blue-200  text-blue-500"}`}
                     htmlFor="ce"
                   >
                     CE
                   </label>
                   <label
-                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${cepe === "PE" && "bg-blue-200 text-blue-500  border-blue-500"}`}
+                    className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center font-semibold transition-all duration-150   ${cepe === "PE" && "border-blue-500 bg-blue-200  text-blue-500"}`}
                     htmlFor="pe"
                   >
                     PE
@@ -431,25 +431,25 @@ export default function FOForm({
             </div>
           )}
           <div className="flex items-end justify-start gap-x-12">
-            <div className="flex flex-col gap-1 justify-end w-72">
-              <span className="flex  justify-between items-end w-full">
-                <p className="w-fit text-gray-500 font-semibold">No. Of Lots</p>
+            <div className="flex w-72 flex-col justify-end gap-1">
+              <span className="flex  w-full items-end justify-between">
+                <p className="w-fit font-semibold text-gray-500">No. Of Lots</p>
               </span>
-              <div className="relative w-full h-full p-[2px] rounded-lg items-center justify-between flex flex-row gap-x-3">
+              <div className="relative flex h-full w-72 flex-row items-center justify-between gap-x-3 rounded-lg p-[2px]">
                 <input
-                  className="z-[99999999] p-2 py-3 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black w-full"
+                  className="relative z-[99999999] w-full rounded-lg border-2 border-black   bg-zinc-800 p-2 py-3 dark:bg-white dark:text-black"
                   type="number"
                   value={lots === 0 ? "" : lots}
                   onChange={(e) => {
                     setLots(parseInt(e.target.value));
                   }}
                 />
-                <div className="flex flex-col gap-1 font-semibold items-end">
-                  <p className="bg-gray-200 text-nowrap border-2 p-1 rounded-lg text-[10px] w-fit border-green-700 text-green-700">
+                <div className="flex w-20 max-w-20 flex-col items-end gap-1 overflow-ellipsis font-semibold">
+                  <p className="w-20 max-w-20 overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
                     Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                   </p>
 
-                  <p className="bg-gray-200 text-nowrap border-2 p-1 rounded-lg text-[10px] w-fit border-green-700 text-green-700">
+                  <p className="w-20 overflow-hidden overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
                     Net Qty.:{" "}
                     {selectedSymbol && lots > 0
                       ? lots * symbols[selectedSymbol].lot
@@ -460,15 +460,15 @@ export default function FOForm({
             </div>
             <div className="flex flex-row items-end gap-x-4">
               <div className="">
-                <div className="flex cursor-pointer  rounded-full  border-2 border-gray-300 w-48 justify-between">
+                <div className="flex w-48  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
-                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2  border-2 border-transparent font-semibold  ${type === "buy" && "bg-green-200 text-green-700  border-green-700"}`}
+                    className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center  font-semibold transition-all duration-150  ${type === "buy" && "border-green-700 bg-green-200  text-green-700"}`}
                     htmlFor="buy"
                   >
                     Buy
                   </label>
                   <label
-                    className={`transition-all duration-150 w-1/2 text-center rounded-full p-2 border-2 border-transparent font-semibold   ${type === "sell" && "bg-red-200 text-red-700  border-red-700"}`}
+                    className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center font-semibold transition-all duration-150   ${type === "sell" && "border-red-700 bg-red-200  text-red-700"}`}
                     htmlFor="sell"
                   >
                     Sell
@@ -497,13 +497,13 @@ export default function FOForm({
                   />
                 </div>
               </div>
-              <div className="flex gap-3 justify-start items-end w-full">
+              <div className="flex w-full items-end justify-start gap-3">
                 <button
                   disabled={selectedSymbol === undefined || lots === 0}
                   onClick={() => {
                     addItem();
                   }}
-                  className="bg-[#19AC63] p-3 rounded-lg w-24 text-black dark:text-white disabled:bg-gray-500 disabled:cursor-no"
+                  className="disabled:cursor-no w-24 rounded-lg bg-[#19AC63] p-3 text-black disabled:bg-gray-500 dark:text-white"
                 >
                   Add
                 </button>
@@ -511,7 +511,7 @@ export default function FOForm({
                   onClick={() => {
                     window.location.reload();
                   }}
-                  className="bg-zinc-800 p-3 rounded-lg w-24 dark:text-white"
+                  className="w-24 rounded-lg bg-zinc-800 p-3 dark:text-white"
                 >
                   Reset All
                 </button>
@@ -519,61 +519,61 @@ export default function FOForm({
             </div>
           </div>
           <div className="mt-5 w-fit">
-            <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-2xl">
-              <div className="text-gray-400 font-bold px-5 pt-4">
+            <div className="flex flex-col gap-3 rounded-xl border-2 border-gray-200">
+              <div className="px-5 pt-4 font-bold text-gray-400">
                 Required Margin
               </div>
-              <div className="px-5 py-3 grid grid-cols-3 gap-4">
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
-                  <div className="text-[#8b8b8b] text-xl">Span Margin</div>
-                  <div className="text-green-600 text-xl font-semibold">
+              <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3 lg:text-lg 2xl:text-xl">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Span Margin</div>
+                  <div className=" font-semibold text-green-600">
                     {formatter.format(totals.span)}
                   </div>
                 </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
-                  <div className="text-[#8b8b8b] text-xl">Exposure Margin</div>
-                  <div className="text-green-600 text-xl font-semibold">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Exposure Margin</div>
+                  <div className=" font-semibold text-green-600">
                     {formatter.format(totals.exposure)}
                   </div>
                 </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
-                  <div className="text-[#8b8b8b] text-xl">Total Margin</div>
-                  <div className="text-green-600 text-xl font-semibold">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Total Margin</div>
+                  <div className=" font-semibold text-green-600">
                     {formatter.format(totals.multi)}
                   </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center bg-[#145243] p-5 rounded-b-lg">
-                <div className="text-white text-xl font-semibold">
+              <div className="flex items-center justify-between rounded-b-xl bg-[#145243] p-5">
+                <div className="text-xl font-semibold text-white">
                   Margin Benefit
                 </div>
-                <div className="text-green-600 text-2xl font-semibold">
+                <div className="text-2xl font-semibold text-green-600">
                   {formatter.format(totals.benefit)}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="w-[55%] rounded-xl max-h-[80vh]">
-          <table className="bg-zinc-800 dark:bg-white rounded-l-3xl flex flex-row items-center justify-start border-gray-200 border-2 max-w-[60vw] overflow-x-auto">
-            <thead className="bg-[#1A6A55] rounded-l-3xl text-white border-radius sticky top-0 left-0 flex flex-col z-30">
-              <tr className="rounded-l-3xl font-normal flex flex-col">
-                <th className="min-w-48 font-normal py-4">Action</th>
-                <th className="min-w-48 font-normal py-4">Exchange</th>
-                <th className="min-w-48 font-normal py-4">Symbol</th>
-                <th className="min-w-48 font-normal py-4">Strike</th>
-                <th className="min-w-48 font-normal py-4">Lots</th>
-                <th className="min-w-48 font-normal py-4">Instrument</th>
-                <th className="min-w-48 font-normal py-4">Span</th>
-                <th className="min-w-48 font-normal py-4">Exposure</th>
-                <th className="min-w-48 font-normal py-4">Total</th>
+        <div className="max-h-[80vh] rounded-xl">
+          <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-2 border-gray-200 bg-zinc-800 dark:bg-white">
+            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-[#1A6A55] text-white">
+              <tr className="flex flex-col rounded-l-3xl font-normal">
+                <th className="min-w-48 py-4 font-normal">Action</th>
+                <th className="min-w-48 py-4 font-normal">Exchange</th>
+                <th className="min-w-48 py-4 font-normal">Symbol</th>
+                <th className="min-w-48 py-4 font-normal">Strike</th>
+                <th className="min-w-48 py-4 font-normal">Lots</th>
+                <th className="min-w-48 py-4 font-normal">Instrument</th>
+                <th className="min-w-48 py-4 font-normal">Span</th>
+                <th className="min-w-48 py-4 font-normal">Exposure</th>
+                <th className="min-w-48 py-4 font-normal">Total</th>
               </tr>
             </thead>
-            <tbody className="flex flex-row divide-x divide-x-gray-200 border-r border-r-gray-200">
+            <tbody className="divide-x-gray-200 flex flex-row divide-x border-r border-r-gray-200">
               {marginData.map((x) => (
                 <tr
                   key={x.dispSymbol}
-                  className="flex flex-col divide-y divide-x-gray-200"
+                  className="divide-x-gray-200 flex flex-col divide-y"
                 >
                   <td className="grid place-items-center">
                     <button
@@ -582,49 +582,49 @@ export default function FOForm({
                           a.filter((y) => y.dispSymbol !== x.dispSymbol),
                         );
                       }}
-                      className="w-5 py-3 border-none"
+                      className="w-5 border-none py-3"
                     >
                       <img
                         src="/delete.svg"
-                        className="invert-0 h-[1.5em] dark:invert"
+                        className="h-[1.5em] invert-0 dark:invert"
                         alt=""
                       />
                     </button>
                   </td>
-                  <td className="p-4 px-8 text-nowrap text-center">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
                   </td>
-                  <td className="p-4 px-8 text-nowrap text-center">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
                   </td>
-                  <td className="p-4 px-8 text-nowrap text-center">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {x.instname.slice(0, 3) === "OPT"
                       ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
                       : "N/A"}
                   </td>
                   <td
-                    className={`p-4 px-8 text-center text-nowrap font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400" : "p-2 text-red-400 dark:text-red-700"}`}
+                    className={`text-nowrap p-4 px-8 text-center font-bold ${Number(x.netqty) > 0 ? "p-2 text-green-400 dark:text-green-700" : "p-2 text-red-400 dark:text-red-700"}`}
                   >
                     {Number(x.netqty) / x.lotSize}
                   </td>
-                  <td className="p-4 px-8 text-center text-nowrap">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
                   </td>
-                  <td className="p-4 px-8 text-center text-nowrap">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {formatter.format(Number(x.span))}
                   </td>
-                  <td className="p-4 px-8 text-center text-nowrap">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {formatter.format(Number(x.expo))}
                   </td>
-                  <td className="p-4 px-8 text-center text-nowrap">
+                  <td className="text-nowrap p-4 px-8 text-center">
                     {formatter.format(Number(x.span) + Number(x.expo))}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex pt-5 pr-6 flex-row justify-end items-end">
-            <p className="p-5 bg-[#cee9e2] font-semibold text-[#276654] text-xl rounded-xl">
+          <div className="flex flex-row items-end justify-end pr-14 pt-5">
+            <p className="rounded-xl bg-[#cee9e2] p-5 text-xl font-semibold text-[#276654]">
               Total Margin: &nbsp; {formatter.format(totals.total)}
             </p>
           </div>
