@@ -5,7 +5,8 @@ export default function Navbar() {
     <header className=" py-4 p-3">
       <div className="relative w-full h-full p-[1px] rounded-2xl">
         <div className="flex justify-between items-center px-10 rounded-2xl py-6">
-          <img src="/logo.svg" className="w-36" alt="" />
+          <img src="/logo_long.svg" className="w-36 dark:hidden block" alt="" />
+          <img src="/logo.svg" className="w-36 dark:block hidden" alt="" />
           <div className="rounded-full bg-[#19ad63] py-1 px-0.5 flex flex-row gap-x-4">
             <Link
               className="rounded-full bg-white text-black px-5 py-3 shadow-2xl"
