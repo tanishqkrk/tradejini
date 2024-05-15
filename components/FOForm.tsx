@@ -282,9 +282,9 @@ export default function FOForm({
   });
 
   return (
-    <div className="pl-12 flex items-center justify-between flex-col mt-5">
+    <div className="pl-12 flex items-center justify-between flex-col mt-8">
       <div className="flex items-center justify-between w-full gap-x-20">
-        <div className="w-[40%] flex flex-col gap-x-12 gap-y-5">
+        <div className="w-[45%] flex flex-col gap-x-12 gap-y-5">
           <div className="flex items-center gap-x-12">
             <div className="flex flex-col gap-1 items-start">
               <span className="text-gray-500 font-semibold">Product</span>
@@ -431,27 +431,31 @@ export default function FOForm({
             </div>
           )}
           <div className="flex items-end justify-start gap-x-12">
-            <div className="flex flex-col gap-1 items-start w-72">
-              <span className="flex  justify-between items-center w-full">
+            <div className="flex flex-col gap-1 justify-end w-72">
+              <span className="flex  justify-between items-end w-full">
                 <p className="w-fit text-gray-500 font-semibold">No. Of Lots</p>
-                <p className="bg-gray-200 border-2 p-1 rounded-lg text-sm w-fit border-green-700 text-green-700">
-                  Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
-                </p>
               </span>
               <div className="relative w-full h-full p-[2px] rounded-lg items-center justify-between flex flex-row gap-x-3">
                 <input
-                  className="z-[99999999] p-2 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black w-3/4"
+                  className="z-[99999999] p-2 py-3 rounded-lg border-2 border-black   bg-zinc-800 relative dark:bg-white dark:text-black w-full"
                   type="number"
                   value={lots === 0 ? "" : lots}
                   onChange={(e) => {
                     setLots(parseInt(e.target.value));
                   }}
                 />
-                <p className="text-nowrap font-semibold">
-                  {selectedSymbol && lots > 0
-                    ? lots * symbols[selectedSymbol].lot
-                    : ""}
-                </p>
+                <div className="flex flex-col gap-1 font-semibold items-end">
+                  <p className="bg-gray-200 text-nowrap border-2 p-1 rounded-lg text-[10px] w-fit border-green-700 text-green-700">
+                    Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
+                  </p>
+
+                  <p className="bg-gray-200 text-nowrap border-2 p-1 rounded-lg text-[10px] w-fit border-green-700 text-green-700">
+                    Net Qty.:{" "}
+                    {selectedSymbol && lots > 0
+                      ? lots * symbols[selectedSymbol].lot
+                      : ""}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="flex flex-row items-end gap-x-4">
@@ -514,25 +518,25 @@ export default function FOForm({
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="mt-5 w-fit">
             <div className="flex flex-col gap-3 border-2 border-gray-200 rounded-2xl">
               <div className="text-gray-400 font-bold px-5 pt-4">
                 Required Margin
               </div>
               <div className="px-5 py-3 grid grid-cols-3 gap-4">
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
                   <div className="text-[#8b8b8b] text-xl">Span Margin</div>
                   <div className="text-green-600 text-xl font-semibold">
                     {formatter.format(totals.span)}
                   </div>
                 </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
                   <div className="text-[#8b8b8b] text-xl">Exposure Margin</div>
                   <div className="text-green-600 text-xl font-semibold">
                     {formatter.format(totals.exposure)}
                   </div>
                 </div>
-                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6">
+                <div className="text-center bg-[#f6f6f6] rounded-xl border-[#e5e5e5] border-2 w-full py-6 px-6">
                   <div className="text-[#8b8b8b] text-xl">Total Margin</div>
                   <div className="text-green-600 text-xl font-semibold">
                     {formatter.format(totals.multi)}
@@ -599,7 +603,7 @@ export default function FOForm({
                       : "N/A"}
                   </td>
                   <td
-                    className={`p-4 px-8 text-center text-nowrap font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400 rounded-lg" : "p-2 text-red-400 dark:text-red-700 rounded-lg"}`}
+                    className={`p-4 px-8 text-center text-nowrap font-bold ${Number(x.netqty) > 0 ? "dark:text-green-700 p-2 text-green-400" : "p-2 text-red-400 dark:text-red-700"}`}
                   >
                     {Number(x.netqty) / x.lotSize}
                   </td>
