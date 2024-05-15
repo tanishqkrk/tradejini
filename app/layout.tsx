@@ -16,10 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html className="dark" lang="en">
-      <Navbar />
       <body
         className={`${inter.className} bg-black text-white dark:text-black dark:bg-white`}
       >
+        <Navbar />
+
         {children}
       </body>
     </html>
