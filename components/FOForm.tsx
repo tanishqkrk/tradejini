@@ -435,21 +435,21 @@ export default function FOForm({
               <span className="flex  w-full items-end justify-between">
                 <p className="w-fit font-semibold text-gray-500">No. Of Lots</p>
               </span>
-              <div className="relative flex h-full w-72 flex-row items-center justify-between gap-x-3 rounded-lg p-[2px]">
+              <div className="relative flex h-full w-full flex-row items-center justify-between gap-x-3 rounded-lg p-[2px]">
                 <input
-                  className="relative z-[99999999] w-full rounded-lg border-2 border-black   bg-zinc-800 p-2 py-3 dark:bg-white dark:text-black"
+                  className="relative z-[99999999] w-1/2 rounded-lg border-2 border-black   bg-zinc-800 p-2 py-3 dark:bg-white dark:text-black"
                   type="number"
                   value={lots === 0 ? "" : lots}
                   onChange={(e) => {
                     setLots(parseInt(e.target.value));
                   }}
                 />
-                <div className="flex w-20 max-w-20 flex-col items-end gap-1 overflow-ellipsis font-semibold">
-                  <p className="w-20 max-w-20 overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
+                <div className="flex w-1/2 flex-col items-end gap-1 overflow-ellipsis font-semibold">
+                  <p className="w-full overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
                     Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                   </p>
 
-                  <p className="w-20 overflow-hidden overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
+                  <p className="w-full overflow-hidden overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
                     Net Qty.:{" "}
                     {selectedSymbol && lots > 0
                       ? lots * symbols[selectedSymbol].lot
@@ -458,7 +458,7 @@ export default function FOForm({
                 </div>
               </div>
             </div>
-            <div className="flex flex-row items-end gap-x-4">
+            <div className="flex flex-row items-end gap-x-7">
               <div className="">
                 <div className="flex w-48  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
@@ -511,9 +511,13 @@ export default function FOForm({
                   onClick={() => {
                     window.location.reload();
                   }}
-                  className="w-24 rounded-lg bg-zinc-800 p-3 dark:text-white"
+                  className="rounded-lg bg-zinc-800 p-3 dark:text-white"
                 >
-                  Reset All
+                  <img
+                    src="reset.png"
+                    alt=""
+                    className="h-[1.5em] dark:invert"
+                  />
                 </button>
               </div>
             </div>
@@ -523,7 +527,7 @@ export default function FOForm({
               <div className="px-5 pt-4 font-bold text-gray-400">
                 Required Margin
               </div>
-              <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3 lg:text-lg 2xl:text-xl">
+              <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
                 <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
                   <div className=" text-[#8b8b8b]">Span Margin</div>
                   <div className=" font-semibold text-green-600">
@@ -547,7 +551,7 @@ export default function FOForm({
                 <div className="text-xl font-semibold text-white">
                   Margin Benefit
                 </div>
-                <div className="text-2xl font-semibold text-green-600">
+                <div className="text-2xl font-semibold text-white">
                   {formatter.format(totals.benefit)}
                 </div>
               </div>
