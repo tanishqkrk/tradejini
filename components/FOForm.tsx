@@ -7,6 +7,7 @@ import {
   NSEAPIResponse,
 } from "../app/(types)/APIResponseTypes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Select from "react-select";
 
 type MarginData = {
   dispQty: string;
@@ -114,7 +115,7 @@ export default function FOForm({
   // }, [selectedSymbol]);
 
   const [product, setProduct] = useState<"futures" | "options">(
-    (searchParams.get("type") as "futures" | "options") || "futures",
+    (searchParams.get("type") as "futures" | "options") || "options",
   );
 
   useEffect(() => {
@@ -261,10 +262,6 @@ export default function FOForm({
             optt: cepe.toUpperCase(),
           },
         ]);
-        setSelectedPrice(0);
-        setLots(0);
-        setSelectedSymbol(undefined);
-        setQuery("");
       } else {
         alert("SELECT A DIFFERENT SYMBOL");
       }
@@ -315,8 +312,35 @@ export default function FOForm({
                 Select Symbols
               </span>
               <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
+                <Select
+                  styles={{
+                    control: (provided, state) => ({
+                      ...provided,
+                      borderRadius: "0.5rem",
+                      border: "2px solid",
+                      borderColor: "black",
+                      backgroundColor: "white",
+                    }),
+                  }}
+                  className="hidden rounded-lg border-2   border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
+                  onChange={(symbol) => {
+                    setSelectedSymbol(symbol.value);
+                    if (product === "options")
+                      setSelectedPrice(
+                        symbols[symbol.value].strikePrices[
+                          Math.floor(
+                            symbols[symbol.value].strikePrices.length / 2,
+                          )
+                        ],
+                      );
+                  }}
+                  options={Object.keys(symbols).map((item) => ({
+                    label: item,
+                    value: item,
+                  }))}
+                />
                 <input
-                  className="relative z-[99999999] w-72 rounded-lg border-2 border-black   bg-zinc-800 p-2 dark:bg-white dark:text-black "
+                  className="relative z-[99999999] w-72 rounded-lg border-2   border-black bg-zinc-800 p-2 dark:bg-white dark:text-black "
                   type="text"
                   value={query}
                   onChange={(e) => {
@@ -507,61 +531,69 @@ export default function FOForm({
                 >
                   Add
                 </button>
+
                 <button
                   onClick={() => {
-                    window.location.reload();
+                    setSelectedPrice(0);
+                    setLots(0);
+                    setSelectedSymbol(undefined);
+                    setQuery("");
                   }}
-                  className="rounded-lg bg-zinc-800 p-3 dark:text-white"
+                  className="disabled:cursor-no w-24 rounded-lg bg-red-500 p-3 text-black disabled:bg-gray-500 dark:text-white"
                 >
-                  <img
-                    src="reset.png"
-                    alt=""
-                    className="h-[1.5em] dark:invert"
-                  />
+                  Clear
                 </button>
               </div>
             </div>
           </div>
-          <div className="mt-5 w-fit">
-            <div className="flex flex-col gap-3 rounded-xl border-2 border-gray-200">
-              <div className="px-5 pt-4 font-bold text-gray-400">
-                Required Margin
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                  <div className=" text-[#8b8b8b]">Span Margin</div>
-                  <div className=" font-semibold text-green-600">
-                    {formatter.format(totals.span)}
+          <div className="mt-5 flex w-full flex-row items-end gap-x-3">
+            <div className="w-[80%]">
+              <div className="flex flex-col gap-3 rounded-xl border-2 border-gray-200">
+                <div className="px-5 pt-4 font-bold text-gray-400">
+                  Required Margin
+                </div>
+                <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
+                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                    <div className=" text-[#8b8b8b]">Span Margin</div>
+                    <div className=" font-semibold text-green-600">
+                      {formatter.format(totals.span)}
+                    </div>
+                  </div>
+                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                    <div className=" text-[#8b8b8b]">Exposure Margin</div>
+                    <div className=" font-semibold text-green-600">
+                      {formatter.format(totals.exposure)}
+                    </div>
+                  </div>
+                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                    <div className=" text-[#8b8b8b]">Total Margin</div>
+                    <div className=" font-semibold text-green-600">
+                      {formatter.format(totals.multi)}
+                    </div>
                   </div>
                 </div>
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                  <div className=" text-[#8b8b8b]">Exposure Margin</div>
-                  <div className=" font-semibold text-green-600">
-                    {formatter.format(totals.exposure)}
+                <div className="flex items-center justify-between rounded-b-xl bg-[#cee9e2] p-5 text-[#276654]">
+                  <div className="text-xl font-semibold">Margin Benefit</div>
+                  <div className="text-2xl font-semibold">
+                    {formatter.format(totals.benefit)}
                   </div>
-                </div>
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                  <div className=" text-[#8b8b8b]">Total Margin</div>
-                  <div className=" font-semibold text-green-600">
-                    {formatter.format(totals.multi)}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between rounded-b-xl bg-[#145243] p-5">
-                <div className="text-xl font-semibold text-white">
-                  Margin Benefit
-                </div>
-                <div className="text-2xl font-semibold text-white">
-                  {formatter.format(totals.benefit)}
                 </div>
               </div>
             </div>
+            <button
+              onClick={() => {
+                window.location.reload();
+              }}
+              className="rounded-lg bg-zinc-800 p-3 dark:text-white"
+            >
+              <img src="reset.png" alt="" className="h-[1.5em] dark:invert" />
+            </button>
           </div>
         </div>
         <div className="max-h-[80vh] rounded-xl">
           <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-2 border-gray-200 bg-zinc-800 dark:bg-white">
-            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-[#1A6A55] text-white">
-              <tr className="flex flex-col rounded-l-3xl font-normal">
+            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-gray-600 text-white/80 dark:bg-[#f6f6f6] dark:text-[#8b8b8b]">
+              <tr className="divide-y-gray-200 flex flex-col divide-y rounded-l-3xl border-r border-r-gray-200 font-normal">
                 <th className="min-w-48 py-4 font-normal">Action</th>
                 <th className="min-w-48 py-4 font-normal">Exchange</th>
                 <th className="min-w-48 py-4 font-normal">Symbol</th>
@@ -573,7 +605,7 @@ export default function FOForm({
                 <th className="min-w-48 py-4 font-normal">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-x-gray-200 flex flex-row divide-x border-r border-r-gray-200">
+            <tbody className="divide-x-green-200 flex flex-row divide-x border-r border-r-gray-200">
               {marginData.map((x) => (
                 <tr
                   key={x.dispSymbol}
@@ -590,7 +622,7 @@ export default function FOForm({
                     >
                       <img
                         src="/delete.svg"
-                        className="h-[1.5em] invert-0 dark:invert"
+                        className="h-[1.9em] invert-0 dark:invert"
                         alt=""
                       />
                     </button>
