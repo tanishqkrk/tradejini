@@ -316,13 +316,37 @@ export default function FOForm({
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
-                      borderRadius: "0.5rem",
-                      border: "2px solid",
-                      borderColor: "black",
-                      backgroundColor: "white",
+                      backgroundColor: "transparent", // Transparent background
+                      border: "1px solid rgba(0, 0, 0, 0.2)", // Thin border for visibility
+                      borderRadius: "md", // Adjust as needed
+                      boxShadow: "none", // Remove default shadow
+                      "&:hover": {
+                        borderColor: "rgba(0, 0, 0, 0.4)", // Slightly darker border on hover
+                      },
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: "black", // Black option color
+                      backgroundColor: state.isSelected
+                        ? "blue-500"
+                        : "transparent", // Selected & non-selected background
+                      paddingX: "1rem", // Adjust padding as needed
+                      paddingY: "0.5rem", // Adjust padding as needed
+                    }),
+                    input: (provided) => ({
+                      ...provided,
+                      color: "black", // Black input text color
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      color: "gray-400", // Grayish placeholder text color (optional)
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor: "white", // Adjust menu background if needed
+                      boxShadow: "sm", // Add a subtle shadow for separation
                     }),
                   }}
-                  className="hidden rounded-lg border-2   border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
                   onChange={(symbol) => {
                     setSelectedSymbol(symbol.value);
                     if (product === "options")
@@ -338,9 +362,10 @@ export default function FOForm({
                     label: item,
                     value: item,
                   }))}
+                  className="hidden"
                 />
                 <input
-                  className="relative z-[99999999] w-72 rounded-lg border-2   border-black bg-zinc-800 p-2 dark:bg-white dark:text-black "
+                  className="relative z-[99999999] w-72 rounded-lg   border-2 border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
                   type="text"
                   value={query}
                   onChange={(e) => {
@@ -521,7 +546,7 @@ export default function FOForm({
                   />
                 </div>
               </div>
-              <div className="flex w-full items-end justify-start gap-3">
+              <div className="flex w-full flex-col-reverse items-end justify-start gap-3">
                 <button
                   disabled={selectedSymbol === undefined || lots === 0}
                   onClick={() => {
