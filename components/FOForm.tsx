@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import {
   CommonAPIResponse,
   FuturesAPIResponse,
@@ -277,11 +277,69 @@ export default function FOForm({
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+  const [hoverIdx, setHoverIdx] = useState(-1);
+  const hoverIdxRef = useRef(-1);
+  useEffect(() => {
+    hoverIdxRef.current = hoverIdx;
+  }, [hoverIdx]);
+  function keyDownEvent(evt: KeyboardEvent) {
+    if (evt.code === "ArrowDown") {
+      setHoverIdx((old) => (old + 1) % 10);
+    } else if (evt.code === "ArrowUp") {
+      setHoverIdx((old) => {
+        if (old === 0) {
+          return 9;
+        } else {
+          return old - 1;
+        }
+      });
+    } else if (evt.code === "Enter") {
+      console.log(hoverIdxRef.current);
+      const results = Object.keys(symbols)
+        .filter((key) => key.toLowerCase().includes(query.toLowerCase()))
+        .reduce(
+          (obj, key) => ({ ...obj, [key]: symbols[key] }),
+          {} as NSEAPIResponse | FuturesAPIResponse,
+        );
 
+      console.log(results);
+      const symbol = Object.keys(results)[hoverIdxRef.current];
+      console.log(symbol);
+      setQuery(symbol);
+      setSelectedSymbol(symbol);
+      if (product === "options")
+        setSelectedPrice(
+          symbols[symbol].strikePrices[
+            Math.floor(symbols[symbol].strikePrices.length / 2)
+          ],
+        );
+      setDropdown(false);
+    } else if (evt.code === "Escape") {
+      setDropdown(false);
+      setQuery("");
+    }
+  }
+
+  useEffect(() => {
+    if (dropdown) {
+      setHoverIdx(0);
+      document.addEventListener("keydown", keyDownEvent);
+    } else {
+      document.removeEventListener("keydown", keyDownEvent);
+    }
+    return () => {
+      document.removeEventListener("keydown", keyDownEvent);
+    };
+  }, [dropdown]);
   return (
-    <div className="mt-8 flex flex-col items-center justify-between pl-12">
-      <div className="grid w-full grid-cols-2 gap-x-20">
-        <div className="flex h-full min-h-full flex-col justify-between gap-x-12 gap-y-5">
+    <div
+      onClick={(_) => {
+        setDropdown(false);
+      }}
+      className="mt-8 flex flex-col items-center justify-between pl-12"
+    >
+      <div className="flex w-full flex-row justify-between gap-x-20">
+        <div className="flex h-full min-h-full w-[40%] flex-col justify-between gap-x-12 gap-y-5">
           <div className="flex items-center gap-x-12">
             <div className="flex flex-col items-start gap-1">
               <span className="font-semibold text-gray-500">Product</span>
@@ -312,58 +370,6 @@ export default function FOForm({
                 Select Symbols
               </span>
               <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
-                <Select
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      backgroundColor: "transparent", // Transparent background
-                      border: "1px solid rgba(0, 0, 0, 0.2)", // Thin border for visibility
-                      borderRadius: "md", // Adjust as needed
-                      boxShadow: "none", // Remove default shadow
-                      "&:hover": {
-                        borderColor: "rgba(0, 0, 0, 0.4)", // Slightly darker border on hover
-                      },
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: "black", // Black option color
-                      backgroundColor: state.isSelected
-                        ? "blue-500"
-                        : "transparent", // Selected & non-selected background
-                      paddingX: "1rem", // Adjust padding as needed
-                      paddingY: "0.5rem", // Adjust padding as needed
-                    }),
-                    input: (provided) => ({
-                      ...provided,
-                      color: "black", // Black input text color
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      color: "gray-400", // Grayish placeholder text color (optional)
-                    }),
-                    menu: (provided) => ({
-                      ...provided,
-                      backgroundColor: "white", // Adjust menu background if needed
-                      boxShadow: "sm", // Add a subtle shadow for separation
-                    }),
-                  }}
-                  onChange={(symbol) => {
-                    setSelectedSymbol(symbol.value);
-                    if (product === "options")
-                      setSelectedPrice(
-                        symbols[symbol.value].strikePrices[
-                          Math.floor(
-                            symbols[symbol.value].strikePrices.length / 2,
-                          )
-                        ],
-                      );
-                  }}
-                  options={Object.keys(symbols).map((item) => ({
-                    label: item,
-                    value: item,
-                  }))}
-                  className="hidden"
-                />
                 <input
                   className="relative z-[99999999] w-72 rounded-lg   border-2 border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
                   type="text"
@@ -377,8 +383,8 @@ export default function FOForm({
               {query !== "" && dropdown && Object.keys(results).length > 0 && (
                 <div className="dropdown absolute top-[110%] z-[999999999999] h-64 w-72 overflow-y-scroll rounded-lg border-2  bg-zinc-800 p-3 text-white shadow-lg dark:bg-white dark:text-black ">
                   {Object.keys(results)
-                    .filter((_, idx) => idx < 20)
-                    .map((symbol) => (
+                    .filter((_, idx) => idx < 10)
+                    .map((symbol, idx) => (
                       <div
                         onClick={() => {
                           setDropdown(false);
@@ -394,7 +400,7 @@ export default function FOForm({
                             );
                         }}
                         style={{}}
-                        className="flex cursor-pointer items-center justify-between  "
+                        className={`flex cursor-pointer items-center justify-between ${hoverIdx === idx ? "bg-blue-500" : ""}`}
                         key={symbol}
                       >
                         <p className="">{symbol}</p>
@@ -484,16 +490,18 @@ export default function FOForm({
               <span className="flex  w-full items-end justify-between">
                 <p className="w-fit font-semibold text-gray-500">No. Of Lots</p>
               </span>
-              <div className="relative flex h-full w-full flex-row items-center justify-between gap-x-3 rounded-lg p-[2px]">
-                <input
-                  className="relative z-[99999999] w-1/2 rounded-lg border-2 border-black   bg-zinc-800 p-2 py-3 dark:bg-white dark:text-black"
-                  type="number"
-                  value={lots === 0 ? "" : lots}
-                  onChange={(e) => {
-                    setLots(parseInt(e.target.value));
-                  }}
-                />
-                <div className="flex w-1/2 flex-col items-end gap-1 overflow-ellipsis font-semibold">
+              <div className="relative flex h-full w-full flex-row items-center justify-between gap-x-3 rounded-lg dark:text-black">
+                <div className="w-36 rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400  dark:to-zinc-300">
+                  <input
+                    className="relative z-[99999999] w-36 rounded-lg border-2 border-black  bg-zinc-800  p-2 py-3 dark:bg-white "
+                    type="number"
+                    value={lots === 0 ? "" : lots}
+                    onChange={(e) => {
+                      setLots(parseInt(e.target.value));
+                    }}
+                  />
+                </div>
+                <div className="flex w-36 flex-col items-end gap-1 overflow-ellipsis font-semibold">
                   <p className="w-full overflow-ellipsis text-nowrap rounded-lg border-2 border-green-700 bg-gray-200 p-1 text-[10px] text-green-700">
                     Lot Size: {selectedSymbol ? symbols[selectedSymbol].lot : 0}
                   </p>
@@ -571,9 +579,9 @@ export default function FOForm({
               </div>
             </div>
           </div>
-          <div className="mt-5 flex w-full flex-row items-end gap-x-3">
-            <div className="w-[80%]">
-              <div className="flex flex-col gap-3 rounded-xl border-2 border-gray-200">
+          <div className="mt-5 flex w-full min-w-full flex-row items-end gap-x-3">
+            <div className="w-full">
+              <div className="flex w-full flex-col gap-3 rounded-xl border-2 border-gray-200">
                 <div className="px-5 pt-4 font-bold text-gray-400">
                   Required Margin
                 </div>
@@ -609,15 +617,15 @@ export default function FOForm({
               onClick={() => {
                 window.location.reload();
               }}
-              className="rounded-lg bg-zinc-800 p-3 dark:text-white"
+              className="rounded-lg bg-white p-3 dark:bg-zinc-800 dark:text-white"
             >
               <img src="reset.png" alt="" className="h-[1.5em] dark:invert" />
             </button>
           </div>
         </div>
-        <div className="max-h-[80vh] rounded-xl">
-          <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-2 border-gray-200 bg-zinc-800 dark:bg-white">
-            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-gray-600 text-white/80 dark:bg-[#f6f6f6] dark:text-[#8b8b8b]">
+        <div className="max-h-[80vh] w-[50%] rounded-xl">
+          <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 bg-black dark:bg-white">
+            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-white/5 text-white/80 dark:bg-[#f6f6f6] dark:text-[#8b8b8b]">
               <tr className="divide-y-gray-200 flex flex-col divide-y rounded-l-3xl border-r border-r-gray-200 font-normal">
                 <th className="min-w-48 py-4 font-normal">Action</th>
                 <th className="min-w-48 py-4 font-normal">Exchange</th>
