@@ -354,7 +354,7 @@ export default function FOForm({
                     );
                     setProduct(e.target.value as "futures" | "options");
                   }}
-                  className=" relative z-[99999999] w-72 rounded-lg border-2 border-black   bg-zinc-800 p-2 dark:bg-white dark:text-black "
+                  className=" relative z-[99999999] w-72 rounded-lg border-2 border-black   bg-black p-2 dark:bg-white dark:text-black "
                 >
                   <option className="" value="futures">
                     Futures
@@ -371,7 +371,7 @@ export default function FOForm({
               </span>
               <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
                 <input
-                  className="relative z-[99999999] w-72 rounded-lg   border-2 border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
+                  className="relative z-[99999999] w-72 rounded-lg   border-2 border-black bg-black p-2 dark:bg-white dark:text-black"
                   type="text"
                   value={query}
                   onChange={(e) => {
@@ -423,7 +423,7 @@ export default function FOForm({
                   {selectedSymbol && selectedPrice !== undefined ? (
                     <select
                       name="strikeprice"
-                      className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-zinc-800 p-2 dark:bg-white dark:text-black"
+                      className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-black p-2 dark:bg-white dark:text-black"
                       value={selectedPrice}
                       id=""
                       onChange={(e) => setSelectedPrice(Number(e.target.value))}
@@ -437,7 +437,7 @@ export default function FOForm({
                       )}
                     </select>
                   ) : (
-                    <select className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-zinc-800 p-2 dark:bg-white dark:text-black">
+                    <select className="relative z-[99999999]  w-72 rounded-lg border-2  border-black bg-black p-2 dark:bg-white dark:text-black">
                       <option value="" hidden></option>
                     </select>
                   )}
@@ -491,9 +491,9 @@ export default function FOForm({
                 <p className="w-fit font-semibold text-gray-500">No. Of Lots</p>
               </span>
               <div className="relative flex h-full w-full flex-row items-center justify-between gap-x-3 rounded-lg dark:text-black">
-                <div className="w-36 rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400  dark:to-zinc-300">
+                <div className="w-full rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400  dark:to-zinc-300">
                   <input
-                    className="relative z-[99999999] w-36 rounded-lg border-2 border-black  bg-zinc-800  p-2 py-3 dark:bg-white "
+                    className="relative z-[99999999] w-full rounded-lg border-2 border-black  bg-black  p-2 py-3 dark:bg-white "
                     type="number"
                     value={lots === 0 ? "" : lots}
                     onChange={(e) => {
@@ -579,37 +579,35 @@ export default function FOForm({
               </div>
             </div>
           </div>
-          <div className="mt-5 flex w-full min-w-full flex-row items-end gap-x-3">
-            <div className="w-full">
-              <div className="flex w-full flex-col gap-3 rounded-xl border-2 border-gray-200">
-                <div className="px-5 pt-4 font-bold text-gray-400">
-                  Required Margin
-                </div>
-                <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
-                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                    <div className=" text-[#8b8b8b]">Span Margin</div>
-                    <div className=" font-semibold text-green-600">
-                      {formatter.format(totals.span)}
-                    </div>
-                  </div>
-                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                    <div className=" text-[#8b8b8b]">Exposure Margin</div>
-                    <div className=" font-semibold text-green-600">
-                      {formatter.format(totals.exposure)}
-                    </div>
-                  </div>
-                  <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
-                    <div className=" text-[#8b8b8b]">Total Margin</div>
-                    <div className=" font-semibold text-green-600">
-                      {formatter.format(totals.multi)}
-                    </div>
+          <div className="mt-5 flex w-[44rem] flex-row items-end gap-x-3">
+            <div className="flex w-[44rem] flex-col gap-3 rounded-xl border-2 border-gray-200">
+              <div className="px-5 pt-4 font-bold text-gray-400">
+                Required Margin
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Span Margin</div>
+                  <div className=" font-semibold text-green-600">
+                    {formatter.format(totals.span)}
                   </div>
                 </div>
-                <div className="flex items-center justify-between rounded-b-xl bg-[#cee9e2] p-5 text-[#276654]">
-                  <div className="text-xl font-semibold">Margin Benefit</div>
-                  <div className="text-2xl font-semibold">
-                    {formatter.format(totals.benefit)}
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Exposure Margin</div>
+                  <div className=" font-semibold text-green-600">
+                    {formatter.format(totals.exposure)}
                   </div>
+                </div>
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                  <div className=" text-[#8b8b8b]">Total Margin</div>
+                  <div className=" font-semibold text-green-600">
+                    {formatter.format(totals.multi)}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between rounded-b-xl bg-[#cee9e2] p-5 text-[#276654]">
+                <div className="text-xl font-semibold">Margin Benefit</div>
+                <div className="text-2xl font-semibold">
+                  {formatter.format(totals.benefit)}
                 </div>
               </div>
             </div>
