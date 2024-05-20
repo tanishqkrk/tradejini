@@ -338,9 +338,9 @@ export default function FOForm({
       }}
       className="mt-8 flex flex-col items-stretch justify-between pl-12"
     >
-      <div className="flex w-full flex-row justify-between gap-x-20">
-        <div className="flex h-full min-h-full w-[40%] flex-col justify-between gap-x-12 gap-y-5">
-          <div className="flex items-center gap-x-12">
+      <div className="grid w-full grid-cols-2 justify-between gap-x-20">
+        <div className="flex h-full min-h-full flex-col justify-between gap-x-12 gap-y-5">
+          <div className="flex items-center justify-start gap-x-16">
             <div className="flex flex-col items-start gap-1">
               <span className="font-semibold text-gray-500">Product</span>
               <div className="relative h-full w-full  rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400 dark:to-zinc-300">
