@@ -336,7 +336,7 @@ export default function FOForm({
       onClick={(_) => {
         setDropdown(false);
       }}
-      className="mt-8 flex flex-col items-center justify-between pl-12"
+      className="mt-8 flex flex-col items-stretch justify-between pl-12"
     >
       <div className="flex w-full flex-row justify-between gap-x-20">
         <div className="flex h-full min-h-full w-[40%] flex-col justify-between gap-x-12 gap-y-5">
