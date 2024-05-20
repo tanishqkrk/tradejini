@@ -621,94 +621,100 @@ export default function FOForm({
             </button>
           </div>
         </div>
-        <div className="max-h-[80vh] w-[50%] rounded-xl">
-          <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 bg-black dark:bg-white">
-            <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl text-white/80 dark:text-[#8b8b8b]">
-              <tr className="flex flex-col rounded-l-3xl font-normal">
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Action</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Exchange</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Symbol</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Strike</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Lots</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Instrument</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Span</p>
-                </th>
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Exposure</p>
-                </th>
+        <div className="max-h-[80vh] rounded-l-3xl pb-4">
+          <div className="max-w-[60vw] overflow-x-auto rounded-l-3xl pb-4">
+            <table className="flex flex-row items-center justify-start rounded-l-3xl bg-black dark:bg-white ">
+              <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
+                <tr className="flex flex-col rounded-l-3xl font-normal">
+                  <th className="min-w-40 rounded-tl-3xl bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="rounded-tl-3xl bg-zinc-800 py-4 dark:bg-white">
+                      Action
+                    </p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Exchange</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Symbol</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Strike</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Lots</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Instrument</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Span</p>
+                  </th>
+                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="bg-zinc-800 py-4 dark:bg-white">Exposure</p>
+                  </th>
 
-                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                  <p className="bg-zinc-800 py-4 dark:bg-white">Total</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-x-green-200 flex flex-row divide-x border-r border-r-gray-200">
-              {marginData.map((x) => (
-                <tr
-                  key={x.dispSymbol}
-                  className="divide-x-gray-200 flex flex-col divide-y"
-                >
-                  <td className="grid place-items-center">
-                    <button
-                      onClick={() => {
-                        setAdded((a) =>
-                          a.filter((y) => y.dispSymbol !== x.dispSymbol),
-                        );
-                      }}
-                      className="w-5 border-none py-3"
-                    >
-                      <img
-                        src="/delete.svg"
-                        className="h-[1.9em] invert-0 dark:invert"
-                        alt=""
-                      />
-                    </button>
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {x.instname.slice(0, 3) === "OPT"
-                      ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
-                      : "N/A"}
-                  </td>
-                  <td
-                    className={`text-nowrap p-4 px-8 text-center font-bold ${Number(x.netqty) > 0 ? "p-2 text-green-400 dark:text-green-700" : "p-2 text-red-400 dark:text-red-700"}`}
-                  >
-                    {Number(x.netqty) / x.lotSize}
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {formatter.format(Number(x.span))}
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {formatter.format(Number(x.expo))}
-                  </td>
-                  <td className="text-nowrap p-4 px-8 text-center">
-                    {formatter.format(Number(x.span) + Number(x.expo))}
-                  </td>
+                  <th className="min-w-40 rounded-bl-3xl bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                    <p className="rounded-bl-3xl bg-zinc-800 py-4 dark:bg-white">
+                      Total
+                    </p>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="flex h-full min-h-full flex-row divide-x border-b-2 border-r border-t-2 border-gray-200 border-r-gray-200">
+                {marginData.map((x) => (
+                  <tr
+                    key={x.dispSymbol}
+                    className="divide-y-gray flex h-full min-h-full w-full flex-col divide-y-2"
+                  >
+                    <td className="grid place-items-center py-[17px]">
+                      <button
+                        onClick={() => {
+                          setAdded((a) =>
+                            a.filter((y) => y.dispSymbol !== x.dispSymbol),
+                          );
+                        }}
+                        className="w-5 border-none"
+                      >
+                        <img
+                          src="/delete.svg"
+                          className="h-[1.5em] invert-0 dark:invert"
+                          alt=""
+                        />
+                      </button>
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {x.instname.slice(0, 3) === "OPT"
+                        ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
+                        : "N/A"}
+                    </td>
+                    <td
+                      className={`text-nowrap p-[17px] px-8 text-center font-bold ${Number(x.netqty) > 0 ? "text-green-400 dark:text-green-700" : "text-red-400 dark:text-red-700"}`}
+                    >
+                      {Number(x.netqty) / x.lotSize}
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {formatter.format(Number(x.span))}
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {formatter.format(Number(x.expo))}
+                    </td>
+                    <td className="text-nowrap p-[17px] px-8 text-center">
+                      {formatter.format(Number(x.span) + Number(x.expo))}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="flex flex-row items-end justify-end pr-14 pt-5">
             <p className="rounded-xl bg-[#cee9e2] p-5 text-xl font-semibold text-[#276654]">
               Total Margin: &nbsp; {formatter.format(totals.total)}
