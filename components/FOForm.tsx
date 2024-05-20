@@ -330,7 +330,7 @@ export default function FOForm({
     return () => {
       document.removeEventListener("keydown", keyDownEvent);
     };
-  }, [dropdown]);
+  }, [dropdown, query]);
   return (
     <div
       onClick={(_) => {
