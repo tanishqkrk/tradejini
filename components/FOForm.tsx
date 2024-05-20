@@ -414,7 +414,7 @@ export default function FOForm({
             </div>
           </div>
           {product === "options" && (
-            <div className="flex items-end gap-x-12">
+            <div className="flex items-end gap-x-16">
               <div className="relative flex w-72 flex-col items-start gap-1">
                 <span className="font-semibold text-gray-500">
                   Strike Price
@@ -446,7 +446,7 @@ export default function FOForm({
               <div className="flex flex-col gap-1">
                 <p className="w-fit font-semibold text-gray-500">Option Type</p>
 
-                <div className="flex h-fit  w-48 cursor-pointer  justify-between rounded-full border-2 border-gray-300">
+                <div className="flex h-fit  w-40 cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
                     className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center  font-semibold transition-all duration-150  ${cepe === "CE" && "border-blue-500 bg-blue-200  text-blue-500"}`}
                     htmlFor="ce"
@@ -485,13 +485,13 @@ export default function FOForm({
               </div>
             </div>
           )}
-          <div className="flex items-end justify-start gap-x-12">
+          <div className="flex items-end justify-start gap-x-16">
             <div className="flex w-72 flex-col justify-end gap-1">
               <span className="flex  w-full items-end justify-between">
                 <p className="w-fit font-semibold text-gray-500">No. Of Lots</p>
               </span>
               <div className="relative flex h-full w-full flex-row items-center justify-between gap-x-3 rounded-lg dark:text-black">
-                <div className="w-full rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400  dark:to-zinc-300">
+                <div className="w-36 rounded-lg bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:from-zinc-400  dark:to-zinc-300">
                   <input
                     className="relative z-[99999999] w-full rounded-lg border-2 border-black  bg-black  p-2 py-3 dark:bg-white "
                     type="number"
@@ -515,9 +515,9 @@ export default function FOForm({
                 </div>
               </div>
             </div>
-            <div className="flex flex-row items-end gap-x-7">
+            <div className="flex flex-row items-end gap-x-10">
               <div className="">
-                <div className="flex w-48  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
+                <div className="flex w-40  cursor-pointer  justify-between rounded-full border-2 border-gray-300">
                   <label
                     className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center  font-semibold transition-all duration-150  ${type === "buy" && "border-green-700 bg-green-200  text-green-700"}`}
                     htmlFor="buy"
@@ -525,7 +525,7 @@ export default function FOForm({
                     Buy
                   </label>
                   <label
-                    className={`w-1/2 rounded-full border-2 border-transparent p-2 text-center font-semibold transition-all duration-150   ${type === "sell" && "border-red-700 bg-red-200  text-red-700"}`}
+                    className={`transition-all0duration-150 w-1/2 rounded-full border-2 border-transparent p-2 text-center font-semibold   ${type === "sell" && "border-red-700 bg-red-200  text-red-700"}`}
                     htmlFor="sell"
                   >
                     Sell
@@ -560,7 +560,7 @@ export default function FOForm({
                   onClick={() => {
                     addItem();
                   }}
-                  className="disabled:cursor-no w-24 rounded-lg bg-[#19AC63] p-3 text-black disabled:bg-gray-500 dark:text-white"
+                  className="disabled:cursor-no w-24 rounded-lg border-2 border-[#19AC63] p-3 text-[#19AC63] disabled:bg-gray-500"
                 >
                   Add
                 </button>
@@ -572,7 +572,7 @@ export default function FOForm({
                     setSelectedSymbol(undefined);
                     setQuery("");
                   }}
-                  className="disabled:cursor-no w-24 rounded-lg bg-red-500 p-3 text-black disabled:bg-gray-500 dark:text-white"
+                  className="disabled:cursor-no w-24 rounded-lg border-2 border-red-500 p-3 text-red-500 disabled:bg-gray-500"
                 >
                   Clear
                 </button>
@@ -585,19 +585,19 @@ export default function FOForm({
                 Required Margin
               </div>
               <div className="grid grid-cols-3 gap-4 text-nowrap px-5 py-3">
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-zinc-800 px-6 py-6 text-center dark:bg-[#f6f6f6]">
                   <div className=" text-[#8b8b8b]">Span Margin</div>
                   <div className=" font-semibold text-green-600">
                     {formatter.format(totals.span)}
                   </div>
                 </div>
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-zinc-800  px-6 py-6 text-center dark:bg-[#f6f6f6]">
                   <div className=" text-[#8b8b8b]">Exposure Margin</div>
                   <div className=" font-semibold text-green-600">
                     {formatter.format(totals.exposure)}
                   </div>
                 </div>
-                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-[#f6f6f6] px-6 py-6 text-center">
+                <div className="w-full rounded-xl border-2 border-[#e5e5e5] bg-zinc-800 px-6 py-6 text-center dark:bg-[#f6f6f6]">
                   <div className=" text-[#8b8b8b]">Total Margin</div>
                   <div className=" font-semibold text-green-600">
                     {formatter.format(totals.multi)}
