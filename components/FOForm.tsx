@@ -623,17 +623,36 @@ export default function FOForm({
         </div>
         <div className="max-h-[80vh] w-[50%] rounded-xl">
           <table className="flex max-w-[60vw] flex-row items-center justify-start overflow-x-auto rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 bg-black dark:bg-white">
-            <thead className="border-radius sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl bg-white/5 text-white/80 dark:bg-[#f6f6f6] dark:text-[#8b8b8b]">
-              <tr className="divide-y-gray-200 flex flex-col divide-y rounded-l-3xl border-r border-r-gray-200 font-normal">
-                <th className="min-w-48 py-4 font-normal">Action</th>
-                <th className="min-w-48 py-4 font-normal">Exchange</th>
-                <th className="min-w-48 py-4 font-normal">Symbol</th>
-                <th className="min-w-48 py-4 font-normal">Strike</th>
-                <th className="min-w-48 py-4 font-normal">Lots</th>
-                <th className="min-w-48 py-4 font-normal">Instrument</th>
-                <th className="min-w-48 py-4 font-normal">Span</th>
-                <th className="min-w-48 py-4 font-normal">Exposure</th>
-                <th className="min-w-48 py-4 font-normal">Total</th>
+            <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl text-white/80 dark:text-[#8b8b8b]">
+              <tr className="flex flex-col rounded-l-3xl font-normal">
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Action</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Exchange</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Symbol</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Strike</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Lots</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Instrument</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Span</p>
+                </th>
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Exposure</p>
+                </th>
+
+                <th className="min-w-48 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <p className="bg-zinc-800 py-4 dark:bg-white">Total</p>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-x-green-200 flex flex-row divide-x border-r border-r-gray-200">
