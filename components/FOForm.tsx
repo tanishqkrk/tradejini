@@ -627,7 +627,7 @@ export default function FOForm({
             </button>
           </div>
         </div>
-        <div className="flex max-h-[80vh] flex-col justify-between rounded-l-3xl">
+        <div className="flex flex-col justify-between rounded-l-3xl">
           <div className="max-w-[60vw] overflow-x-auto rounded-l-3xl pb-4">
             <table className="relative flex flex-row items-center justify-start rounded-l-3xl border-b-2 border-t-2 bg-black dark:bg-white">
               <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-l-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
