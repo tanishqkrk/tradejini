@@ -235,13 +235,6 @@ export default function FOForm({
 
   function addItem() {
     if (selectedSymbol) {
-      if (
-        !added.find(
-          (x) =>
-            x.dispSymbol ===
-            `${selectedSymbol} ${product === "futures" ? "FUT" : selectedPrice + cepe}`,
-        )
-      ) {
         setAdded((x) => [
           ...x,
           {
@@ -268,11 +261,10 @@ export default function FOForm({
             optt: cepe.toUpperCase(),
           },
         ]);
-      } else {
-        alert("SELECT A DIFFERENT SYMBOL");
-      }
-    } else {
-      alert("SELECT A SYMBOL");
+      } 
+
+    else {
+        alert("SELECT A SYMBOL");
     }
   }
 
@@ -610,9 +602,9 @@ export default function FOForm({
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between rounded-b-xl bg-[#cee9e2] p-5 text-[#276654]">
-                <div className="text-xl font-semibold">Margin Benefit</div>
-                <div className="text-2xl font-semibold">
+              <div className="flex items-center justify-between rounded-b-xl bg-[#cee9e2] p-3 text-[#276654]">
+                <div className="text-lg font-semibold">Margin Benefit</div>
+                <div className="text-lg font-semibold">
                   {formatter.format(totals.benefit)}
                 </div>
               </div>
@@ -621,9 +613,9 @@ export default function FOForm({
               onClick={() => {
                 window.location.reload();
               }}
-              className="rounded-lg bg-white p-3 dark:bg-zinc-800 dark:text-white"
+              className="rounded-lg bg-white p-1 dark:bg-zinc-800 dark:text-white"
             >
-              <img src="reset.png" alt="" className="h-[1.5em] dark:invert" />
+              <img src="reset.png" alt="" className="h-[1.2em] dark:invert" />
             </button>
           </div>
         </div>
@@ -722,7 +714,7 @@ export default function FOForm({
             </table>
           </div>
           <div className="flex flex-row items-end justify-end pr-14 pt-5">
-            <p className="rounded-xl bg-[#cee9e2] p-5 text-xl font-semibold text-[#276654]">
+            <p className="rounded-xl bg-[#cee9e2] p-3 text-lg font-semibold text-[#276654]">
               Total Margin: &nbsp; {formatter.format(totals.total)}
             </p>
           </div>
