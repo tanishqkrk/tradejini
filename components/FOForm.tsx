@@ -566,7 +566,7 @@ export default function FOForm({
                   onClick={() => {
                     addItem();
                   }}
-                  className="disabled:cursor-no w-24 rounded-lg border-2 border-[#19AC63] p-3 text-[#19AC63] disabled:bg-gray-500"
+                  className="disabled:cursor-no w-24 rounded-lg border-2 border-[#19AC63] p-3 text-[#19AC63] disabled:border-gray-500 disabled:text-gray-500"
                 >
                   Add
                 </button>
