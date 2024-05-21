@@ -629,50 +629,50 @@ export default function FOForm({
         </div>
         <div className="max-h-[80vh] rounded-l-3xl pb-4">
           <div className="max-w-[60vw] overflow-x-auto rounded-l-3xl pb-4">
-            <table className="flex flex-row items-center justify-start rounded-l-3xl bg-black dark:bg-white ">
-              <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
-                <tr className="flex flex-col rounded-l-3xl font-normal">
-                  <th className="min-w-40 rounded-tl-3xl bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                    <p className="rounded-tl-3xl bg-zinc-800 py-4 dark:bg-white">
+            <table className="relative flex flex-row items-center justify-start rounded-l-3xl border-b-2 border-t-2 bg-black dark:bg-white">
+              <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-l-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
+                <tr className="flex flex-col rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
+                  <th className="min-w-40 rounded-tl-3xl border-b-2 border-b-gray-200 p-[2px] font-normal">
+                    <p className="rounded-tl-2xl bg-zinc-800 py-4 dark:bg-white">
                       Action
                     </p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Exchange</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Symbol</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Strike</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Lots</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Instrument</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Span</p>
                   </th>
-                  <th className="min-w-40 bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
+                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
                     <p className="bg-zinc-800 py-4 dark:bg-white">Exposure</p>
                   </th>
 
-                  <th className="min-w-40 rounded-bl-3xl bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] font-normal dark:from-zinc-400 dark:to-zinc-300">
-                    <p className="rounded-bl-3xl bg-zinc-800 py-4 dark:bg-white">
+                  <th className="min-w-40 rounded-bl-3xl p-[2px] font-normal">
+                    <p className="rounded-bl-2xl bg-zinc-800 py-4 dark:bg-white">
                       Total
                     </p>
                   </th>
                 </tr>
               </thead>
-              <tbody className="flex h-full min-h-full flex-row divide-x border-b-2 border-r border-t-2 border-gray-200 border-r-gray-200">
+              <tbody className="flex h-full min-h-full flex-row divide-x border-r border-r-gray-200">
                 {marginData.map((x) => (
                   <tr
                     key={x.dispSymbol}
-                    className="divide-y-gray flex h-full min-h-full w-full flex-col divide-y-2"
+                    className="flex h-full min-h-full w-full flex-col"
                   >
-                    <td className="grid place-items-center py-[17px]">
+                    <td className="grid place-items-center border-b-2 border-b-gray-200 py-[18px]">
                       <button
                         onClick={() => {
                           setAdded((a) =>
@@ -688,32 +688,32 @@ export default function FOForm({
                         />
                       </button>
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       {x.instname.slice(0, 3) === "OPT"
                         ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
                         : "N/A"}
                     </td>
                     <td
-                      className={`text-nowrap p-[17px] px-8 text-center font-bold ${Number(x.netqty) > 0 ? "text-green-400 dark:text-green-700" : "text-red-400 dark:text-red-700"}`}
+                      className={`text-nowrap p-[18px] px-8 text-center font-bold ${Number(x.netqty) > 0 ? "text-green-400 dark:text-green-700" : "text-red-400 dark:text-red-700"} border-b-2 border-b-gray-200`}
                     >
                       {Number(x.netqty) / x.lotSize}
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       {formatter.format(Number(x.span))}
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
                       {formatter.format(Number(x.expo))}
                     </td>
-                    <td className="text-nowrap p-[17px] px-8 text-center">
+                    <td className="text-nowrap p-[18px] px-8 text-center">
                       {formatter.format(Number(x.span) + Number(x.expo))}
                     </td>
                   </tr>
