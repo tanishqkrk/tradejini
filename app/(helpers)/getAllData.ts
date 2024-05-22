@@ -25,7 +25,7 @@ export default async function getAllSymbolData() {
   try {
     const req = await fetch(URL, {
       next: {
-        revalidate: 10,
+        revalidate: 86400,
       },
     });
     const res = (await req.json()) as APIResponseType;

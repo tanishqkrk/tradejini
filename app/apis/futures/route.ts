@@ -1,4 +1,4 @@
-export const revalidate = 10;
+export const revalidate = 86400;
 
 const URL =
   "https://pre-prod.tradejini.com/spa/services/api.php/symbol_store?version=0";
@@ -26,7 +26,7 @@ export async function GET() {
   try {
     const req = await fetch(URL, {
       next: {
-        revalidate: 10,
+        revalidate: 86400,
         tags: ["data"],
       },
     });
