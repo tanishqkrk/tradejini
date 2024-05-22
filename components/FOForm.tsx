@@ -7,7 +7,6 @@ import {
   NSEAPIResponse,
 } from "../app/(types)/APIResponseTypes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Select from "react-select";
 
 type MarginData = {
   dispQty: string;
@@ -235,36 +234,34 @@ export default function FOForm({
 
   function addItem() {
     if (selectedSymbol) {
-        setAdded((x) => [
-          ...x,
-          {
-            prd: "M",
-            exch: symbols[selectedSymbol].id.split("_")[2],
-            symname: symbols[selectedSymbol].id.split("_")[1],
-            instname: symbols[selectedSymbol].id.split("_")[0],
-            exd: convertDate(symbols[selectedSymbol].id.split("_")[3]),
-            netqty: String(
-              (type === "sell" ? -1 : 1) * symbols[selectedSymbol].lot * lots,
-            ),
-            exc_id: crypto.randomUUID(),
-            dispSymbol: `${selectedSymbol} ${product === "futures" ? "FUT" : selectedPrice + cepe}`,
-            // symbols[selectedSymbol].id.split("_")[1] +
-            // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
-            //   "-",
-            //   "",
-            // ) +
-            // cepe[0] +
-            // String(selectedPrice),
-            lotSize: symbols[selectedSymbol].lot,
-            dispQty: String(symbols[selectedSymbol].lot),
-            strprc: String(selectedPrice),
-            optt: cepe.toUpperCase(),
-          },
-        ]);
-      } 
-
-    else {
-        alert("SELECT A SYMBOL");
+      setAdded((x) => [
+        ...x,
+        {
+          prd: "M",
+          exch: symbols[selectedSymbol].id.split("_")[2],
+          symname: symbols[selectedSymbol].id.split("_")[1],
+          instname: symbols[selectedSymbol].id.split("_")[0],
+          exd: convertDate(symbols[selectedSymbol].id.split("_")[3]),
+          netqty: String(
+            (type === "sell" ? -1 : 1) * symbols[selectedSymbol].lot * lots,
+          ),
+          exc_id: crypto.randomUUID(),
+          dispSymbol: `${selectedSymbol} ${product === "futures" ? "FUT" : selectedPrice + cepe}`,
+          // symbols[selectedSymbol].id.split("_")[1] +
+          // convertDate(symbols[selectedSymbol].id.split("_")[3]).replaceAll(
+          //   "-",
+          //   "",
+          // ) +
+          // cepe[0] +
+          // String(selectedPrice),
+          lotSize: symbols[selectedSymbol].lot,
+          dispQty: String(symbols[selectedSymbol].lot),
+          strprc: String(selectedPrice),
+          optt: cepe.toUpperCase(),
+        },
+      ]);
+    } else {
+      alert("SELECT A SYMBOL");
     }
   }
 
