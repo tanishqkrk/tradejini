@@ -1,3 +1,4 @@
+export const revalidate = 86400;
 import {
   FuturesAPIResponse,
   NSEAPIResponse,
@@ -18,7 +19,7 @@ export default async function page({ searchParams }) {
       await (
         await fetch(process.env.URL + "/apis/futures", {
           next: {
-            revalidate: 10,
+            revalidate: 86400,
             tags: ["data"],
           },
         })
@@ -29,15 +30,13 @@ export default async function page({ searchParams }) {
       await (
         await fetch(process.env.URL + "/apis/nseoptions", {
           next: {
-            revalidate: 10,
+            revalidate: 86400,
             tags: ["data"],
           },
         })
       ).json()
     ).data as NSEAPIResponse;
 
-  console.log("Data is :");
-  console.log(data);
   return (
     <div className="flex -translate-y-8 flex-col gap-4 rounded-t-2xl bg-black p-4 pr-0 dark:bg-white">
       <div className="flex w-full justify-between">
