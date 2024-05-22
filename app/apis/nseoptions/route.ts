@@ -1,3 +1,5 @@
+export const revalidate = 10;
+
 const URL =
   "https://pre-prod.tradejini.com/spa/services/api.php/symbol_store?version=0";
 type APIResponseType = {
