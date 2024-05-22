@@ -26,7 +26,7 @@ export async function GET() {
   try {
     const req = await fetch(URL, {
       next: {
-        revalidate: 86400,
+        revalidate: 10,
         tags: ["data"],
       },
     });

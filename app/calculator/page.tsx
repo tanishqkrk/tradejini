@@ -18,7 +18,7 @@ export default async function page({ searchParams }) {
       await (
         await fetch(process.env.URL + "/apis/futures", {
           next: {
-            revalidate: 86400,
+            revalidate: 10,
             tags: ["data"],
           },
         })
@@ -29,7 +29,7 @@ export default async function page({ searchParams }) {
       await (
         await fetch(process.env.URL + "/apis/nseoptions", {
           next: {
-            revalidate: 86400,
+            revalidate: 10,
             tags: ["data"],
           },
         })
