@@ -708,11 +708,11 @@ export default function FOForm({
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="flex flex-row items-end justify-end pr-14 pt-5">
-          <p className="rounded-xl bg-[#cee9e2] p-3 text-lg font-semibold text-[#276654]">
-            Total Margin: &nbsp; {formatter.format(totals.total)}
-          </p>
+          <div className="flex flex-row items-end justify-end pr-14 pt-5">
+            <p className="rounded-xl bg-[#cee9e2] p-3 text-lg font-semibold text-[#276654]">
+              Total Margin: &nbsp; {formatter.format(totals.total)}
+            </p>
+          </div>
         </div>
       </div>
     </div>
