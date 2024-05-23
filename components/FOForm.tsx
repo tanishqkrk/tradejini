@@ -555,7 +555,7 @@ export default function FOForm({
                   onClick={() => {
                     addItem();
                   }}
-                  className="disabled:cursor-no w-24 rounded-lg border-2 border-[#19AC63] p-3 text-[#19AC63] disabled:border-gray-500 disabled:text-gray-500"
+                  className="disabled:cursor-no w-20 rounded-lg border-2 border-[#19AC63] px-3 py-2 text-[#19AC63] disabled:border-gray-500 disabled:text-gray-500"
                 >
                   Add
                 </button>
@@ -567,7 +567,7 @@ export default function FOForm({
                     setSelectedSymbol(undefined);
                     setQuery("");
                   }}
-                  className="disabled:cursor-no w-24 rounded-lg border-2 border-red-500 p-3 text-red-500 disabled:bg-gray-500"
+                  className="disabled:cursor-no w-20 rounded-lg border-2 border-red-500 px-3 py-2 text-red-500 disabled:bg-gray-500"
                 >
                   Clear
                 </button>
@@ -617,104 +617,102 @@ export default function FOForm({
           </div>
         </div>
         <div className="flex flex-col justify-between rounded-l-3xl">
-          <div className="max-w-[60vw] overflow-x-auto rounded-l-3xl pb-4">
-            <table className="relative flex flex-row items-center justify-start rounded-l-3xl border-b-2 border-t-2 bg-black dark:bg-white">
-              <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-l-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
-                <tr className="flex flex-col rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
-                  <th className="min-w-40 rounded-tl-3xl border-b-2 border-b-gray-200 p-[2px] font-normal">
-                    <p className="rounded-tl-2xl bg-zinc-800 py-4 dark:bg-white">
-                      Action
-                    </p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Exchange</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Symbol</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Strike</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Lots</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Instrument</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Span</p>
-                  </th>
-                  <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                    <p className="bg-zinc-800 py-4 dark:bg-white">Exposure</p>
-                  </th>
+          <table className="relative flex flex-row items-stretch justify-start self-stretch rounded-l-3xl bg-black dark:bg-white">
+            <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
+              <tr className="relative flex flex-col rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
+                <th className="min-w-40 rounded-tl-3xl border-b-2 border-b-gray-200 p-[2px] font-normal">
+                  <p className="rounded-tl-2xl bg-zinc-800 py-3 dark:bg-white">
+                    Action
+                  </p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Exchange</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Symbol</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Strike</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Lots</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Instrument</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Span</p>
+                </th>
+                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                  <p className="bg-zinc-800 py-3 dark:bg-white">Exposure</p>
+                </th>
 
-                  <th className="min-w-40 rounded-bl-3xl p-[2px] font-normal">
-                    <p className="rounded-bl-2xl bg-zinc-800 py-4 dark:bg-white">
-                      Total
-                    </p>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="flex h-full min-h-full flex-row divide-x border-r border-r-gray-200">
-                {marginData.map((x) => (
-                  <tr
-                    key={x.dispSymbol}
-                    className="flex h-full min-h-full w-full flex-col"
-                  >
-                    <td className="grid place-items-center border-b-2 border-b-gray-200 py-[18px]">
-                      <button
-                        onClick={() => {
-                          setAdded((a) =>
-                            a.filter((y) => y.dispSymbol !== x.dispSymbol),
-                          );
-                        }}
-                        className="w-5 border-none"
-                      >
-                        <img
-                          src="/delete.svg"
-                          className="h-[1.5em] invert-0 dark:invert"
-                          alt=""
-                        />
-                      </button>
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      {x.instname.slice(0, 3) === "OPT"
-                        ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
-                        : "N/A"}
-                    </td>
-                    <td
-                      className={`text-nowrap p-[18px] px-8 text-center font-bold ${Number(x.netqty) > 0 ? "text-green-400 dark:text-green-700" : "text-red-400 dark:text-red-700"} border-b-2 border-b-gray-200`}
+                <th className="min-w-40 rounded-bl-3xl p-[2px] font-normal">
+                  <p className="rounded-bl-2xl bg-zinc-800 py-3 dark:bg-white">
+                    Total
+                  </p>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="flex h-full min-h-full w-full flex-row overflow-x-auto border-b border-t">
+              {marginData.map((x) => (
+                <tr
+                  key={x.dispSymbol}
+                  className="flex h-full min-h-full flex-col border-r-2 border-r-gray-200"
+                >
+                  <td className="grid place-items-center border-b-2 border-b-gray-200 py-[14px]">
+                    <button
+                      onClick={() => {
+                        setAdded((a) =>
+                          a.filter((y) => y.dispSymbol !== x.dispSymbol),
+                        );
+                      }}
+                      className="w-5 border-none"
                     >
-                      {Number(x.netqty) / x.lotSize}
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      {formatter.format(Number(x.span))}
-                    </td>
-                    <td className="text-nowrap border-b-2 border-b-gray-200 p-[18px] px-8 text-center">
-                      {formatter.format(Number(x.expo))}
-                    </td>
-                    <td className="text-nowrap p-[18px] px-8 text-center">
-                      {formatter.format(Number(x.span) + Number(x.expo))}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="flex flex-row items-end justify-end pr-14 pt-5">
-            <p className="rounded-xl bg-[#cee9e2] p-3 text-lg font-semibold text-[#276654]">
-              Total Margin: &nbsp; {formatter.format(totals.total)}
-            </p>
-          </div>
+                      <img
+                        src="/delete.svg"
+                        className="h-[1.5em] invert-0 dark:invert"
+                        alt=""
+                      />
+                    </button>
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    <p>{x.exch === "NFO" ? "NSE" : x.exch}</p>
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    {x.dispSymbol.split(" ").slice(0, 2).join(" ")}
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    {x.instname.slice(0, 3) === "OPT"
+                      ? `${x.dispSymbol.split(" ")[2].slice(0, -2)} ${x.dispSymbol.split(" ")[2].slice(-2)}`
+                      : "N/A"}
+                  </td>
+                  <td
+                    className={`text-nowrap p-[14px] px-8 text-center font-bold ${Number(x.netqty) > 0 ? "text-green-400 dark:text-green-700" : "text-red-400 dark:text-red-700"} border-b-2 border-b-gray-200`}
+                  >
+                    {Number(x.netqty) / x.lotSize}
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    {x.instname.slice(0, 3) === "FUT" ? "Futures" : "Options"}
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    {formatter.format(Number(x.span))}
+                  </td>
+                  <td className="text-nowrap border-b-2 border-b-gray-200 p-[14px] px-8 text-center">
+                    {formatter.format(Number(x.expo))}
+                  </td>
+                  <td className="text-nowrap p-[14px] px-8 text-center">
+                    {formatter.format(Number(x.span) + Number(x.expo))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex flex-row items-end justify-end pr-14 pt-5">
+          <p className="rounded-xl bg-[#cee9e2] p-3 text-lg font-semibold text-[#276654]">
+            Total Margin: &nbsp; {formatter.format(totals.total)}
+          </p>
         </div>
       </div>
     </div>
