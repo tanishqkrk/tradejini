@@ -1,4 +1,5 @@
 export const revalidate = 86400;
+export const dynamic = "force-dynamic";
 
 const URL =
   "https://pre-prod.tradejini.com/spa/services/api.php/symbol_store?version=0";
