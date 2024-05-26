@@ -1,3 +1,4 @@
 {
-  "vscord.enabled": false
+  "vscord.enabled": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
