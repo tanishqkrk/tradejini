@@ -51,14 +51,16 @@ export default async function page({ searchParams }) {
         ).json()
       ).data as NSEAPIResponse;
   } else {
-    data = (await (
-      await fetch(process.env.URL + "/apis/" + type, {
-        next: {
-          revalidate: 86400,
-          tags: ["data"],
-        },
-      })
-    ).json()) as CommodityDataType[] | CurrencyDataType[] | EquityFutureData[];
+    data = (
+      await (
+        await fetch(process.env.URL + "/apis/" + type, {
+          next: {
+            revalidate: 86400,
+            tags: ["data"],
+          },
+        })
+      ).json()
+    ).data as CommodityDataType[] | CurrencyDataType[] | EquityFutureData[];
   }
 
   return (
