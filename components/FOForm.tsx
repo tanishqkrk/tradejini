@@ -621,34 +621,36 @@ export default function FOForm({
             <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
               <tr className="relative flex flex-col rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
                 <th className="min-w-40 rounded-tl-3xl border-b-2 border-b-gray-200 p-[2px] font-normal">
-                  <p className="rounded-tl-2xl bg-zinc-800 py-3 dark:bg-white">
+                  <p className="rounded-tl-2xl bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
                     Action
                   </p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Exchange</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Exchange</p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Symbol</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Symbol</p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Strike</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Strike</p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Lots</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Lots</p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Instrument</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
+                    Instrument
+                  </p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Span</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Span</p>
                 </th>
                 <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
-                  <p className="bg-zinc-800 py-3 dark:bg-white">Exposure</p>
+                  <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Exposure</p>
                 </th>
 
                 <th className="min-w-40 rounded-bl-3xl p-[2px] font-normal">
-                  <p className="rounded-bl-2xl bg-zinc-800 py-3 dark:bg-white">
+                  <p className="rounded-bl-2xl bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
                     Total
                   </p>
                 </th>
