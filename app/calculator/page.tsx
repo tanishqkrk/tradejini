@@ -6,6 +6,7 @@ import {
 } from "../(types)/APIResponseTypes";
 import { CommodityDataType } from "../(types)/CommodityData";
 import { CurrencyDataType } from "../(types)/CurrencyData";
+import { EquityData } from "../(types)/EquityData";
 import { EquityFutureData } from "../(types)/EquityFutureData";
 import { MarginTypes } from "../(types)/MarginTypes";
 import CalculatorViews from "../../components/CalculatorViews";
@@ -26,6 +27,7 @@ export default async function page({ searchParams }) {
     | undefined
     | CommodityDataType[]
     | CurrencyDataType[]
+    | EquityData[]
     | EquityFutureData[] = undefined;
   if (type === undefined || type === "fno") {
     if (subtype === "futures")
@@ -60,7 +62,11 @@ export default async function page({ searchParams }) {
           },
         })
       ).json()
-    ).data as CommodityDataType[] | CurrencyDataType[] | EquityFutureData[];
+    ).data as
+      | CommodityDataType[]
+      | CurrencyDataType[]
+      | EquityFutureData[]
+      | EquityData[];
   }
 
   return (
