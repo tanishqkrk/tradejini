@@ -14,6 +14,8 @@ import { MarginTypes } from "../app/(types)/MarginTypes";
 import EquityFuturesTable from "./EquityFuturesTable";
 import CommodityTable from "./CommodityTable";
 import CurrencyTable from "./CurrencyTable";
+import { EquityData } from "../app/(types)/EquityData";
+import EquityTable from "./EquityTable";
 
 export default function CalculatorViews({
   data,
@@ -24,6 +26,7 @@ export default function CalculatorViews({
     | undefined
     | CurrencyDataType[]
     | CommodityDataType[]
+    | EquityData[]
     | EquityFutureData[];
 }) {
   const searchParams = useSearchParams();
@@ -115,7 +118,7 @@ export default function CalculatorViews({
         ) : type === "curr" ? (
           <CurrencyTable data={data as CurrencyDataType[]} />
         ) : type === "eq" ? (
-          <div></div>
+          <EquityTable data={data as EquityData[]} />
         ) : (
           <></>
         )}
