@@ -1,11 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MarginTypes } from "../(types)/MarginTypes";
 
 const Page: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpload, setLastUpload] = useState<string>(undefined);
+  const [type, setType] = useState<MarginTypes>("ef");
+
+  async function loadLastUpdated() {
+    const s = (
+      await (
+        await fetch("/apis/lastUpdated/" + type, {
+          cache: "no-store",
+        })
+      ).json()
+    ).lastUpdated;
+    if (s) {
+      setLastUpload(s as string);
+    } else {
+      setLastUpload("Never");
+    }
+  }
+  useEffect(() => {
+    loadLastUpdated();
+  }, []);
+  useEffect(() => {
+    loadLastUpdated();
+  }, [type]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -53,6 +76,7 @@ const Page: React.FC = () => {
 
       const data = await response.json();
       console.log("API response:", data); // Handle successful response
+      setLastUpload(new Date().toLocaleString());
       alert("Uploaded the file successfully!");
       setSelectedFile(null); // Clear file selection after successful upload
     } catch (error) {
@@ -62,7 +86,6 @@ const Page: React.FC = () => {
       setIsLoading(false);
     }
   };
-  const [type, setType] = useState<MarginTypes>("ef");
 
   return (
     <div className="space-y-10 px-20">
@@ -101,12 +124,15 @@ const Page: React.FC = () => {
           className={`${
             type === "eq" ? "bg-[#19AC63] text-white" : "text-green-500"
           } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {}}
+          onClick={() => {
+            setType("eq");
+          }}
         >
           Equity
         </button>
       </div>
 
+      <p className="my-5 text-3xl">Last updated : {lastUpload}</p>
       <form
         className="flex flex-col items-center gap-y-4"
         onSubmit={handleSubmit}
