@@ -21,6 +21,8 @@ export async function POST(request: Request) {
       totalShort: item[4],
     }));
     await kv.set("comm", data);
+    await kv.set("lastupdatedcomm", new Date().toLocaleString("en-GB"));
+
     return Response.json(data);
   } catch (e) {
     console.log("Error in XLSX");

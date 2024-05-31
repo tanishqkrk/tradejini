@@ -23,6 +23,8 @@ export async function POST(request: Request) {
       totPerc: item[7],
     }));
     await kv.set("ef", data);
+    await kv.set("lastupdatedef", new Date().toLocaleString("en-GB"));
+
     return Response.json(data);
   } catch (e) {
     console.log("Error in XLSX");
