@@ -114,7 +114,7 @@ export default function FOForm({
   // }, [selectedSymbol]);
 
   const [product, setProduct] = useState<"futures" | "options">(
-    (searchParams.get("type") as "futures" | "options") || "options",
+    (searchParams.get("subtype") as "futures" | "options") || "options",
   );
 
   useEffect(() => {
@@ -210,8 +210,6 @@ export default function FOForm({
             benefit: 0.0,
             multi: 0.0,
           };
-          console.log("Data");
-          console.log(data);
           data.forEach((item, idx) => {
             if (idx === data.length - 1) {
               tot.span = Number(item.d.span);
@@ -345,7 +343,7 @@ export default function FOForm({
                     router.push(
                       pathname +
                         "?" +
-                        createQueryString("type", e.target.value),
+                        createQueryString("subtype", e.target.value),
                     );
                     setProduct(e.target.value as "futures" | "options");
                   }}
