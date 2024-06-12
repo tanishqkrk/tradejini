@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import FOForm from "./FOForm";
 import {
   FuturesAPIResponse,
@@ -41,78 +41,90 @@ export default function CalculatorViews({
     },
     [searchParams],
   );
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    if (ref.current) setWidth(ref.current.offsetWidth);
+  }, []);
 
   const type: MarginTypes = (searchParams.get("type") || "fno") as MarginTypes;
-
+  const ref = useRef<HTMLDivElement | null>(null);
   return (
     <div className="flex flex-col gap-0">
       <div className="flex items-center justify-center gap-12">
-        <button
-          className={`${
-            type === "fno" ? "bg-[#19AC63] text-white" : "text-green-500"
-          } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {
-            router.push(
-              pathname + "?" + createQueryString("type", "fno" as MarginTypes),
-            );
-          }}
-        >
-          F&O
-        </button>
-        <button
-          className={`${
-            type === "ef" ? "bg-[#19AC63] text-white" : "text-green-500"
-          } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {
-            router.push(
-              pathname + "?" + createQueryString("type", "ef" as MarginTypes),
-            );
-          }}
-        >
-          Equity Futures
-        </button>
-        <button
-          className={`${
-            type === "comm" ? "bg-[#19AC63] text-white" : "text-green-500"
-          } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {
-            router.push(
-              pathname + "?" + createQueryString("type", "comm" as MarginTypes),
-            );
-          }}
-        >
-          Commodity
-        </button>
-        <button
-          className={`${
-            type === "curr" ? "bg-[#19AC63] text-white" : "text-green-500"
-          } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {
-            router.push(
-              pathname + "?" + createQueryString("type", "curr" as MarginTypes),
-            );
-          }}
-        >
-          Currency
-        </button>
-        <button
-          className={`${
-            type === "eq" ? "bg-[#19AC63] text-white" : "text-green-500"
-          } rounded-lg p-3 font-semibold transition-all duration-150`}
-          onClick={() => {
-            router.push(
-              pathname + "?" + createQueryString("type", "eq" as MarginTypes),
-            );
-          }}
-        >
-          Equity
-        </button>
+        <div ref={ref} id="topbar" className="flex flex-row gap-12">
+          <button
+            className={`${
+              type === "fno" ? "bg-[#19AC63] text-white" : "text-green-500"
+            } rounded-lg p-3 font-semibold transition-all duration-150`}
+            onClick={() => {
+              router.push(
+                pathname +
+                  "?" +
+                  createQueryString("type", "fno" as MarginTypes),
+              );
+            }}
+          >
+            F&O
+          </button>
+          <button
+            className={`${
+              type === "ef" ? "bg-[#19AC63] text-white" : "text-green-500"
+            } rounded-lg p-3 font-semibold transition-all duration-150`}
+            onClick={() => {
+              router.push(
+                pathname + "?" + createQueryString("type", "ef" as MarginTypes),
+              );
+            }}
+          >
+            Equity Futures
+          </button>
+          <button
+            className={`${
+              type === "comm" ? "bg-[#19AC63] text-white" : "text-green-500"
+            } rounded-lg p-3 font-semibold transition-all duration-150`}
+            onClick={() => {
+              router.push(
+                pathname +
+                  "?" +
+                  createQueryString("type", "comm" as MarginTypes),
+              );
+            }}
+          >
+            Commodity
+          </button>
+          <button
+            className={`${
+              type === "curr" ? "bg-[#19AC63] text-white" : "text-green-500"
+            } rounded-lg p-3 font-semibold transition-all duration-150`}
+            onClick={() => {
+              router.push(
+                pathname +
+                  "?" +
+                  createQueryString("type", "curr" as MarginTypes),
+              );
+            }}
+          >
+            Currency
+          </button>
+          <button
+            className={`${
+              type === "eq" ? "bg-[#19AC63] text-white" : "text-green-500"
+            } rounded-lg p-3 font-semibold transition-all duration-150`}
+            onClick={() => {
+              router.push(
+                pathname + "?" + createQueryString("type", "eq" as MarginTypes),
+              );
+            }}
+          >
+            Equity
+          </button>
+        </div>
       </div>
       <div>
         {type === "fno" ? (
           <FOForm symbols={data as NSEAPIResponse | FuturesAPIResponse} />
         ) : type === "ef" ? (
-          <EquityFuturesTable data={data as EquityFutureData[]} />
+          <EquityFuturesTable width={width} data={data as EquityFutureData[]} />
         ) : type === "comm" ? (
           <CommodityTable data={data as CommodityDataType[]} />
         ) : type === "curr" ? (
