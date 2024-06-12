@@ -225,6 +225,8 @@ export default function FOForm({
           setTotals(tot);
         },
       );
+    } else {
+      setMarginData([]);
     }
   }, [added]);
 
@@ -615,35 +617,35 @@ export default function FOForm({
           </div>
         </div>
         <div className="flex flex-col justify-between rounded-l-3xl">
-          <table className="relative flex flex-row items-stretch justify-start self-stretch rounded-l-3xl bg-black dark:bg-white">
-            <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl border-b-2 border-l-2 border-t-2 border-gray-200 text-white/80 dark:text-[#8b8b8b]">
-              <tr className="relative flex flex-col rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
-                <th className="min-w-40 rounded-tl-3xl border-b-2 border-b-gray-200 p-[2px] font-normal">
+          <table className="relative flex flex-row items-stretch justify-start self-stretch rounded-lg rounded-l-3xl bg-black bg-gradient-to-t from-zinc-600 to-zinc-400 p-[2px] dark:bg-white dark:from-zinc-400 dark:to-zinc-300">
+            <thead className="sticky left-0 top-0 z-30 flex flex-col rounded-l-3xl text-white/80 dark:text-[#8b8b8b]">
+              <tr className="relative flex flex-col gap-y-0.5 rounded-l-3xl border-r-2 border-r-gray-200 font-normal">
+                <th className="min-w-40 rounded-tl-3xl p-[2px] font-normal">
                   <p className="rounded-tl-2xl bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
                     Action
                   </p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Exchange</p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Symbol</p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Strike</p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Lots</p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
                     Instrument
                   </p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Span</p>
                 </th>
-                <th className="min-w-40 border-b-2 border-b-gray-200 p-[2px] font-normal ">
+                <th className="min-w-40  p-[2px] font-normal ">
                   <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Exposure</p>
                 </th>
 
@@ -654,18 +656,16 @@ export default function FOForm({
                 </th>
               </tr>
             </thead>
-            <tbody className="flex h-full min-h-full w-full flex-row overflow-x-auto border-b border-t">
+            <tbody className="flex h-full min-h-full w-full flex-row overflow-x-auto bg-black dark:bg-white">
               {marginData.map((x) => (
                 <tr
-                  key={x.dispSymbol}
-                  className="flex h-full min-h-full flex-col border-r-2 border-r-gray-200"
+                  key={x.exc_id}
+                  className="flex h-full min-h-full flex-col border-r border-r-gray-200"
                 >
                   <td className="grid place-items-center border-b-2 border-b-gray-200 py-[14px]">
                     <button
                       onClick={() => {
-                        setAdded((a) =>
-                          a.filter((y) => y.dispSymbol !== x.dispSymbol),
-                        );
+                        setAdded((a) => a.filter((y) => y.exc_id !== x.exc_id));
                       }}
                       className="w-5 border-none"
                     >
