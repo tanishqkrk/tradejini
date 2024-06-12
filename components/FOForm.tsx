@@ -149,7 +149,7 @@ export default function FOForm({
     }[]
   >([]);
 
-  const [lots, setLots] = useState(0);
+  const [lots, setLots] = useState(1);
 
   const [totals, setTotals] = useState({
     span: 0.0,
@@ -561,7 +561,7 @@ export default function FOForm({
                 <button
                   onClick={() => {
                     setSelectedPrice(0);
-                    setLots(0);
+                    setLots(1);
                     setSelectedSymbol(undefined);
                     setQuery("");
                   }}
