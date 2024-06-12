@@ -126,11 +126,11 @@ export default function CalculatorViews({
         ) : type === "ef" ? (
           <EquityFuturesTable width={width} data={data as EquityFutureData[]} />
         ) : type === "comm" ? (
-          <CommodityTable data={data as CommodityDataType[]} />
+          <CommodityTable width={width} data={data as CommodityDataType[]} />
         ) : type === "curr" ? (
-          <CurrencyTable data={data as CurrencyDataType[]} />
+          <CurrencyTable width={width} data={data as CurrencyDataType[]} />
         ) : type === "eq" ? (
-          <EquityTable data={data as EquityData[]} />
+          <EquityTable width={width} data={data as EquityData[]} />
         ) : (
           <></>
         )}
