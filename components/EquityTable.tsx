@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { EquityData } from "../app/(types)/EquityData";
 
-export default function EquityTable({ data }: { data: EquityData[] }) {
+export default function EquityTable({
+  data,
+  width,
+}: {
+  data: EquityData[];
+  width: number;
+}) {
   const [query, setQuery] = useState("");
+
   if (data)
     return (
       <div className="grid w-full place-items-center px-20">
@@ -11,6 +18,9 @@ export default function EquityTable({ data }: { data: EquityData[] }) {
             type="text"
             onChange={(e) => {
               setQuery(e.target.value);
+            }}
+            style={{
+              width: width + "px",
             }}
             value={query}
             placeholder="Search"
@@ -25,7 +35,7 @@ export default function EquityTable({ data }: { data: EquityData[] }) {
             <img src="reset.png" alt="" className="h-6 dark:invert" />
           </button>
         </div>
-        <table className="relative mt-20 h-full max-h-[40vh] w-full overflow-y-auto rounded-3xl bg-black dark:bg-white ">
+        <table className="relative mt-20 h-full max-h-[40vh] w-1/2 overflow-y-auto rounded-3xl bg-black dark:bg-white ">
           <thead className="sticky left-0 top-0 z-30 rounded-t-3xl text-white/80 dark:text-[#8b8b8b]">
             <tr className="relative rounded-t-3xl font-normal">
               <th className="min-w-40 rounded-tl-3xl font-normal">
@@ -34,8 +44,11 @@ export default function EquityTable({ data }: { data: EquityData[] }) {
                 </p>
               </th>
               <th className="min-w-40   font-normal ">
+                <p className="bg-zinc-800 py-3 dark:bg-[#f6f6f6]">Multiplier</p>
+              </th>
+              <th className="min-w-40   font-normal ">
                 <p className="rounded-tr-2xl bg-zinc-800 py-3 dark:bg-[#f6f6f6]">
-                  Multiplier
+                  Percentage
                 </p>
               </th>
             </tr>
@@ -55,6 +68,9 @@ export default function EquityTable({ data }: { data: EquityData[] }) {
                   </td>
                   <td className="text-nowrap p-[14px] px-8 text-center">
                     {x.multiplier}
+                  </td>
+                  <td className="text-nowrap p-[14px] px-8 text-center">
+                    {Math.round(100 / x.multiplier)}%
                   </td>
                 </tr>
               ))}
