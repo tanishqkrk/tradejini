@@ -3,43 +3,43 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <header className="p-4">
-      <div className="relative w-full h-full p-[1px] rounded-2xl">
-        <div className="flex justify-between items-center px-10 rounded-2xl py-6">
-          <img src="/logo_long.svg" className="w-36 dark:hidden block" alt="" />
-          <img src="/logo.svg" className="w-36 dark:block hidden" alt="" />
-          <div className="rounded-full bg-[#19ad63] py-1 px-0.5 flex flex-row gap-x-4">
+      <div className="relative h-full w-full rounded-2xl p-[1px]">
+        <div className="flex items-center justify-between rounded-2xl px-10 py-6">
+          <img src="/logo_long.svg" className="block w-36 dark:hidden" alt="" />
+          <img src="/logo.svg" className="hidden w-36 dark:block" alt="" />
+          <div className="flex flex-row gap-x-4 rounded-full bg-[#19ad63] px-0.5 py-1">
             <Link
-              className="rounded-full bg-white text-black px-5 py-3 shadow-2xl"
+              className="rounded-full bg-white px-5 py-3 text-black shadow-2xl"
               href={"#"}
             >
               Home
             </Link>
-            <Link className="px-8 py-3 text-white rounded-full" href="#">
+            <Link className="rounded-full px-8 py-3 text-white" href="#">
               About
             </Link>
-            <Link className="px-8 py-3 text-white rounded-full" href="#">
+            <Link className="rounded-full px-8 py-3 text-white" href="#">
               Pricing
             </Link>
-            <Link className="px-8 py-3 text-white rounded-full" href="#">
+            <Link className="rounded-full px-8 py-3 text-white" href="#">
               Jinversity
             </Link>
-            <Link className="px-8 py-3 text-white rounded-full" href="#">
+            <Link className="rounded-full px-8 py-3 text-white" href="#">
               Media
             </Link>
-            <Link className="px-8 py-3 text-white rounded-full" href="#">
+            <Link className="rounded-full px-8 py-3 text-white" href="#">
               Support
             </Link>
           </div>
-          <div className="flex flex-row gap-x-4 items-center">
+          <div className="flex flex-row items-center gap-x-4">
             <Link
               href="#"
-              className="border-[#19ad63] border-2 text-[#19ad63] font-bold px-5 py-2 rounded-xl"
+              className="rounded-xl border-2 border-[#19ad63] px-5 py-2 font-bold text-[#19ad63]"
             >
               Login
             </Link>
             <Link
               href="#"
-              className="border-[#19ad63] border-2 bg-[#19ad63] text-white font-bold px-5 py-2 rounded-xl"
+              className="rounded-xl border-2 border-[#19ad63] bg-[#19ad63] px-5 py-2 font-bold text-white"
             >
               Signup
             </Link>
